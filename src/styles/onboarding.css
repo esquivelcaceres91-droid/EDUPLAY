@@ -1155,3 +1155,121 @@ body{
   z-index:10 !important;
   pointer-events:none !important;
 }
+/* ==========================================
+   ONBOARDING RESPONSIVE (GRADO Y NIVELES)
+========================================== */
+
+@media (max-width:768px){
+
+  body{
+    overflow-y:auto;
+  }
+
+  .edu-screen{
+    overflow-y:auto;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+
+  .grade-card-pro,
+  .level-choice-card{
+
+    position:relative;
+
+    left:auto !important;
+    top:auto !important;
+
+    transform:none !important;
+
+    width:calc(100% - 24px) !important;
+    max-width:430px;
+
+    margin:185px auto 30px;
+
+    padding:18px;
+
+    border-radius:22px;
+  }
+
+  .grade-title-row,
+  .level-choice-heading{
+
+    flex-direction:column;
+    gap:8px;
+    text-align:center;
+
+  }
+
+  .grade-title-row h1,
+  .level-choice-heading h1{
+
+    font-size:31px;
+
+  }
+
+  .grade-title-row p,
+  .level-choice-heading p{
+
+    font-size:15px;
+
+  }
+
+  .grade-options{
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+  }
+
+  .grade-option{
+
+    min-height:90px;
+
+  }
+
+  .grade-option strong{
+
+    font-size:28px;
+
+  }
+
+  .grade-continue-btn{
+
+    width:100%;
+
+  }
+
+  .level-choice-options{
+
+    grid-template-columns:1fr;
+
+    gap:15px;
+
+  }
+
+  .level-choice-option{
+
+    min-height:auto;
+
+    padding:24px 18px;
+
+  }
+
+  .recommended-ribbon{
+
+    font-size:11px;
+
+    width:auto;
+
+  }
+
+  .choice-action{
+
+    width:100%;
+
+    min-width:0;
+
+  }
+
+}
