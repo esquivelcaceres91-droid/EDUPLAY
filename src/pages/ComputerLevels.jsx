@@ -12,38 +12,43 @@ import {
   Lock,
 } from "lucide-react";
 
-const levels = [
-  {
-    id: "beginner",
-    title: "Principiante",
-    subtitle: "Conceptos básicos de computación",
-    image: "/assets/computer/levels/beginner.png",
-    progress: 20,
-    unlocked: true,
-    className: "computer-beginner",
-  },
-  {
-    id: "intermediate",
-    title: "Intermedio",
-    subtitle: "Programación y herramientas digitales",
-    image: "/assets/computer/levels/intermediate.png",
-    progress: 0,
-    unlocked: false,
-    className: "computer-intermediate",
-  },
-  {
-    id: "advanced",
-    title: "Avanzado",
-    subtitle: "Robótica, inteligencia artificial y redes",
-    image: "/assets/computer/levels/advanced.png",
-    progress: 0,
-    unlocked: false,
-    className: "computer-advanced",
-  },
-];
-
 export default function ComputerLevels() {
   const navigate = useNavigate();
+
+  const intermediateUnlocked =
+    localStorage.getItem(
+      "eduplay-computer-intermediate-unlocked"
+    ) === "true";
+
+  const levels = [
+    {
+      id: "beginner",
+      title: "Principiante",
+      subtitle: "Conceptos básicos de computación",
+      image: "/assets/computer/levels/beginner.png",
+      progress: intermediateUnlocked ? 100 : 20,
+      unlocked: true,
+      className: "computer-beginner",
+    },
+    {
+      id: "intermediate",
+      title: "Intermedio",
+      subtitle: "Programación y herramientas digitales",
+      image: "/assets/computer/levels/intermediate.png",
+      progress: 0,
+      unlocked: intermediateUnlocked,
+      className: "computer-intermediate",
+    },
+    {
+      id: "advanced",
+      title: "Avanzado",
+      subtitle: "Robótica, inteligencia artificial y redes",
+      image: "/assets/computer/levels/advanced.png",
+      progress: 0,
+      unlocked: false,
+      className: "computer-advanced",
+    },
+  ];
 
   const openLevel = (level) => {
     if (!level.unlocked) return;
@@ -78,17 +83,13 @@ export default function ComputerLevels() {
       >
         <div>
           <Flame size={34} className="computer-fire" />
-
           <span>Racha</span>
-
           <strong>7 días</strong>
         </div>
 
         <div>
           <Gem size={32} className="computer-gem" />
-
           <span>Nivel</span>
-
           <strong>5</strong>
         </div>
 
@@ -98,9 +99,7 @@ export default function ComputerLevels() {
             className="computer-star"
             fill="currentColor"
           />
-
           <span>Puntos</span>
-
           <strong>1,250</strong>
         </div>
 
@@ -131,14 +130,22 @@ export default function ComputerLevels() {
         }}
       >
         <div className="computer-progress-line">
-          <div />
+          <div
+            style={{
+              width: intermediateUnlocked ? "50%" : "0%",
+            }}
+          />
         </div>
 
         <span className="computer-progress-step active">
           1
         </span>
 
-        <span className="computer-progress-step middle">
+        <span
+          className={`computer-progress-step middle ${
+            intermediateUnlocked ? "active" : ""
+          }`}
+        >
           2
         </span>
 
@@ -203,7 +210,6 @@ export default function ComputerLevels() {
 
             <div className="computer-card-info">
               <h2>{level.title}</h2>
-
               <p>{level.subtitle}</p>
 
               <div className="computer-card-progress">
@@ -261,7 +267,8 @@ export default function ComputerLevels() {
                     height: "76px",
                     display: "grid",
                     placeItems: "center",
-                    border: "3px solid rgba(255,255,255,.85)",
+                    border:
+                      "3px solid rgba(255,255,255,.85)",
                     borderRadius: "50%",
                     background: "rgba(5,17,50,.88)",
                     color: "white",
@@ -294,7 +301,9 @@ export default function ComputerLevels() {
           delay: 0.72,
         }}
       >
-        💡 Completa Principiante para desbloquear Intermedio y Avanzado.
+        {intermediateUnlocked
+          ? "🎉 ¡Intermedio desbloqueado! Ya puedes continuar."
+          : "💡 Completa Principiante para desbloquear Intermedio."}
       </motion.div>
     </main>
   );

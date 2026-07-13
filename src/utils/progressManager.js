@@ -1,18 +1,91 @@
 const STORAGE_KEY = "eduplay_progress";
 
+const createDefaultLevelProgress = () => ({
+  unlockedUnits: [1],
+  completedUnits: [],
+  stars: 0,
+  xp: 0,
+  progress: {},
+});
+
 const createDefaultProgress = () => ({
+  streak: 0,
+  lastActivityDate: null,
+
   worlds: {
     computer: {
-      beginner: {
-        unlockedUnits: [1],
-        completedUnits: [],
-        stars: 0,
-        xp: 0,
-        progress: {},
-      },
+      beginner: createDefaultLevelProgress(),
     },
   },
 });
+
+const getLocalDateString = () => {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const getDayDifference = (previousDate, currentDate) => {
+  if (!previousDate || !currentDate) return null;
+
+  const previous = new Date(`${previousDate}T00:00:00`);
+  const current = new Date(`${currentDate}T00:00:00`);
+
+  const difference = current.getTime() - previous.getTime();
+
+  return Math.round(difference / 86400000);
+};
+
+const ensureLevelStructure = (levelData) => {
+  const safeLevel =
+    levelData && typeof levelData === "object"
+      ? levelData
+      : createDefaultLevelProgress();
+
+  if (!Array.isArray(safeLevel.unlockedUnits)) {
+    safeLevel.unlockedUnits = [1];
+  }
+
+  if (!safeLevel.unlockedUnits.includes(1)) {
+    safeLevel.unlockedUnits.push(1);
+  }
+
+  if (!Array.isArray(safeLevel.completedUnits)) {
+    safeLevel.completedUnits = [];
+  }
+
+  if (typeof safeLevel.stars !== "number") {
+    safeLevel.stars = 0;
+  }
+
+  if (typeof safeLevel.xp !== "number") {
+    safeLevel.xp = 0;
+  }
+
+  if (
+    !safeLevel.progress ||
+    typeof safeLevel.progress !== "object"
+  ) {
+    safeLevel.progress = {};
+  }
+
+  safeLevel.unlockedUnits = safeLevel.unlockedUnits
+    .map(Number)
+    .filter((unitId) => Number.isFinite(unitId));
+
+  safeLevel.completedUnits = safeLevel.completedUnits
+    .map(Number)
+    .filter((unitId) => Number.isFinite(unitId));
+
+  safeLevel.unlockedUnits.sort((a, b) => a - b);
+  safeLevel.completedUnits.sort((a, b) => a - b);
+
+  return safeLevel;
+};
 
 const ensureProgressStructure = (data) => {
   const safeData =
@@ -20,51 +93,76 @@ const ensureProgressStructure = (data) => {
       ? data
       : createDefaultProgress();
 
-  if (!safeData.worlds) {
+  if (typeof safeData.streak !== "number") {
+    safeData.streak = 0;
+  }
+
+  if (
+    safeData.lastActivityDate !== null &&
+    typeof safeData.lastActivityDate !== "string"
+  ) {
+    safeData.lastActivityDate = null;
+  }
+
+  if (!safeData.worlds || typeof safeData.worlds !== "object") {
     safeData.worlds = {};
   }
 
-  if (!safeData.worlds.computer) {
+  if (
+    !safeData.worlds.computer ||
+    typeof safeData.worlds.computer !== "object"
+  ) {
     safeData.worlds.computer = {};
   }
 
-  if (!safeData.worlds.computer.beginner) {
-    safeData.worlds.computer.beginner = {
-      unlockedUnits: [1],
-      completedUnits: [],
-      stars: 0,
-      xp: 0,
-      progress: {},
-    };
-  }
-
-  const beginner = safeData.worlds.computer.beginner;
-
-  if (!Array.isArray(beginner.unlockedUnits)) {
-    beginner.unlockedUnits = [1];
-  }
-
-  if (!beginner.unlockedUnits.includes(1)) {
-    beginner.unlockedUnits.push(1);
-  }
-
-  if (!Array.isArray(beginner.completedUnits)) {
-    beginner.completedUnits = [];
-  }
-
-  if (typeof beginner.stars !== "number") {
-    beginner.stars = 0;
-  }
-
-  if (typeof beginner.xp !== "number") {
-    beginner.xp = 0;
-  }
-
-  if (!beginner.progress || typeof beginner.progress !== "object") {
-    beginner.progress = {};
-  }
+  safeData.worlds.computer.beginner = ensureLevelStructure(
+    safeData.worlds.computer.beginner
+  );
 
   return safeData;
+};
+
+const ensureRequestedLevel = (
+  progress,
+  world = "computer",
+  level = "beginner"
+) => {
+  if (
+    !progress.worlds[world] ||
+    typeof progress.worlds[world] !== "object"
+  ) {
+    progress.worlds[world] = {};
+  }
+
+  progress.worlds[world][level] = ensureLevelStructure(
+    progress.worlds[world][level]
+  );
+
+  return progress.worlds[world][level];
+};
+
+const updateStreak = (progress) => {
+  const today = getLocalDateString();
+  const lastActivityDate = progress.lastActivityDate;
+
+  if (lastActivityDate === today) {
+    return progress.streak;
+  }
+
+  const difference = getDayDifference(
+    lastActivityDate,
+    today
+  );
+
+  if (difference === 1) {
+    progress.streak += 1;
+  } else {
+    progress.streak = 1;
+  }
+
+  progress.lastActivityDate = today;
+
+  return progress.streak;
 };
 
 export const getProgress = () => {
@@ -73,6 +171,7 @@ export const getProgress = () => {
 
     if (!savedProgress) {
       const defaultProgress = createDefaultProgress();
+
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(defaultProgress)
@@ -82,7 +181,8 @@ export const getProgress = () => {
     }
 
     const parsedProgress = JSON.parse(savedProgress);
-    const safeProgress = ensureProgressStructure(parsedProgress);
+    const safeProgress =
+      ensureProgressStructure(parsedProgress);
 
     localStorage.setItem(
       STORAGE_KEY,
@@ -106,7 +206,8 @@ export const getProgress = () => {
 
 export const saveProgress = (progressData) => {
   try {
-    const safeProgress = ensureProgressStructure(progressData);
+    const safeProgress =
+      ensureProgressStructure(progressData);
 
     localStorage.setItem(
       STORAGE_KEY,
@@ -126,23 +227,15 @@ export const getLevelProgress = (
 ) => {
   const progress = getProgress();
 
-  if (!progress.worlds[world]) {
-    progress.worlds[world] = {};
-  }
+  const levelProgress = ensureRequestedLevel(
+    progress,
+    world,
+    level
+  );
 
-  if (!progress.worlds[world][level]) {
-    progress.worlds[world][level] = {
-      unlockedUnits: [1],
-      completedUnits: [],
-      stars: 0,
-      xp: 0,
-      progress: {},
-    };
+  saveProgress(progress);
 
-    saveProgress(progress);
-  }
-
-  return progress.worlds[world][level];
+  return levelProgress;
 };
 
 export const completeUnit = (
@@ -154,27 +247,32 @@ export const completeUnit = (
 ) => {
   const progress = getProgress();
 
-  if (!progress.worlds[world]) {
-    progress.worlds[world] = {};
-  }
+  const levelProgress = ensureRequestedLevel(
+    progress,
+    world,
+    level
+  );
 
-  if (!progress.worlds[world][level]) {
-    progress.worlds[world][level] = {
-      unlockedUnits: [1],
-      completedUnits: [],
-      stars: 0,
-      xp: 0,
-      progress: {},
-    };
-  }
-
-  const levelProgress = progress.worlds[world][level];
   const numericUnitId = Number(unitId);
+  const safeStars = Math.max(0, Number(stars) || 0);
+  const safeXp = Math.max(0, Number(xp) || 0);
 
-  if (!levelProgress.completedUnits.includes(numericUnitId)) {
+  if (!Number.isFinite(numericUnitId)) {
+    console.error("La unidad no es válida:", unitId);
+    return levelProgress;
+  }
+
+  const isFirstCompletion =
+    !levelProgress.completedUnits.includes(
+      numericUnitId
+    );
+
+  if (isFirstCompletion) {
     levelProgress.completedUnits.push(numericUnitId);
-    levelProgress.stars += Number(stars) || 0;
-    levelProgress.xp += Number(xp) || 0;
+    levelProgress.stars += safeStars;
+    levelProgress.xp += safeXp;
+
+    updateStreak(progress);
   }
 
   levelProgress.progress[numericUnitId] = 100;
@@ -204,26 +302,20 @@ export const updateUnitProgress = (
 ) => {
   const progress = getProgress();
 
-  if (!progress.worlds[world]) {
-    progress.worlds[world] = {};
-  }
+  const levelProgress = ensureRequestedLevel(
+    progress,
+    world,
+    level
+  );
 
-  if (!progress.worlds[world][level]) {
-    progress.worlds[world][level] = {
-      unlockedUnits: [1],
-      completedUnits: [],
-      stars: 0,
-      xp: 0,
-      progress: {},
-    };
-  }
+  const numericUnitId = Number(unitId);
 
   const safePercentage = Math.max(
     0,
     Math.min(100, Number(percentage) || 0)
   );
 
-  progress.worlds[world][level].progress[unitId] =
+  levelProgress.progress[numericUnitId] =
     safePercentage;
 
   saveProgress(progress);
@@ -248,7 +340,9 @@ export const isUnitUnlocked = (
 ) => {
   const levelProgress = getLevelProgress(world, level);
 
-  return levelProgress.unlockedUnits.includes(Number(unitId));
+  return levelProgress.unlockedUnits.includes(
+    Number(unitId)
+  );
 };
 
 export const isUnitCompleted = (
@@ -258,7 +352,9 @@ export const isUnitCompleted = (
 ) => {
   const levelProgress = getLevelProgress(world, level);
 
-  return levelProgress.completedUnits.includes(Number(unitId));
+  return levelProgress.completedUnits.includes(
+    Number(unitId)
+  );
 };
 
 export const getUnlockedUnits = (
@@ -277,6 +373,44 @@ export const getCompletedUnits = (
   const levelProgress = getLevelProgress(world, level);
 
   return [...levelProgress.completedUnits];
+};
+
+export const getStreak = () => {
+  const progress = getProgress();
+
+  const completedUnits =
+    progress.worlds?.computer?.beginner?.completedUnits || [];
+
+  if (
+    progress.streak === 0 &&
+    !progress.lastActivityDate &&
+    completedUnits.length > 0
+  ) {
+    progress.streak = 1;
+    progress.lastActivityDate = getLocalDateString();
+
+    saveProgress(progress);
+
+    return 1;
+  }
+
+  if (!progress.lastActivityDate) {
+    return 0;
+  }
+
+  const today = getLocalDateString();
+
+  const difference = getDayDifference(
+    progress.lastActivityDate,
+    today
+  );
+
+  if (difference !== null && difference > 1) {
+    progress.streak = 0;
+    saveProgress(progress);
+  }
+
+  return progress.streak;
 };
 
 export const resetProgress = () => {

@@ -565,8 +565,7 @@ button {
   display: flex;
   flex-direction: column;
 
-  padding: 42px 54px 38px;
-
+  padding: 4px 54px 38px;
   border-radius: 36px;
 
   background: rgba(250, 253, 255, 0.98);
@@ -2218,5 +2217,255 @@ button {
   .computer-lesson-content {
     height: auto !important;
     max-height: none !important;
+  }
+}
+/* =========================================================
+   MINIJUEGO MÁS COMPACTO
+========================================================= */
+
+.computer-game-shell {
+  padding: 18px 20px 32px;
+  align-items: flex-start;
+}
+
+.computer-game-card {
+  width: min(920px, 92vw);
+  padding: 26px 38px;
+  margin: 0 auto;
+}
+
+.computer-game-top {
+  margin-bottom: 16px;
+}
+
+.computer-game-title h1 {
+  font-size: clamp(1.8rem, 2.5vw, 2.7rem);
+  line-height: 1.05;
+}
+
+.computer-lesson-progress-header {
+  margin: 14px 0;
+}
+
+.computer-game-instruction {
+  margin: 14px auto;
+  padding: 10px 20px;
+}
+
+.computer-game-item {
+  min-height: 210px;
+  padding: 22px 34px;
+  margin: 14px auto 18px;
+}
+
+.computer-game-emoji {
+  font-size: 56px;
+}
+
+.computer-game-item strong {
+  font-size: clamp(1.65rem, 2.3vw, 2.35rem);
+  line-height: 1.12;
+}
+
+.computer-game-buttons {
+  gap: 12px !important;
+}
+
+.computer-game-button {
+  min-height: 72px !important;
+  padding: 12px 15px;
+}
+
+.computer-game-feedback {
+  margin-top: 16px;
+  padding: 14px 18px;
+}
+
+/* Pantallas con poca altura */
+@media (max-height: 850px) and (min-width: 769px) {
+  .computer-unit-topbar {
+    min-height: 64px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .computer-game-shell {
+    padding-top: 14px;
+  }
+
+  .computer-game-card {
+    width: min(880px, 90vw);
+    padding: 20px 32px;
+  }
+
+  .computer-game-title-icon {
+    width: 54px;
+    height: 54px;
+  }
+
+  .computer-game-title h1 {
+    font-size: 2rem;
+  }
+
+  .computer-game-item {
+    min-height: 175px;
+    padding: 18px 28px;
+    margin: 10px auto 14px;
+  }
+
+  .computer-game-emoji {
+    font-size: 48px;
+  }
+
+  .computer-game-item strong {
+    font-size: 1.8rem;
+  }
+
+  .computer-game-button {
+    min-height: 64px !important;
+  }
+
+  .computer-game-feedback {
+    margin-top: 12px;
+    padding: 11px 16px;
+  }
+}
+
+/* Celulares y tablets */
+@media (max-width: 768px) {
+  .computer-game-shell {
+    padding: 14px 12px 30px;
+  }
+
+  .computer-game-card {
+    width: 100%;
+    padding: 20px 16px;
+  }
+
+  .computer-game-top {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .computer-game-title h1 {
+    font-size: 1.65rem;
+  }
+
+  .computer-game-item {
+    min-height: 170px;
+    padding: 20px 18px;
+  }
+
+  .computer-game-emoji {
+    font-size: 46px;
+  }
+
+  .computer-game-item strong {
+    font-size: 1.55rem;
+  }
+
+  .computer-game-buttons {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .computer-game-button {
+    min-height: 78px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .computer-game-buttons {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .computer-game-card {
+    padding: 16px 12px;
+  }
+
+  .computer-game-item {
+    min-height: 150px;
+  }
+
+  .computer-game-item strong {
+    font-size: 1.35rem;
+  }
+}
+/* =========================================================
+   UNIDAD 3 - TECLADO MÁS COMPACTO
+========================================================= */
+
+.computer-game-card {
+  max-width: 880px;
+  padding: 22px 34px;
+}
+
+.computer-game-item {
+  min-height: 105px !important;
+  padding: 12px 24px !important;
+  margin: 10px auto 14px;
+}
+
+.computer-game-item .computer-game-emoji {
+  font-size: 42px;
+}
+
+.computer-game-item strong {
+  font-size: clamp(1.7rem, 2.3vw, 2.25rem);
+}
+
+.computer-game-instruction {
+  margin: 10px auto;
+  padding: 9px 18px;
+}
+
+.computer-game-feedback {
+  margin-top: 12px;
+  padding: 11px 16px;
+}
+
+@media (max-height: 850px) and (min-width: 769px) {
+  .computer-game-shell {
+    padding-top: 10px;
+    padding-bottom: 25px;
+  }
+
+  .computer-game-card {
+    max-width: 850px;
+    padding: 17px 28px;
+  }
+
+  .computer-game-top {
+    margin-bottom: 9px;
+  }
+
+  .computer-game-title h1 {
+    font-size: 2rem;
+  }
+
+  .computer-lesson-progress-header {
+    margin: 8px 0;
+  }
+
+  .computer-game-instruction {
+    margin: 8px auto;
+  }
+
+  .computer-game-item {
+    min-height: 90px !important;
+    padding: 10px 20px !important;
+    margin: 8px auto 10px;
+  }
+
+  .computer-game-item .computer-game-emoji {
+    font-size: 34px;
+  }
+
+  .computer-game-item strong {
+    font-size: 1.8rem;
+  }
+
+  .computer-game-feedback {
+    margin-top: 8px;
+    padding: 9px 14px;
   }
 }

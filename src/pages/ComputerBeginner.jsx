@@ -1,5 +1,6 @@
 import "../styles/computer-map.css";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -10,80 +11,68 @@ import {
   Star,
   Lock,
   Play,
+  CheckCircle2,
 } from "lucide-react";
 
-const units = [
+import {
+  getLevelProgress,
+  getStreak,
+} from "../utils/progressManager";
+
+const baseUnits = [
   {
     id: 1,
     title: "La computadora",
     subtitle: "Conoce qué es una computadora",
     image: "/assets/computer/maps/beginner/unit-computer.png",
-    progress: 0,
-    unlocked: true,
   },
   {
     id: 2,
     title: "Partes de la PC",
     subtitle: "Monitor, teclado, mouse y CPU",
     image: "/assets/computer/maps/beginner/unit-parts.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 3,
     title: "El teclado",
     subtitle: "Aprende las teclas principales",
     image: "/assets/computer/maps/beginner/unit-keyboard.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 4,
     title: "El mouse",
     subtitle: "Mover, hacer clic y arrastrar",
     image: "/assets/computer/maps/beginner/unit-mouse.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 5,
     title: "Windows",
     subtitle: "Conoce el escritorio y sus iconos",
     image: "/assets/computer/maps/beginner/unit-windows.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 6,
     title: "Archivos y carpetas",
     subtitle: "Aprende a organizar documentos",
     image: "/assets/computer/maps/beginner/unit-folders.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 7,
     title: "Paint",
     subtitle: "Dibuja y crea con la computadora",
     image: "/assets/computer/maps/beginner/unit-paint.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 8,
     title: "Internet seguro",
     subtitle: "Explora internet de forma segura",
     image: "/assets/computer/maps/beginner/unit-internet.png",
-    progress: 0,
-    unlocked: false,
   },
   {
     id: 9,
     title: "Reto final",
     subtitle: "Demuestra todo lo aprendido",
     image: "/assets/computer/maps/beginner/final-chest.png",
-    progress: 0,
-    unlocked: false,
     final: true,
   },
 ];
@@ -91,11 +80,36 @@ const units = [
 export default function ComputerBeginner() {
   const navigate = useNavigate();
 
-  const openUnit = (unit) => {
-  if (!unit.unlocked) return;
+  const levelProgress = getLevelProgress(
+    "computer",
+    "beginner"
+  );
 
-  navigate(`/computer/beginner/unit/${unit.id}/lesson`);
-};
+  const streak = getStreak();
+
+  const units = useMemo(() => {
+    return baseUnits.map((unit) => ({
+      ...unit,
+
+      unlocked:
+        levelProgress.unlockedUnits.includes(unit.id),
+
+      completed:
+        levelProgress.completedUnits.includes(unit.id),
+
+      progress: Number(
+        levelProgress.progress[unit.id] || 0
+      ),
+    }));
+  }, [levelProgress]);
+
+  const openUnit = (unit) => {
+    if (!unit.unlocked) return;
+
+    navigate(
+      `/computer/beginner/unit/${unit.id}/lesson`
+    );
+  };
 
   return (
     <main className="computer-map-screen">
@@ -119,17 +133,26 @@ export default function ComputerBeginner() {
         <div className="computer-map-stats">
           <div>
             <Flame size={28} />
-            <span>7 días</span>
+
+            <span>
+              {streak} {streak === 1 ? "día" : "días"}
+            </span>
           </div>
 
           <div>
             <Gem size={28} />
-            <span>Nivel 5</span>
+
+            <span>
+              {levelProgress.xp} XP
+            </span>
           </div>
 
           <div>
             <Star size={30} fill="currentColor" />
-            <span>1,250</span>
+
+            <span>
+              {levelProgress.stars}
+            </span>
           </div>
         </div>
       </header>
@@ -142,9 +165,21 @@ export default function ComputerBeginner() {
             <motion.button
               type="button"
               key={unit.id}
-              className={`computer-map-unit computer-unit-${index + 1} ${
-                unit.final ? "computer-map-unit-final" : ""
-              } ${!unit.unlocked ? "computer-map-unit-locked" : ""}`}
+              className={`computer-map-unit computer-unit-${
+                index + 1
+              } ${
+                unit.final
+                  ? "computer-map-unit-final"
+                  : ""
+              } ${
+                !unit.unlocked
+                  ? "computer-map-unit-locked"
+                  : ""
+              } ${
+                unit.completed
+                  ? "computer-map-unit-completed"
+                  : ""
+              }`}
               onClick={() => openUnit(unit)}
               initial={{
                 scale: 0.72,
@@ -182,15 +217,26 @@ export default function ComputerBeginner() {
                   src={unit.image}
                   alt={unit.title}
                   onError={(event) => {
-                    event.currentTarget.src = "/assets/mascot.png";
+                    event.currentTarget.src =
+                      "/assets/mascot.png";
                   }}
                 />
+
+                {unit.completed && (
+                  <div className="computer-unit-completed-badge">
+                    <CheckCircle2 size={34} />
+                  </div>
+                )}
               </div>
 
               <div className="computer-unit-info">
-                <strong>{unit.title}</strong>
+                <strong>
+                  {unit.title}
+                </strong>
 
-                <p>{unit.subtitle}</p>
+                <p>
+                  {unit.subtitle}
+                </p>
 
                 <div className="computer-unit-progress">
                   <div
@@ -201,17 +247,26 @@ export default function ComputerBeginner() {
                 </div>
 
                 <span>
-                  {unit.unlocked ? (
-                    <>
-                      <Play size={15} fill="currentColor" />
-                      {unit.progress > 0
-                        ? `${unit.progress}% completado`
-                        : "Comenzar"}
-                    </>
-                  ) : (
+                  {!unit.unlocked ? (
                     <>
                       <Lock size={15} />
                       Bloqueado
+                    </>
+                  ) : unit.completed ? (
+                    <>
+                      <CheckCircle2 size={15} />
+                      Completado
+                    </>
+                  ) : (
+                    <>
+                      <Play
+                        size={15}
+                        fill="currentColor"
+                      />
+
+                      {unit.progress > 0
+                        ? `${unit.progress}% completado`
+                        : "Comenzar"}
                     </>
                   )}
                 </span>

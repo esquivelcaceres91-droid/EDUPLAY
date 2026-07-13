@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   Gem,
   Home,
+  LockOpen,
   Sparkles,
   Star,
   Trophy,
@@ -19,6 +20,18 @@ import { completeUnit } from "../utils/progressManager";
 
 import "../styles/computer-unit.css";
 
+const unitTitles = {
+  1: "La computadora",
+  2: "Partes de la PC",
+  3: "El teclado",
+  4: "El mouse",
+  5: "Windows",
+  6: "Archivos y carpetas",
+  7: "Paint",
+  8: "Internet seguro",
+  9: "Reto final",
+};
+
 export default function ComputerReward() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,9 +40,13 @@ export default function ComputerReward() {
   const savedRef = useRef(false);
 
   const currentUnit = Number(unitId || 1);
+  const isFinalUnit = currentUnit === 9;
 
-  const score = Number(location.state?.score ?? 5);
-  const total = Number(location.state?.total ?? 5);
+  const unitTitle =
+    unitTitles[currentUnit] || `Unidad ${currentUnit}`;
+
+  const score = Number(location.state?.score ?? 0);
+  const total = Number(location.state?.total ?? 1);
   const hearts = Number(location.state?.hearts ?? 3);
 
   const percentage = useMemo(() => {
@@ -60,7 +77,14 @@ export default function ComputerReward() {
       stars,
       xp
     );
-  }, [currentUnit, stars, xp]);
+
+    if (isFinalUnit) {
+      localStorage.setItem(
+        "eduplay-computer-intermediate-unlocked",
+        "true"
+      );
+    }
+  }, [currentUnit, stars, xp, isFinalUnit]);
 
   return (
     <main className="computer-unit-screen">
@@ -112,18 +136,30 @@ export default function ComputerReward() {
               stiffness: 160,
             }}
           >
-            <Trophy size={92} fill="currentColor" />
+            {isFinalUnit ? (
+              <LockOpen size={92} />
+            ) : (
+              <Trophy size={92} fill="currentColor" />
+            )}
           </motion.div>
 
           <div className="computer-reward-badge">
             <CheckCircle2 size={21} />
-            Unidad completada
+            {isFinalUnit
+              ? "Nivel Principiante completado"
+              : "Unidad completada"}
           </div>
 
-          <h1>¡Excelente trabajo!</h1>
+          <h1>
+            {isFinalUnit
+              ? "¡Nivel Intermedio desbloqueado!"
+              : "¡Excelente trabajo!"}
+          </h1>
 
           <p>
-            Completaste la Unidad {currentUnit}: La computadora.
+            {isFinalUnit
+              ? "Completaste todas las unidades de Computación Principiante."
+              : `Completaste la Unidad ${currentUnit}: ${unitTitle}.`}
           </p>
 
           <div className="computer-reward-stars">
@@ -197,10 +233,16 @@ export default function ComputerReward() {
             <Sparkles size={27} />
 
             <div>
-              <strong>¡Nueva unidad desbloqueada!</strong>
+              <strong>
+                {isFinalUnit
+                  ? "¡Nuevo nivel disponible!"
+                  : "¡Nueva unidad desbloqueada!"}
+              </strong>
+
               <span>
-                Ya puedes continuar con la Unidad{" "}
-                {currentUnit + 1}.
+                {isFinalUnit
+                  ? "Ya puedes continuar aprendiendo en Computación Intermedio."
+                  : `Ya puedes continuar con la Unidad ${currentUnit + 1}.`}
               </span>
             </div>
           </div>
@@ -220,11 +262,14 @@ export default function ComputerReward() {
             <motion.button
               type="button"
               className="computer-reward-continue-button"
-              onClick={() => navigate("/computer/beginner")}
+              onClick={() => navigate("/computer")}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
             >
-              Volver al mapa
+              {isFinalUnit
+                ? "Ver niveles de Computación"
+                : "Mundo de Computación"}
+
               <ArrowRight size={23} />
             </motion.button>
           </div>
