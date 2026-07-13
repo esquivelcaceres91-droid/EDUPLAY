@@ -409,3 +409,363 @@ body{
   color:#59606d;
   font-weight:900;
 }
+/* =====================================================
+   RESPONSIVE PARA TABLET Y CELULAR
+   No afecta la versión de computadora
+===================================================== */
+
+@media (max-width: 768px){
+
+  html,
+  body,
+  #root{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    overflow:hidden;
+  }
+
+  .edu-screen{
+    width:100%;
+    min-height:100vh;
+    min-height:100dvh;
+    overflow:hidden;
+    background-position:center;
+  }
+
+  /* LOGO */
+
+  .edu-logo{
+    top:8px;
+    width:170px;
+  }
+
+  /* BARRA DE PROGRESO */
+
+  .edu-progress{
+    top:112px;
+    width:calc(100% - 32px);
+    max-width:430px;
+  }
+
+  .progress-track{
+    height:52px;
+  }
+
+  .progress-track::before{
+    left:25px;
+    right:25px;
+    top:21px;
+    height:9px;
+  }
+
+  .progress-fill{
+    left:25px;
+    top:21px;
+    width:calc(50% - 25px);
+    height:9px;
+  }
+
+  .progress-fill.step-two{
+    width:50%;
+  }
+
+  .progress-fill.step-three{
+    width:calc(100% - 50px);
+  }
+
+  .progress-dot{
+    width:52px;
+    height:52px;
+    border-width:4px;
+    font-size:23px;
+  }
+
+  .progress-text{
+    margin-top:7px;
+    padding:0 2px;
+    font-size:13px;
+  }
+
+  /* TARJETA DEL NOMBRE */
+
+  .edu-card{
+    width:calc(100% - 28px);
+    max-width:430px;
+    min-height:auto;
+
+    left:50%;
+    top:205px;
+    transform:translateX(-50%);
+
+    padding:25px 18px 24px;
+    border-width:3px;
+    border-radius:25px;
+  }
+
+  .edu-card h1{
+    font-size:29px;
+    margin-bottom:8px;
+  }
+
+  .edu-card p{
+    font-size:15px;
+    margin-bottom:18px;
+  }
+
+  .edu-input{
+    width:100%;
+    height:55px;
+    padding:0 14px;
+    gap:10px;
+    border-width:3px;
+    border-radius:14px;
+    margin-bottom:20px;
+  }
+
+  .edu-input input{
+    width:100%;
+    min-width:0;
+    font-size:17px;
+  }
+
+  .edu-button{
+    width:100%;
+    max-width:310px;
+    height:55px;
+    font-size:21px;
+    gap:12px;
+  }
+
+  .edu-card small{
+    margin-top:17px;
+    font-size:13px;
+  }
+
+  /* MASCOTA */
+
+  .edu-mascot,
+  .avatar-mascot,
+  .ready-mascot{
+    left:-45px;
+    bottom:-5px;
+    width:330px;
+    max-width:75vw;
+    z-index:10;
+  }
+
+  /* TARJETA DE AVATARES */
+
+  .avatar-card-pro{
+    width:calc(100% - 28px);
+    max-width:430px;
+
+    left:50%;
+    top:200px;
+    transform:translateX(-50%);
+
+    padding:20px 15px 20px;
+    border-width:3px;
+    border-radius:25px;
+  }
+
+  .avatar-title{
+    gap:10px;
+    margin-bottom:3px;
+  }
+
+  .avatar-title h1{
+    font-size:27px;
+  }
+
+  .avatar-title span{
+    font-size:22px;
+  }
+
+  .avatar-card-pro p{
+    font-size:14px;
+    margin-bottom:10px;
+  }
+
+  .avatar-grid-pro{
+    grid-template-columns:repeat(3, 1fr);
+    gap:9px;
+    margin:12px 0 16px;
+  }
+
+  .avatar-box{
+    height:76px;
+    border-radius:14px;
+  }
+
+  .avatar-box img{
+    width:62px;
+    height:62px;
+  }
+
+  .avatar-check{
+    width:34px;
+    height:34px;
+    border-width:3px;
+  }
+
+  .avatar-ready-btn,
+  .ready-button{
+    width:100%;
+    max-width:300px;
+    height:55px;
+    font-size:22px;
+    gap:14px;
+  }
+
+  .avatar-card-pro small{
+    margin-top:14px;
+    font-size:12px;
+  }
+
+  /* BOTÓN REGRESAR */
+
+  .back-btn{
+    top:12px;
+    left:12px;
+    padding:9px 13px;
+    gap:5px;
+    font-size:0;
+    z-index:100;
+  }
+
+  .back-btn svg{
+    width:22px;
+    height:22px;
+  }
+
+  /* TARJETA FINAL */
+
+  .ready-card{
+    width:calc(100% - 28px);
+    max-width:430px;
+
+    left:50%;
+    top:215px;
+    transform:translateX(-50%);
+
+    padding:26px 18px 24px;
+    border-width:3px;
+    border-radius:25px;
+  }
+
+  .ready-icon{
+    margin-bottom:7px;
+  }
+
+  .ready-card h1{
+    font-size:34px;
+    margin-bottom:9px;
+  }
+
+  .ready-card p{
+    font-size:16px;
+    margin-bottom:22px;
+  }
+
+  .ready-card small{
+    margin-top:18px;
+    font-size:13px;
+  }
+}
+
+
+/* CELULARES PEQUEÑOS */
+
+@media (max-width: 390px){
+
+  .edu-logo{
+    width:150px;
+  }
+
+  .edu-progress{
+    top:100px;
+  }
+
+  .progress-text{
+    font-size:11px;
+  }
+
+  .edu-card,
+  .avatar-card-pro{
+    top:185px;
+  }
+
+  .ready-card{
+    top:195px;
+  }
+
+  .edu-card h1{
+    font-size:26px;
+  }
+
+  .avatar-title h1{
+    font-size:24px;
+  }
+
+  .avatar-grid-pro{
+    gap:7px;
+  }
+
+  .avatar-box{
+    height:68px;
+  }
+
+  .avatar-box img{
+    width:56px;
+    height:56px;
+  }
+
+  .edu-mascot,
+  .avatar-mascot,
+  .ready-mascot{
+    width:290px;
+    left:-50px;
+  }
+}
+
+
+/* CELULAR EN POSICIÓN HORIZONTAL */
+
+@media (max-height: 500px) and (orientation: landscape){
+
+  body{
+    overflow-y:auto;
+  }
+
+  .edu-screen{
+    min-height:620px;
+    overflow:hidden;
+  }
+
+  .edu-logo{
+    width:140px;
+  }
+
+  .edu-progress{
+    top:85px;
+  }
+
+  .edu-card,
+  .avatar-card-pro{
+    top:165px;
+  }
+
+  .ready-card{
+    top:175px;
+  }
+
+  .edu-mascot,
+  .avatar-mascot,
+  .ready-mascot{
+    width:280px;
+  }
+}
