@@ -590,3 +590,287 @@ button{
     width:1040px;
   }
 }
+/* =====================================================
+   RESPONSIVE HOME PARA CELULAR
+   No afecta la versión de computadora
+===================================================== */
+
+@media (max-width: 768px){
+
+  html,
+  body,
+  #root{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    overflow-y:auto;
+  }
+
+  .home-screen{
+    width:100%;
+    min-height:100vh;
+    height:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+    padding-bottom:115px;
+    background-position:center;
+  }
+
+  /* LOGO */
+
+  .home-main-logo{
+    position:relative;
+    top:auto;
+    left:auto;
+    display:block;
+    width:185px;
+    margin:18px auto 0;
+  }
+
+  /* REGRESAR */
+
+  .home-back{
+    top:18px;
+    left:18px;
+    padding:10px 15px;
+    font-size:0;
+  }
+
+  .home-back svg{
+    width:24px;
+    height:24px;
+  }
+
+  /* ESTADÍSTICAS */
+
+  .home-stats{
+    position:relative;
+    top:auto;
+    right:auto;
+    width:calc(100% - 24px);
+    margin:18px auto 0;
+    padding:12px 10px;
+    gap:8px;
+    justify-content:space-between;
+    border-radius:22px;
+  }
+
+  .stat-box{
+    gap:4px;
+    font-size:22px;
+    min-width:0;
+  }
+
+  .stat-box span{
+    font-size:11px;
+  }
+
+  .stat-box b{
+    font-size:16px;
+  }
+
+  .student-avatar{
+    width:48px;
+    height:48px;
+    flex-shrink:0;
+  }
+
+  /* TÍTULO */
+
+  .home-title{
+    position:relative;
+    top:auto;
+    left:auto;
+    width:calc(100% - 24px);
+    transform:none !important;
+    margin:18px auto 0;
+  }
+
+  .home-title h1{
+    font-size:34px;
+  }
+
+  .home-title p{
+    margin-top:6px;
+    font-size:18px;
+  }
+
+  /* MASCOTA DE FONDO */
+
+  .home-mascot{
+    left:50%;
+    bottom:70px;
+    width:520px;
+    transform:translateX(-50%);
+    opacity:.48;
+    z-index:1;
+  }
+
+  /* MUNDOS */
+
+  .home-worlds{
+    position:relative;
+    top:auto;
+    left:auto;
+    transform:none !important;
+    width:calc(100% - 24px);
+    margin:20px auto 0;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .world-card{
+    width:100%;
+    height:auto;
+    aspect-ratio:16 / 9;
+    border-width:3px;
+    border-radius:24px;
+  }
+
+  .world-card.world-selected::after{
+    top:10px;
+    right:10px;
+    width:44px;
+    height:44px;
+    font-size:24px;
+  }
+
+  /* CONTINUAR */
+
+  .continue-card{
+    position:relative;
+    top:auto;
+    left:auto;
+    transform:none !important;
+    width:calc(100% - 24px);
+    margin:20px auto 0;
+    padding:18px 16px;
+    border-radius:24px;
+  }
+
+  .continue-card h3{
+    font-size:18px;
+    text-align:center;
+  }
+
+  .continue-row{
+    display:grid;
+    grid-template-columns:54px 1fr auto;
+    gap:10px;
+    align-items:center;
+  }
+
+  .continue-row > img{
+    width:50px;
+    height:50px;
+    grid-row:1 / span 2;
+  }
+
+  .continue-row > div:nth-of-type(1){
+    min-width:0;
+  }
+
+  .continue-row b{
+    font-size:16px;
+  }
+
+  .continue-row span{
+    font-size:13px;
+  }
+
+  .continue-row .progress{
+    grid-column:1 / -1;
+    width:100%;
+    height:14px;
+    margin-top:6px;
+  }
+
+  .continue-row strong{
+    font-size:17px;
+  }
+
+  .continue-row > button{
+    grid-column:1 / -1;
+    width:100%;
+    height:48px;
+    margin-top:6px;
+    font-size:16px;
+  }
+
+  /* MENÚ INFERIOR */
+
+  .bottom-nav{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    width:auto;
+    height:72px;
+    transform:none !important;
+    border-radius:22px;
+    overflow-x:auto;
+    justify-content:flex-start;
+    gap:4px;
+    padding:6px;
+  }
+
+  .bottom-nav button{
+    min-width:76px;
+    flex:0 0 76px;
+    padding:6px 5px;
+    font-size:11px;
+  }
+
+  .bottom-nav button svg{
+    width:23px;
+    height:23px;
+  }
+}
+
+
+/* CELULARES PEQUEÑOS */
+
+@media (max-width: 390px){
+
+  .home-main-logo{
+    width:165px;
+  }
+
+  .home-stats{
+    padding:10px 8px;
+  }
+
+  .stat-box{
+    font-size:19px;
+  }
+
+  .stat-box span{
+    font-size:10px;
+  }
+
+  .stat-box b{
+    font-size:14px;
+  }
+
+  .student-avatar{
+    width:44px;
+    height:44px;
+  }
+
+  .home-title h1{
+    font-size:30px;
+  }
+
+  .home-title p{
+    font-size:16px;
+  }
+
+  .bottom-nav button{
+    min-width:70px;
+    flex-basis:70px;
+  }
+}
