@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/home.css";
+import { getProfile } from "../utils/profileStorage";
 
 import {
   ArrowLeft,
@@ -16,6 +17,7 @@ import {
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const profile = getProfile();
 
   const [selectedWorld, setSelectedWorld] = useState("");
   const [isOpening, setIsOpening] = useState(false);
@@ -74,7 +76,7 @@ export default function HomePage() {
           🔥
           <div>
             <span>Racha</span>
-            <b>7 días</b>
+            <b>{profile.streak || 0} días</b>
           </div>
         </div>
 
@@ -82,7 +84,7 @@ export default function HomePage() {
           💎
           <div>
             <span>Nivel</span>
-            <b>5</b>
+            <b>{profile.level || 1}</b>
           </div>
         </div>
 
@@ -90,13 +92,13 @@ export default function HomePage() {
           ⭐
           <div>
             <span>Puntos</span>
-            <b>1250</b>
+            <b>{profile.points || 0}</b>
           </div>
         </div>
 
         <img
           className="student-avatar"
-          src="/assets/avatar-1.png"
+          src={profile.avatar || "/assets/avatar-1.png"}
           alt="Avatar"
           onError={(event) => {
             event.currentTarget.src = "/assets/mascot.png";
@@ -113,7 +115,7 @@ export default function HomePage() {
           delay: 0.25,
         }}
       >
-        <h1>¡Hola, Esteban!</h1>
+        <h1>¡Hola, {profile.name || "Estudiante"}!</h1>
         <p>¿Qué quieres aprender hoy?</p>
       </motion.section>
 
@@ -210,7 +212,7 @@ export default function HomePage() {
 
         <div className="continue-row">
           <img
-            src="/assets/avatar-1.png"
+            src={profile.avatar || "/assets/avatar-1.png"}
             alt="Avatar"
             onError={(event) => {
               event.currentTarget.src = "/assets/mascot.png";

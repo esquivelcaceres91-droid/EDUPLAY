@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -12,38 +12,83 @@ import StepReady from "../components/StepReady";
 
 import { ArrowLeft } from "lucide-react";
 
+import {
+  getProfile,
+  saveProfile,
+} from "../utils/profileStorage";
+
 export default function Onboarding() {
-
-  const [step, setStep] = useState(1);
-
   const navigate = useNavigate();
 
+  const savedProfile = getProfile();
+
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState(savedProfile.name || "");
+  const [avatar, setAvatar] = useState(
+    savedProfile.avatar || "/assets/avatar-1.png"
+  );
+
+  useEffect(() => {
+    if (savedProfile.onboardingCompleted) {
+      navigate("/home", { replace: true });
+    }
+  }, [navigate, savedProfile.onboardingCompleted]);
+
+  const goToAvatar = () => {
+    const cleanName = name.trim();
+
+    if (!cleanName) return;
+
+    saveProfile({
+      name: cleanName,
+    });
+
+    setName(cleanName);
+    setStep(2);
+  };
+
+  const goToReady = () => {
+    saveProfile({
+      avatar,
+    });
+
+    setStep(3);
+  };
+
+  const finishOnboarding = () => {
+    saveProfile({
+      name: name.trim(),
+      avatar,
+      onboardingCompleted: true,
+    });
+
+    navigate("/home", { replace: true });
+  };
+
+  const goBack = () => {
+    setStep((currentStep) => Math.max(1, currentStep - 1));
+  };
+
   return (
-
     <main className="edu-screen">
-
       {step > 1 && (
-
         <button
+          type="button"
           className="back-btn"
-          onClick={() => setStep(step - 1)}
+          onClick={goBack}
         >
-
-          <ArrowLeft size={26}/>
-
+          <ArrowLeft size={26} />
           Regresar
-
         </button>
-
       )}
 
       <img
         className="edu-logo"
         src="/assets/logo.png"
-        alt=""
+        alt="EduPlay"
       />
 
-      <ProgressBar step={step}/>
+      <ProgressBar step={step} />
 
       <img
         className="edu-mascot"
@@ -52,38 +97,31 @@ export default function Onboarding() {
       />
 
       <AnimatePresence mode="wait">
-
         {step === 1 && (
-
           <StepName
             key="name"
-            next={() => setStep(2)}
+            name={name}
+            setName={setName}
+            next={goToAvatar}
           />
-
         )}
 
         {step === 2 && (
-
           <StepAvatar
             key="avatar"
-            next={() => setStep(3)}
+            selectedAvatar={avatar}
+            setSelectedAvatar={setAvatar}
+            next={goToReady}
           />
-
         )}
 
         {step === 3 && (
-
           <StepReady
             key="ready"
-            finish={() => navigate("/home")}
+            finish={finishOnboarding}
           />
-
         )}
-
       </AnimatePresence>
-
     </main>
-
   );
-
 }

@@ -86,7 +86,7 @@ button{
 
 .home-mascot{
   position:absolute;
-  left:-240px;
+  left:-350px;
   bottom:-25px;
 
   width:1120px;
@@ -212,7 +212,7 @@ button{
 .home-worlds{
   position:absolute;
   top:230px;
-  left:50%;
+  left:53%;
 
   z-index:30;
 

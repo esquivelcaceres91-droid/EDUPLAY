@@ -1,7 +1,11 @@
 import { User, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function StepName({ next }) {
+export default function StepName({
+  name,
+  setName,
+  next,
+}) {
   return (
     <motion.section
       className="edu-card"
@@ -21,7 +25,19 @@ export default function StepName({ next }) {
 
       <div className="edu-input">
         <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Escribe tu nombre aquí..."
+          maxLength={25}
+          autoFocus
+          onKeyDown={(e) => {
+            if (
+              e.key === "Enter" &&
+              name.trim() !== ""
+            ) {
+              next();
+            }
+          }}
         />
 
         <User size={38} />
@@ -29,6 +45,7 @@ export default function StepName({ next }) {
 
       <button
         className="edu-button"
+        disabled={name.trim() === ""}
         onClick={next}
       >
         Continuar
