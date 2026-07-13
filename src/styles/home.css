@@ -99,12 +99,12 @@ button {
 
 .home-mascot {
   position: absolute;
-  left: -550px;
+  left: -410px;
   bottom: -25px;
 
   z-index: 5;
 
-  width: 1420px;
+  width: 1070px;
   height: auto;
 
   user-select: none;
@@ -191,7 +191,7 @@ button {
 .home-title {
   position: absolute;
   top: 145px;
-  left: 33%;
+  left: 28%;
 
   z-index: 30;
 
@@ -233,7 +233,7 @@ button {
 
 .home-worlds {
   position: absolute;
-  top: 300px;
+  top: 270px;
   left: 50%;
 
   z-index: 30;
@@ -249,8 +249,8 @@ button {
 .world-card {
   position: relative;
 
-  width: 690px;
-  height: 435px;
+  width: 560px;
+  height: 335px;
 
   padding: 0;
 
