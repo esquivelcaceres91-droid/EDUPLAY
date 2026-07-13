@@ -920,97 +920,154 @@ flex-basis:72px;
 }
 
 }
-/* =========================================================
-   HOME — ESTADÍSTICAS RESPONSIVE PARA CELULAR
-========================================================= */
 
-@media (max-width: 768px) {
+/* =====================================================
+   ESTADÍSTICAS COMPACTAS EN TABLET Y CELULAR
+===================================================== */
+
+@media screen and (max-width: 768px) {
   .home-stats {
     position: relative !important;
-    width: calc(100% - 28px) !important;
-    max-width: 520px !important;
-    height: auto !important;
+    top: auto !important;
+    right: auto !important;
 
-    margin: 18px auto 24px !important;
-    padding: 14px !important;
+    width: calc(100% - 8px) !important;
+    max-width: 650px !important;
+    height: 74px !important;
+
+    margin: 18px auto 20px !important;
+    padding: 7px 8px !important;
 
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr))
+      40px !important;
 
-    border-radius: 28px !important;
-    overflow: visible !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+    gap: 3px !important;
+
+    border-radius: 22px !important;
+
+    overflow: hidden !important;
+    transform: none !important;
   }
 
   .home-stats .stat-box {
     width: 100% !important;
     min-width: 0 !important;
-    height: 72px !important;
+    height: 58px !important;
 
     display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 9px !important;
+    justify-content: center !important;
+    gap: 1px !important;
 
-    padding: 10px 12px !important;
     margin: 0 !important;
+    padding: 2px 1px !important;
 
-    border-radius: 18px !important;
-    font-size: 24px !important;
+    border-radius: 12px !important;
+
+    font-size: 17px !important;
+    line-height: 1 !important;
+
     overflow: hidden !important;
   }
 
   .home-stats .stat-box > div {
+    width: 100% !important;
     min-width: 0 !important;
+
     display: flex !important;
     flex-direction: column !important;
-    align-items: flex-start !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
   }
 
   .home-stats .stat-box span {
-    font-size: 13px !important;
-    line-height: 1.1 !important;
+    width: 100% !important;
+
+    color: #6a7380 !important;
+
+    font-size: 8px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+
+    text-align: center !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .home-stats .stat-box b {
-    font-size: 21px !important;
-    line-height: 1.15 !important;
+    width: 100% !important;
+
+    color: #123d8b !important;
+
+    font-size: 13px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+
+    text-align: center !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
   }
 
   .home-stats .student-avatar {
-    grid-column: 1 / -1 !important;
-
     position: static !important;
-    width: 58px !important;
-    height: 58px !important;
 
-    margin: 2px auto 0 !important;
-    object-fit: cover !important;
+    width: 38px !important;
+    height: 38px !important;
+
+    margin: 0 !important;
+
+    border-width: 2px !important;
     border-radius: 50% !important;
+
+    object-fit: cover !important;
   }
 }
 
-@media (max-width: 390px) {
+/* =====================================================
+   CELULARES MUY PEQUEÑOS
+===================================================== */
+
+@media screen and (max-width: 390px) {
   .home-stats {
-    width: calc(100% - 20px) !important;
-    padding: 11px !important;
-    gap: 8px !important;
+    width: 100% !important;
+    height: 68px !important;
+
+    padding: 5px 5px !important;
+    gap: 1px !important;
+
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr))
+      34px !important;
+
+    border-radius: 19px !important;
   }
 
   .home-stats .stat-box {
-    height: 66px !important;
-    padding: 8px 9px !important;
-    gap: 7px !important;
-    font-size: 21px !important;
+    height: 54px !important;
+
+    padding: 1px 0 !important;
+
+    font-size: 15px !important;
   }
 
   .home-stats .stat-box span {
-    font-size: 12px !important;
+    font-size: 7px !important;
   }
 
   .home-stats .stat-box b {
-    font-size: 18px !important;
+    font-size: 11px !important;
+  }
+
+  .home-stats .student-avatar {
+    width: 32px !important;
+    height: 32px !important;
   }
 }
