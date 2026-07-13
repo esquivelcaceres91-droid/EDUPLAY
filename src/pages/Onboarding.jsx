@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -7,23 +7,24 @@ import "../styles/ready.css";
 
 import ProgressBar from "../components/ProgressBar";
 import StepName from "../components/StepName";
+import StepGrade from "../components/StepGrade";
+import StepLevelChoice from "../components/StepLevelChoice";
 import StepAvatar from "../components/StepAvatar";
 import StepReady from "../components/StepReady";
 
 import { ArrowLeft } from "lucide-react";
-
-import {
-  getProfile,
-  saveProfile,
-} from "../utils/profileStorage";
+import { getProfile, saveProfile } from "../utils/profileStorage";
 
 export default function Onboarding() {
   const navigate = useNavigate();
+  const savedProfile = useMemo(() => getProfile(), []);
 
-  const savedProfile = getProfile();
-
-  const [step, setStep] = useState(1);
+  const [screen, setScreen] = useState("name");
   const [name, setName] = useState(savedProfile.name || "");
+  const [grade, setGrade] = useState(savedProfile.grade || null);
+  const [chosenLevel, setChosenLevel] = useState(
+    savedProfile.chosenLevel || "beginner"
+  );
   const [avatar, setAvatar] = useState(
     savedProfile.avatar || "/assets/avatar-1.png"
   );
@@ -34,31 +35,61 @@ export default function Onboarding() {
     }
   }, [navigate, savedProfile.onboardingCompleted]);
 
-  const goToAvatar = () => {
-    const cleanName = name.trim();
+  const progressStep = {
+    name: 1,
+    grade: 2,
+    levelChoice: 2,
+    avatar: 3,
+    ready: 4,
+  }[screen];
 
+  const saveNameAndContinue = () => {
+    const cleanName = name.trim();
     if (!cleanName) return;
 
-    saveProfile({
-      name: cleanName,
-    });
-
     setName(cleanName);
-    setStep(2);
+    saveProfile({ name: cleanName });
+    setScreen("grade");
   };
 
-  const goToReady = () => {
+  const saveGradeAndContinue = () => {
+    if (!grade) return;
+
+    const recommendedLevel = grade <= 2 ? "beginner" : "intermediate";
+
     saveProfile({
-      avatar,
+      grade,
+      recommendedLevel,
     });
 
-    setStep(3);
+    if (grade <= 2) {
+      setChosenLevel("beginner");
+      saveProfile({ chosenLevel: "beginner" });
+      setScreen("avatar");
+      return;
+    }
+
+    setScreen("levelChoice");
+  };
+
+  const chooseLevel = (level) => {
+    setChosenLevel(level);
+    saveProfile({ chosenLevel: level });
+    setScreen("avatar");
+  };
+
+  const saveAvatarAndContinue = () => {
+    saveProfile({ avatar });
+    setScreen("ready");
   };
 
   const finishOnboarding = () => {
     saveProfile({
       name: name.trim(),
       avatar,
+      grade,
+      recommendedLevel: grade <= 2 ? "beginner" : "intermediate",
+      chosenLevel,
       onboardingCompleted: true,
     });
 
@@ -66,60 +97,66 @@ export default function Onboarding() {
   };
 
   const goBack = () => {
-    setStep((currentStep) => Math.max(1, currentStep - 1));
+    if (screen === "grade") setScreen("name");
+    if (screen === "levelChoice") setScreen("grade");
+    if (screen === "avatar") {
+      setScreen(grade >= 3 ? "levelChoice" : "grade");
+    }
+    if (screen === "ready") setScreen("avatar");
   };
 
   return (
     <main className="edu-screen">
-      {step > 1 && (
-        <button
-          type="button"
-          className="back-btn"
-          onClick={goBack}
-        >
+      {screen !== "name" && (
+        <button type="button" className="back-btn" onClick={goBack}>
           <ArrowLeft size={26} />
           Regresar
         </button>
       )}
 
-      <img
-        className="edu-logo"
-        src="/assets/logo.png"
-        alt="EduPlay"
-      />
+      <img className="edu-logo" src="/assets/logo.png" alt="EduPlay" />
+      <ProgressBar step={progressStep} />
 
-      <ProgressBar step={step} />
-
-      <img
-        className="edu-mascot"
-        src="/assets/mascot.png"
-        alt=""
-      />
+      <img className="edu-mascot" src="/assets/mascot.png" alt="" />
 
       <AnimatePresence mode="wait">
-        {step === 1 && (
+        {screen === "name" && (
           <StepName
             key="name"
             name={name}
             setName={setName}
-            next={goToAvatar}
+            next={saveNameAndContinue}
           />
         )}
 
-        {step === 2 && (
+        {screen === "grade" && (
+          <StepGrade
+            key="grade"
+            grade={grade}
+            setGrade={setGrade}
+            next={saveGradeAndContinue}
+          />
+        )}
+
+        {screen === "levelChoice" && (
+          <StepLevelChoice
+            key="level-choice"
+            grade={grade}
+            chooseLevel={chooseLevel}
+          />
+        )}
+
+        {screen === "avatar" && (
           <StepAvatar
             key="avatar"
             selectedAvatar={avatar}
             setSelectedAvatar={setAvatar}
-            next={goToReady}
+            next={saveAvatarAndContinue}
           />
         )}
 
-        {step === 3 && (
-          <StepReady
-            key="ready"
-            finish={finishOnboarding}
-          />
+        {screen === "ready" && (
+          <StepReady key="ready" finish={finishOnboarding} />
         )}
       </AnimatePresence>
     </main>

@@ -17,6 +17,12 @@ import EnglishIntermediate from "./pages/EnglishIntermediate";
 import EnglishAdvanced from "./pages/EnglishAdvanced";
 
 import ComputerBeginner from "./pages/ComputerBeginner";
+import ComputerUnit from "./pages/ComputerUnit";
+import ComputerLesson from "./pages/ComputerLesson";
+import ComputerActivity from "./pages/ComputerActivity";
+import ComputerGame from "./pages/ComputerGame";
+import ComputerQuiz from "./pages/ComputerQuiz";
+import ComputerReward from "./pages/ComputerReward";
 
 const pageTransition = {
   duration: 0.6,
@@ -121,6 +127,60 @@ function AnimatedRoutes() {
             element={
               <RoutePage>
                 <ComputerBeginner />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId"
+            element={
+              <RoutePage>
+                <ComputerUnit />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId/lesson"
+            element={
+              <RoutePage>
+                <ComputerLesson />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId/activity"
+            element={
+              <RoutePage>
+                <ComputerActivity />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId/game"
+            element={
+              <RoutePage>
+                <ComputerGame />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId/quiz"
+            element={
+              <RoutePage>
+                <ComputerQuiz />
+              </RoutePage>
+            }
+          />
+
+          <Route
+            path="/computer/beginner/unit/:unitId/reward"
+            element={
+              <RoutePage>
+                <ComputerReward />
               </RoutePage>
             }
           />

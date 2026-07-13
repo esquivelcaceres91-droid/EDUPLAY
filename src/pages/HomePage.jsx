@@ -73,12 +73,20 @@ export default function HomePage() {
         }}
       >
         <div className="stat-box">
-          🔥
-          <div>
-            <span>Racha</span>
-            <b>{profile.streak || 0} días</b>
-          </div>
-        </div>
+  🪙
+  <div>
+    <span>Monedas</span>
+    <b>{profile.coins || 0}</b>
+  </div>
+</div>
+
+<div className="stat-box">
+  ⭐
+  <div>
+    <span>XP</span>
+    <b>{profile.points || 0}</b>
+  </div>
+</div>
 
         <div className="stat-box">
           💎

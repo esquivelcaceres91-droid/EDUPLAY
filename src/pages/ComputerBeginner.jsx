@@ -92,10 +92,10 @@ export default function ComputerBeginner() {
   const navigate = useNavigate();
 
   const openUnit = (unit) => {
-    if (!unit.unlocked) return;
+  if (!unit.unlocked) return;
 
-    navigate(`/computer/beginner/unit/${unit.id}`);
-  };
+  navigate(`/computer/beginner/unit/${unit.id}/lesson`);
+};
 
   return (
     <main className="computer-map-screen">

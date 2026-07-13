@@ -226,6 +226,7 @@ body{
   bottom:10px;
   width:860px;
   z-index:30;
+  pointer-eventes:none;
   filter:drop-shadow(0 22px 28px rgba(0,0,0,.28));
 }
 
@@ -810,4 +811,347 @@ body{
   .ready-button{
     max-width:100%;
   }
+}
+/* ===== SELECCIÓN DE GRADO Y NIVEL ===== */
+
+.progress-track.four-steps::before{
+  left:35px;
+  right:35px;
+}
+
+.progress-track.four-steps .progress-fill{
+  left:35px;
+  top:29px;
+  max-width:calc(100% - 70px);
+}
+
+.progress-track.four-steps .progress-dot-1{ left:0; }
+.progress-track.four-steps .progress-dot-2{
+  left:33.333%;
+  transform:translateX(-50%);
+}
+.progress-track.four-steps .progress-dot-3{
+  left:66.666%;
+  transform:translateX(-50%);
+}
+.progress-track.four-steps .progress-dot-4{ right:0; }
+
+.progress-text.four-labels{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  text-align:center;
+}
+
+.grade-card-pro,
+.level-choice-card{
+  position:absolute;
+  left:31%;
+  top:300px;
+  transform:translateX(-50%);
+  width:760px;
+  z-index:20;
+  padding:28px 36px 26px;
+  border:4px solid #32a8ff;
+  border-radius:34px;
+  background:#fffdf8;
+  box-shadow:0 22px 40px rgba(0,0,0,.25);
+  text-align:center;
+}
+
+.grade-title-row,
+.level-choice-heading{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  color:#1da7f5;
+}
+
+.grade-title-row h1,
+.level-choice-heading h1{
+  margin:0;
+  color:#123d8b;
+  font-size:38px;
+  font-weight:900;
+}
+
+.grade-title-row p,
+.level-choice-heading p{
+  margin-top:6px;
+  color:#59606d;
+  font-size:17px;
+  font-weight:800;
+}
+
+.grade-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin:24px 0 22px;
+}
+
+.grade-option{
+  min-height:105px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border:3px solid #bde7ff;
+  border-radius:22px;
+  background:linear-gradient(180deg,#ffffff,#eef9ff);
+  color:#123d8b;
+  cursor:pointer;
+  box-shadow:0 6px 0 #b9dcf2;
+}
+
+.grade-option strong{
+  font-size:34px;
+  font-weight:900;
+}
+
+.grade-option span{
+  font-size:15px;
+  font-weight:900;
+  color:#65728a;
+}
+
+.grade-option.selected{
+  border-color:#19a6f5;
+  background:linear-gradient(180deg,#e7f8ff,#c9efff);
+  box-shadow:0 7px 0 #087ab8,0 0 22px rgba(29,167,245,.35);
+}
+
+.grade-continue-btn{
+  width:340px;
+  height:60px;
+  margin:auto;
+  border:none;
+  border-radius:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  background:linear-gradient(#74eb39,#27b900);
+  color:#fff;
+  font-size:24px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 7px 0 #178300;
+}
+
+.grade-continue-btn:disabled,
+.edu-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  filter:grayscale(.35);
+}
+
+.grade-card-pro small,
+.level-choice-card small{
+  display:block;
+  margin-top:18px;
+  color:#59606d;
+  font-size:15px;
+  font-weight:900;
+}
+
+.level-choice-card{
+  top:300px;
+  width:850px;
+}
+
+.level-choice-heading p{
+  max-width:580px;
+}
+
+.level-choice-options{
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:18px;
+  margin-top:20px;
+}
+
+.level-choice-option{
+  position:relative;
+  min-height:280px;
+  padding:32px 24px 22px;
+  border:3px solid #b9dff7;
+  border-radius:26px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#fff,#eef8ff);
+  color:#123d8b;
+  cursor:pointer;
+  box-shadow:0 8px 0 #b5d7ec,0 13px 22px rgba(0,0,0,.12);
+}
+
+.level-choice-option.recommended{
+  border-color:#69d832;
+  background:linear-gradient(180deg,#f8fff1,#e3ffd4);
+  box-shadow:0 8px 0 #2e9f0b,0 0 26px rgba(82,205,36,.3);
+}
+
+.level-choice-option.direct{
+  border-color:#39adf5;
+}
+
+.level-choice-option h2{
+  margin:12px 0 8px;
+  font-size:26px;
+  color:#123d8b;
+  font-weight:900;
+}
+
+.level-choice-option p{
+  min-height:68px;
+  color:#59606d;
+  font-size:15px;
+  line-height:1.35;
+  font-weight:800;
+}
+
+.recommended-ribbon{
+  position:absolute;
+  top:-15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:max-content;
+  padding:7px 16px;
+  border-radius:20px;
+  background:linear-gradient(180deg,#ffd93d,#ffa815);
+  color:#784700;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 5px 0 #d47a00;
+}
+
+.choice-action{
+  margin-top:15px;
+  min-width:220px;
+  height:46px;
+  padding:0 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border-radius:28px;
+  background:#123d8b;
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+}
+
+.level-choice-option.recommended .choice-action{
+  background:linear-gradient(180deg,#74eb39,#27b900);
+  box-shadow:0 5px 0 #178300;
+}
+
+@media (max-width:1500px){
+  .grade-card-pro{
+    top:285px;
+    width:700px;
+  }
+
+  .level-choice-card{
+    top:270px;
+    width:780px;
+  }
+
+  .level-choice-option{
+    min-height:255px;
+  }
+}
+
+@media (max-width:900px){
+  .edu-progress{
+    width:88vw;
+  }
+
+  .grade-card-pro,
+  .level-choice-card{
+    left:50%;
+    width:88vw;
+    max-height:65vh;
+    overflow:auto;
+  }
+
+  .grade-options{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .level-choice-options{
+    grid-template-columns:1fr;
+  }
+}
+.progress-track.four-steps .progress-dot-4{
+  left:auto;
+  right:0;
+}
+/* CORRECCIÓN DE CLICS EN AVATARES 1 Y 6 */
+
+.avatar-card-pro{
+  z-index:100 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-grid-pro{
+  position:relative;
+  z-index:110 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-box{
+  position:relative;
+  z-index:120 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-box img{
+  pointer-events:none !important;
+}
+
+.avatar-check{
+  pointer-events:none !important;
+}
+
+.edu-mascot,
+.avatar-mascot,
+.ready-mascot{
+  z-index:10 !important;
+  pointer-events:none !important;
+}
+/* CORRECCIÓN DE CLICS EN AVATARES 1 Y 6 */
+
+.avatar-card-pro{
+  z-index:100 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-grid-pro{
+  position:relative;
+  z-index:110 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-box{
+  position:relative;
+  z-index:120 !important;
+  pointer-events:auto !important;
+}
+
+.avatar-box img{
+  pointer-events:none !important;
+}
+
+.avatar-check{
+  pointer-events:none !important;
+}
+
+.edu-mascot,
+.avatar-mascot,
+.ready-mascot{
+  z-index:10 !important;
+  pointer-events:none !important;
 }
