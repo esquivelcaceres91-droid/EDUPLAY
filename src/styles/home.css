@@ -6,6 +6,13 @@
   box-sizing:border-box;
 }
 
+html,
+body,
+#root{
+  width:100%;
+  min-height:100%;
+}
+
 body{
   font-family:"Nunito", Arial, sans-serif;
   overflow:hidden;
@@ -15,12 +22,17 @@ button{
   font-family:"Nunito", Arial, sans-serif;
 }
 
+/* PANTALLA PRINCIPAL */
+
 .home-screen{
   width:100vw;
   height:100vh;
   position:relative;
   overflow:hidden;
-  background:url("/assets/onboarding-scene.png") center/cover no-repeat;
+
+  background:
+    url("/assets/onboarding-scene.png")
+    center/cover no-repeat;
 }
 
 /* LOGO */
@@ -29,18 +41,23 @@ button{
   position:absolute;
   top:20px;
   left:30px;
+
   width:290px;
   height:auto;
+
   z-index:50;
-  filter:drop-shadow(0 8px 12px rgba(0,0,0,.25));
+
+  filter:
+    drop-shadow(0 8px 12px rgba(0,0,0,.25));
 }
 
-/* REGRESAR */
+/* BOTÓN REGRESAR */
 
 .home-back{
   position:absolute;
   top:200px;
   left:35px;
+
   z-index:60;
 
   display:flex;
@@ -71,14 +88,17 @@ button{
   position:absolute;
   left:-240px;
   bottom:-25px;
+
   width:1120px;
   height:auto;
+
   z-index:5;
 
   user-select:none;
   pointer-events:none;
 
-  filter:drop-shadow(0 22px 28px rgba(0,0,0,.28));
+  filter:
+    drop-shadow(0 22px 28px rgba(0,0,0,.28));
 }
 
 /* ESTADÍSTICAS */
@@ -87,6 +107,7 @@ button{
   position:absolute;
   top:25px;
   right:35px;
+
   z-index:60;
 
   display:flex;
@@ -142,7 +163,8 @@ button{
 
   background:#eaf7ff;
 
-  box-shadow:0 5px 12px rgba(0,0,0,.18);
+  box-shadow:
+    0 5px 12px rgba(0,0,0,.18);
 }
 
 /* TÍTULO */
@@ -151,6 +173,7 @@ button{
   position:absolute;
   top:58px;
   left:30%;
+
   z-index:30;
 
   transform:translateX(-50%);
@@ -168,7 +191,8 @@ button{
 
   font-weight:900;
 
-  text-shadow:0 3px 0 rgba(255,255,255,.45);
+  text-shadow:
+    0 3px 0 rgba(255,255,255,.45);
 }
 
 .home-title p{
@@ -179,7 +203,8 @@ button{
   font-size:25px;
   font-weight:800;
 
-  text-shadow:0 2px 0 rgba(255,255,255,.45);
+  text-shadow:
+    0 2px 0 rgba(255,255,255,.45);
 }
 
 /* TARJETAS DE MUNDOS */
@@ -188,6 +213,7 @@ button{
   position:absolute;
   top:230px;
   left:50%;
+
   z-index:30;
 
   transform:translateX(-50%);
@@ -195,6 +221,7 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
+
   gap:28px;
 }
 
@@ -249,15 +276,18 @@ button{
 }
 
 .world-card:hover img{
-  filter:saturate(1.08) brightness(1.04);
+  filter:
+    saturate(1.08)
+    brightness(1.04);
 }
 
-/* BRILLO QUE RECORRE LA TARJETA */
+/* BRILLO */
 
 .world-shine{
   position:absolute;
   top:-35%;
   left:-55%;
+
   z-index:4;
 
   width:34%;
@@ -265,14 +295,15 @@ button{
 
   transform:rotate(20deg);
 
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.12),
-    rgba(255,255,255,.68),
-    rgba(255,255,255,.12),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.12),
+      rgba(255,255,255,.68),
+      rgba(255,255,255,.12),
+      transparent
+    );
 
   opacity:0;
 
@@ -285,11 +316,11 @@ button{
 }
 
 @keyframes worldShine{
-  0%{
+  from{
     left:-55%;
   }
 
-  100%{
+  to{
     left:125%;
   }
 }
@@ -304,7 +335,9 @@ button{
     0 0 0 7px rgba(255,255,255,.72),
     0 0 38px rgba(255,216,45,.85);
 
-  filter:brightness(1.05) saturate(1.08);
+  filter:
+    brightness(1.05)
+    saturate(1.08);
 }
 
 .world-card.world-selected::after{
@@ -313,6 +346,7 @@ button{
   position:absolute;
   top:16px;
   right:16px;
+
   z-index:7;
 
   width:54px;
@@ -324,7 +358,13 @@ button{
   border:4px solid #fff;
   border-radius:50%;
 
-  background:linear-gradient(180deg,#79e93c,#27b900);
+  background:
+    linear-gradient(
+      180deg,
+      #79e93c,
+      #27b900
+    );
+
   color:#fff;
 
   font-size:30px;
@@ -353,12 +393,13 @@ button{
   }
 }
 
-/* CONTINUAR */
+/* CONTINÚA DONDE LO DEJASTE */
 
 .continue-card{
   position:absolute;
   top:570px;
   left:24%;
+
   z-index:30;
 
   transform:translateX(-50%);
@@ -390,7 +431,14 @@ button{
 
 .continue-row{
   display:grid;
-  grid-template-columns:60px 220px 1fr 70px 170px;
+
+  grid-template-columns:
+    60px
+    220px
+    1fr
+    70px
+    170px;
+
   align-items:center;
   gap:16px;
 }
@@ -405,7 +453,8 @@ button{
 
   background:#eaf7ff;
 
-  box-shadow:0 5px 12px rgba(0,0,0,.15);
+  box-shadow:
+    0 5px 12px rgba(0,0,0,.15);
 }
 
 .continue-row b{
@@ -437,7 +486,8 @@ button{
 
   background:#d9dde2;
 
-  box-shadow:inset 0 2px 4px rgba(0,0,0,.16);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,.16);
 }
 
 .progress div{
@@ -446,9 +496,15 @@ button{
 
   border-radius:20px;
 
-  background:linear-gradient(90deg,#55d63d,#8ced4e);
+  background:
+    linear-gradient(
+      90deg,
+      #55d63d,
+      #8ced4e
+    );
 
-  box-shadow:0 0 12px rgba(76,210,57,.45);
+  box-shadow:
+    0 0 12px rgba(76,210,57,.45);
 }
 
 .continue-row strong{
@@ -464,7 +520,13 @@ button{
   border:none;
   border-radius:24px;
 
-  background:linear-gradient(180deg,#74eb39,#27b900);
+  background:
+    linear-gradient(
+      180deg,
+      #74eb39,
+      #27b900
+    );
+
   color:#fff;
 
   font-size:17px;
@@ -483,6 +545,7 @@ button{
   position:absolute;
   bottom:18px;
   left:24%;
+
   z-index:40;
 
   transform:translateX(-50%);
@@ -514,6 +577,7 @@ button{
   display:flex;
   flex-direction:column;
   align-items:center;
+
   gap:4px;
 
   padding:8px 12px;
@@ -564,9 +628,10 @@ button{
   background:#1674ff;
 }
 
-/* AJUSTE PARA PANTALLAS MÁS PEQUEÑAS */
+/* PANTALLAS DE PC MÁS PEQUEÑAS */
 
 @media (max-width:1500px){
+
   .home-mascot{
     left:-270px;
     width:1040px;
@@ -590,32 +655,36 @@ button{
     width:1040px;
   }
 }
+
 /* =====================================================
-   RESPONSIVE HOME PARA CELULAR
-   No afecta la versión de computadora
+   CELULAR Y TABLET
 ===================================================== */
 
-@media (max-width: 768px){
+@media screen and (max-width:768px){
 
   html,
   body,
   #root{
-    width:100%;
-    min-height:100%;
-    overflow-x:hidden;
-  }
-
-  body{
-    overflow-y:auto;
+    width:100% !important;
+    height:100% !important;
+    overflow:hidden !important;
   }
 
   .home-screen{
-    width:100%;
-    min-height:100vh;
-    height:auto;
-    overflow-x:hidden;
-    overflow-y:auto;
-    padding-bottom:115px;
+    width:100% !important;
+    height:100dvh !important;
+
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y;
+
+    padding:
+      18px
+      12px
+      115px;
+
     background-position:center;
   }
 
@@ -623,45 +692,65 @@ button{
 
   .home-main-logo{
     position:relative;
+
     top:auto;
     left:auto;
+
     display:block;
+
     width:185px;
-    margin:18px auto 0;
+
+    margin:0 auto;
   }
 
   /* REGRESAR */
 
   .home-back{
+    position:absolute;
+
     top:18px;
     left:18px;
+
     padding:10px 15px;
+
     font-size:0;
+
+    z-index:100;
   }
 
   .home-back svg{
-    width:24px;
-    height:24px;
+    width:25px;
+    height:25px;
   }
 
   /* ESTADÍSTICAS */
 
   .home-stats{
-    position:relative;
-    top:auto;
-    right:auto;
-    width:calc(100% - 24px);
-    margin:18px auto 0;
+    position:relative !important;
+
+    top:auto !important;
+    right:auto !important;
+
+    width:100%;
+
+    margin:28px auto 0;
+
     padding:12px 10px;
-    gap:8px;
+
     justify-content:space-between;
-    border-radius:22px;
+    gap:7px;
+
+    border-radius:24px;
+
+    transform:none !important;
   }
 
   .stat-box{
-    gap:4px;
-    font-size:22px;
     min-width:0;
+
+    gap:4px;
+
+    font-size:22px;
   }
 
   .stat-box span{
@@ -675,58 +764,79 @@ button{
   .student-avatar{
     width:48px;
     height:48px;
+
     flex-shrink:0;
   }
 
   /* TÍTULO */
 
   .home-title{
-    position:relative;
-    top:auto;
-    left:auto;
-    width:calc(100% - 24px);
+    position:relative !important;
+
+    top:auto !important;
+    left:auto !important;
+
+    width:100%;
+
+    margin:28px auto 0;
+
     transform:none !important;
-    margin:18px auto 0;
   }
 
   .home-title h1{
-    font-size:34px;
+    font-size:36px;
   }
 
   .home-title p{
-    margin-top:6px;
-    font-size:18px;
+    margin-top:7px;
+    font-size:19px;
   }
 
-  /* MASCOTA DE FONDO */
+  /* MASCOTA */
 
   .home-mascot{
+    position:fixed;
+
     left:50%;
-    bottom:70px;
+    bottom:60px;
+
     width:520px;
-    transform:translateX(-50%);
-    opacity:.48;
+
+    opacity:.20;
+
+    transform:translateX(-50%) !important;
+
     z-index:1;
   }
 
-  /* MUNDOS */
+  /* TARJETAS */
 
   .home-worlds{
-    position:relative;
-    top:auto;
-    left:auto;
-    transform:none !important;
-    width:calc(100% - 24px);
-    margin:20px auto 0;
+    position:relative !important;
+
+    top:auto !important;
+    left:auto !important;
+
+    width:100%;
+
+    margin:26px auto 0;
+
     display:flex;
     flex-direction:column;
-    gap:16px;
+
+    gap:20px;
+
+    transform:none !important;
+
+    z-index:20;
   }
 
   .world-card{
     width:100%;
+
     height:auto;
     aspect-ratio:16 / 9;
+
     border-width:3px;
     border-radius:24px;
   }
@@ -734,40 +844,57 @@ button{
   .world-card.world-selected::after{
     top:10px;
     right:10px;
+
     width:44px;
     height:44px;
+
     font-size:24px;
   }
 
   /* CONTINUAR */
 
   .continue-card{
-    position:relative;
-    top:auto;
-    left:auto;
-    transform:none !important;
-    width:calc(100% - 24px);
-    margin:20px auto 0;
+    position:relative !important;
+
+    top:auto !important;
+    left:auto !important;
+
+    width:100%;
+
+    margin:22px auto 0;
     padding:18px 16px;
+
     border-radius:24px;
+
+    transform:none !important;
+
+    z-index:20;
   }
 
   .continue-card h3{
-    font-size:18px;
+    margin-bottom:14px;
+
     text-align:center;
+
+    font-size:18px;
   }
 
   .continue-row{
     display:grid;
-    grid-template-columns:54px 1fr auto;
+
+    grid-template-columns:
+      52px
+      1fr
+      auto;
+
     gap:10px;
-    align-items:center;
   }
 
   .continue-row > img{
     width:50px;
     height:50px;
-    grid-row:1 / span 2;
+
+    grid-row:1;
   }
 
   .continue-row > div:nth-of-type(1){
@@ -784,8 +911,10 @@ button{
 
   .continue-row .progress{
     grid-column:1 / -1;
+
     width:100%;
     height:14px;
+
     margin-top:6px;
   }
 
@@ -795,33 +924,48 @@ button{
 
   .continue-row > button{
     grid-column:1 / -1;
+
     width:100%;
     height:48px;
-    margin-top:6px;
+
+    margin-top:7px;
+
     font-size:16px;
   }
 
   /* MENÚ INFERIOR */
 
   .bottom-nav{
-    position:fixed;
-    left:10px;
-    right:10px;
-    bottom:10px;
-    width:auto;
-    height:72px;
-    transform:none !important;
-    border-radius:22px;
-    overflow-x:auto;
-    justify-content:flex-start;
-    gap:4px;
+    position:fixed !important;
+
+    left:10px !important;
+    right:10px !important;
+    bottom:10px !important;
+
+    width:auto !important;
+    height:76px !important;
+
     padding:6px;
+
+    display:flex;
+    justify-content:flex-start;
+
+    gap:4px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    transform:none !important;
+
+    z-index:999;
   }
 
   .bottom-nav button{
-    min-width:76px;
-    flex:0 0 76px;
+    min-width:78px;
+    flex:0 0 78px;
+
     padding:6px 5px;
+
     font-size:11px;
   }
 
@@ -829,19 +973,32 @@ button{
     width:23px;
     height:23px;
   }
-}
 
+  .bottom-nav::-webkit-scrollbar{
+    height:5px;
+  }
+
+  .bottom-nav::-webkit-scrollbar-thumb{
+    border-radius:10px;
+    background:#b7d9f5;
+  }
+}
 
 /* CELULARES PEQUEÑOS */
 
-@media (max-width: 390px){
+@media screen and (max-width:390px){
+
+  .home-screen{
+    padding-left:10px;
+    padding-right:10px;
+  }
 
   .home-main-logo{
     width:165px;
   }
 
   .home-stats{
-    padding:10px 8px;
+    padding:10px 7px;
   }
 
   .stat-box{
@@ -862,7 +1019,7 @@ button{
   }
 
   .home-title h1{
-    font-size:30px;
+    font-size:31px;
   }
 
   .home-title p{
@@ -870,7 +1027,7 @@ button{
   }
 
   .bottom-nav button{
-    min-width:70px;
-    flex-basis:70px;
+    min-width:72px;
+    flex-basis:72px;
   }
 }
