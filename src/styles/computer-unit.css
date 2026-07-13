@@ -2052,3 +2052,101 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =====================================================
+   CORRECCIÓN DE SCROLL EN CELULAR - EDUPLAY
+   Mantiene intacto el diseño de escritorio
+===================================================== */
+
+@media (max-width: 960px) {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .app-routes-shell,
+  .app-route-page {
+    min-height: 100%;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .computer-unit-screen {
+    width: 100%;
+    min-height: 100dvh;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    background-attachment: scroll;
+  }
+
+  .computer-unit-topbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .computer-lesson-shell,
+  .computer-game-shell,
+  .computer-reward-shell {
+    width: 100%;
+    min-height: calc(100dvh - 76px);
+    height: auto !important;
+    overflow: visible !important;
+    align-items: flex-start;
+    padding-bottom: 42px;
+  }
+
+  .computer-lesson-card,
+  .computer-activity-card,
+  .computer-game-card,
+  .computer-game-result,
+  .computer-reward-card {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .computer-lesson-visual,
+  .computer-lesson-content {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .computer-unit-screen {
+    min-height: 100dvh;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .computer-unit-topbar {
+    min-height: 66px;
+  }
+
+  .computer-lesson-shell,
+  .computer-game-shell,
+  .computer-reward-shell {
+    min-height: calc(100dvh - 66px);
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+  }
+
+  .computer-lesson-card,
+  .computer-activity-card,
+  .computer-game-card,
+  .computer-game-result,
+  .computer-reward-card {
+    margin-bottom: 18px;
+  }
+}
