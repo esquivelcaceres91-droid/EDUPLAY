@@ -920,3 +920,97 @@ flex-basis:72px;
 }
 
 }
+/* =========================================================
+   HOME — ESTADÍSTICAS RESPONSIVE PARA CELULAR
+========================================================= */
+
+@media (max-width: 768px) {
+  .home-stats {
+    position: relative !important;
+    width: calc(100% - 28px) !important;
+    max-width: 520px !important;
+    height: auto !important;
+
+    margin: 18px auto 24px !important;
+    padding: 14px !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+
+    border-radius: 28px !important;
+    overflow: visible !important;
+  }
+
+  .home-stats .stat-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 72px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 9px !important;
+
+    padding: 10px 12px !important;
+    margin: 0 !important;
+
+    border-radius: 18px !important;
+    font-size: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .home-stats .stat-box > div {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .home-stats .stat-box span {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  .home-stats .stat-box b {
+    font-size: 21px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+  }
+
+  .home-stats .student-avatar {
+    grid-column: 1 / -1 !important;
+
+    position: static !important;
+    width: 58px !important;
+    height: 58px !important;
+
+    margin: 2px auto 0 !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .home-stats {
+    width: calc(100% - 20px) !important;
+    padding: 11px !important;
+    gap: 8px !important;
+  }
+
+  .home-stats .stat-box {
+    height: 66px !important;
+    padding: 8px 9px !important;
+    gap: 7px !important;
+    font-size: 21px !important;
+  }
+
+  .home-stats .stat-box span {
+    font-size: 12px !important;
+  }
+
+  .home-stats .stat-box b {
+    font-size: 18px !important;
+  }
+}
