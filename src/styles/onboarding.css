@@ -769,3 +769,45 @@ body{
     width:280px;
   }
 }
+/* CORRECCIÓN FINAL PARA CENTRAR TARJETAS EN CELULAR */
+@media (max-width: 768px){
+
+  .edu-card,
+  .avatar-card-pro,
+  .ready-card{
+    left:14px !important;
+    right:14px !important;
+    width:auto !important;
+    max-width:none !important;
+    transform:none !important;
+  }
+
+  .edu-card{
+    top:205px !important;
+  }
+
+  .avatar-card-pro{
+    top:205px !important;
+  }
+
+  .ready-card{
+    top:215px !important;
+  }
+
+  .avatar-grid-pro{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    width:100%;
+  }
+
+  .avatar-box{
+    width:100%;
+    min-width:0;
+  }
+
+  .edu-input,
+  .edu-button,
+  .avatar-ready-btn,
+  .ready-button{
+    max-width:100%;
+  }
+}
