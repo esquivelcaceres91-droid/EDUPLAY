@@ -12,13 +12,48 @@ import {
   Lock,
 } from "lucide-react";
 
+import {
+  getLevelProgress,
+  getStreak,
+} from "../utils/progressManager";
+
+const TOTAL_BEGINNER_UNITS = 9;
+
 export default function ComputerLevels() {
   const navigate = useNavigate();
+
+  const beginnerProgress = getLevelProgress(
+    "computer",
+    "beginner"
+  );
+
+  const streak = getStreak();
+
+  const completedBeginnerUnits =
+    beginnerProgress.completedUnits.length;
+
+  const beginnerPercentage = Math.min(
+    100,
+    Math.round(
+      (completedBeginnerUnits /
+        TOTAL_BEGINNER_UNITS) *
+        100
+    )
+  );
 
   const intermediateUnlocked =
     localStorage.getItem(
       "eduplay-computer-intermediate-unlocked"
-    ) === "true";
+    ) === "true" ||
+    completedBeginnerUnits >= TOTAL_BEGINNER_UNITS;
+
+  const totalXp = beginnerProgress.xp;
+  const totalStars = beginnerProgress.stars;
+
+  const playerLevel = Math.max(
+    1,
+    Math.floor(totalXp / 500) + 1
+  );
 
   const levels = [
     {
@@ -26,7 +61,7 @@ export default function ComputerLevels() {
       title: "Principiante",
       subtitle: "Conceptos básicos de computación",
       image: "/assets/computer/levels/beginner.png",
-      progress: intermediateUnlocked ? 100 : 20,
+      progress: beginnerPercentage,
       unlocked: true,
       className: "computer-beginner",
     },
@@ -42,7 +77,8 @@ export default function ComputerLevels() {
     {
       id: "advanced",
       title: "Avanzado",
-      subtitle: "Robótica, inteligencia artificial y redes",
+      subtitle:
+        "Robótica, inteligencia artificial y redes",
       image: "/assets/computer/levels/advanced.png",
       progress: 0,
       unlocked: false,
@@ -82,15 +118,23 @@ export default function ComputerLevels() {
         transition={{ duration: 0.5 }}
       >
         <div>
-          <Flame size={34} className="computer-fire" />
+          <Flame
+            size={34}
+            className="computer-fire"
+          />
           <span>Racha</span>
-          <strong>7 días</strong>
+          <strong>
+            {streak} {streak === 1 ? "día" : "días"}
+          </strong>
         </div>
 
         <div>
-          <Gem size={32} className="computer-gem" />
+          <Gem
+            size={32}
+            className="computer-gem"
+          />
           <span>Nivel</span>
-          <strong>5</strong>
+          <strong>{playerLevel}</strong>
         </div>
 
         <div>
@@ -99,15 +143,18 @@ export default function ComputerLevels() {
             className="computer-star"
             fill="currentColor"
           />
-          <span>Puntos</span>
-          <strong>1,250</strong>
+          <span>XP</span>
+          <strong>
+            {totalXp.toLocaleString("es-GT")}
+          </strong>
         </div>
 
         <img
           src="/assets/avatar-1.png"
           alt="Avatar"
           onError={(event) => {
-            event.currentTarget.src = "/assets/mascot.png";
+            event.currentTarget.src =
+              "/assets/mascot.png";
           }}
         />
       </motion.section>
@@ -132,7 +179,9 @@ export default function ComputerLevels() {
         <div className="computer-progress-line">
           <div
             style={{
-              width: intermediateUnlocked ? "50%" : "0%",
+              width: intermediateUnlocked
+                ? "50%"
+                : "0%",
             }}
           />
         </div>
@@ -256,7 +305,8 @@ export default function ComputerLevels() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "rgba(2, 8, 28, 0.48)",
+                  background:
+                    "rgba(2, 8, 28, 0.48)",
                   backdropFilter: "grayscale(0.7)",
                   pointerEvents: "none",
                 }}
@@ -270,7 +320,8 @@ export default function ComputerLevels() {
                     border:
                       "3px solid rgba(255,255,255,.85)",
                     borderRadius: "50%",
-                    background: "rgba(5,17,50,.88)",
+                    background:
+                      "rgba(5,17,50,.88)",
                     color: "white",
                     boxShadow:
                       "0 0 24px rgba(72,220,255,.45)",
@@ -302,8 +353,8 @@ export default function ComputerLevels() {
         }}
       >
         {intermediateUnlocked
-          ? "🎉 ¡Intermedio desbloqueado! Ya puedes continuar."
-          : "💡 Completa Principiante para desbloquear Intermedio."}
+          ? `🎉 ¡Intermedio desbloqueado! Obtuviste ${totalStars} estrellas.`
+          : `💡 Has completado ${completedBeginnerUnits} de ${TOTAL_BEGINNER_UNITS} unidades.`}
       </motion.div>
     </main>
   );

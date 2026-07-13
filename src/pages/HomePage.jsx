@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/home.css";
+
 import { getProfile } from "../utils/profileStorage";
+import {
+  getLevelProgress,
+  getStreak,
+} from "../utils/progressManager";
 
 import {
   ArrowLeft,
@@ -22,6 +27,42 @@ export default function HomePage() {
   const [selectedWorld, setSelectedWorld] = useState("");
   const [isOpening, setIsOpening] = useState(false);
 
+  const computerProgress = getLevelProgress(
+    "computer",
+    "beginner"
+  );
+
+  const streak = getStreak();
+
+  const totalXp = Number(computerProgress.xp || 0);
+  const totalStars = Number(computerProgress.stars || 0);
+
+  const completedUnits = Array.isArray(
+    computerProgress.completedUnits
+  )
+    ? computerProgress.completedUnits.length
+    : 0;
+
+  const playerLevel = Math.max(
+    1,
+    Math.floor(totalXp / 500) + 1
+  );
+
+  const points = totalXp + totalStars * 25;
+
+  const coins = useMemo(() => {
+    const savedCoins = Number(profile.coins || 0);
+    const earnedCoins =
+      completedUnits * 20 + totalStars * 5;
+
+    return savedCoins + earnedCoins;
+  }, [profile.coins, completedUnits, totalStars]);
+
+  const beginnerProgress = Math.min(
+    100,
+    Math.round((completedUnits / 9) * 100)
+  );
+
   const openWorld = (world) => {
     if (isOpening) return;
 
@@ -29,7 +70,11 @@ export default function HomePage() {
     setIsOpening(true);
 
     window.setTimeout(() => {
-      navigate(world === "english" ? "/english" : "/computer");
+      navigate(
+        world === "english"
+          ? "/english"
+          : "/computer"
+      );
     }, 550);
   };
 
@@ -73,26 +118,26 @@ export default function HomePage() {
         }}
       >
         <div className="stat-box">
-  🪙
-  <div>
-    <span>Monedas</span>
-    <b>{profile.coins || 0}</b>
-  </div>
-</div>
+          🪙
+          <div>
+            <span>Monedas</span>
+            <b>{coins.toLocaleString("es-GT")}</b>
+          </div>
+        </div>
 
-<div className="stat-box">
-  ⭐
-  <div>
-    <span>XP</span>
-    <b>{profile.points || 0}</b>
-  </div>
-</div>
+        <div className="stat-box">
+          ✨
+          <div>
+            <span>XP</span>
+            <b>{totalXp.toLocaleString("es-GT")}</b>
+          </div>
+        </div>
 
         <div className="stat-box">
           💎
           <div>
             <span>Nivel</span>
-            <b>{profile.level || 1}</b>
+            <b>{playerLevel}</b>
           </div>
         </div>
 
@@ -100,16 +145,30 @@ export default function HomePage() {
           ⭐
           <div>
             <span>Puntos</span>
-            <b>{profile.points || 0}</b>
+            <b>{points.toLocaleString("es-GT")}</b>
+          </div>
+        </div>
+
+        <div className="stat-box">
+          🔥
+          <div>
+            <span>Racha</span>
+            <b>
+              {streak} {streak === 1 ? "día" : "días"}
+            </b>
           </div>
         </div>
 
         <img
           className="student-avatar"
-          src={profile.avatar || "/assets/avatar-1.png"}
+          src={
+            profile.avatar ||
+            "/assets/avatar-1.png"
+          }
           alt="Avatar"
           onError={(event) => {
-            event.currentTarget.src = "/assets/mascot.png";
+            event.currentTarget.src =
+              "/assets/mascot.png";
           }}
         />
       </motion.section>
@@ -123,7 +182,10 @@ export default function HomePage() {
           delay: 0.25,
         }}
       >
-        <h1>¡Hola, {profile.name || "Estudiante"}!</h1>
+        <h1>
+          ¡Hola, {profile.name || "Estudiante"}!
+        </h1>
+
         <p>¿Qué quieres aprender hoy?</p>
       </motion.section>
 
@@ -131,16 +193,24 @@ export default function HomePage() {
         <motion.button
           type="button"
           className={`world-card ${
-            selectedWorld === "english" ? "world-selected" : ""
+            selectedWorld === "english"
+              ? "world-selected"
+              : ""
           }`}
           onClick={() => openWorld("english")}
           initial={{ x: -100, opacity: 0 }}
           animate={{
             x: 0,
             opacity:
-              isOpening && selectedWorld !== "english" ? 0.55 : 1,
+              isOpening &&
+              selectedWorld !== "english"
+                ? 0.55
+                : 1,
             scale:
-              selectedWorld === "english" && isOpening ? 1.06 : 1,
+              selectedWorld === "english" &&
+              isOpening
+                ? 1.06
+                : 1,
           }}
           transition={{
             duration: 0.45,
@@ -170,16 +240,24 @@ export default function HomePage() {
         <motion.button
           type="button"
           className={`world-card ${
-            selectedWorld === "computer" ? "world-selected" : ""
+            selectedWorld === "computer"
+              ? "world-selected"
+              : ""
           }`}
           onClick={() => openWorld("computer")}
           initial={{ x: 100, opacity: 0 }}
           animate={{
             x: 0,
             opacity:
-              isOpening && selectedWorld !== "computer" ? 0.55 : 1,
+              isOpening &&
+              selectedWorld !== "computer"
+                ? 0.55
+                : 1,
             scale:
-              selectedWorld === "computer" && isOpening ? 1.06 : 1,
+              selectedWorld === "computer" &&
+              isOpening
+                ? 1.06
+                : 1,
           }}
           transition={{
             duration: 0.45,
@@ -220,27 +298,37 @@ export default function HomePage() {
 
         <div className="continue-row">
           <img
-            src={profile.avatar || "/assets/avatar-1.png"}
+            src={
+              profile.avatar ||
+              "/assets/avatar-1.png"
+            }
             alt="Avatar"
             onError={(event) => {
-              event.currentTarget.src = "/assets/mascot.png";
+              event.currentTarget.src =
+                "/assets/mascot.png";
             }}
           />
 
           <div>
-            <b>English World</b>
-            <span>Lección 3 • Colors</span>
+            <b>Mundo de la Computación</b>
+            <span>
+              Principiante • {completedUnits}/9 unidades
+            </span>
           </div>
 
           <div className="progress">
-            <div />
+            <div
+              style={{
+                width: `${beginnerProgress}%`,
+              }}
+            />
           </div>
 
-          <strong>75%</strong>
+          <strong>{beginnerProgress}%</strong>
 
           <motion.button
             type="button"
-            onClick={() => openWorld("english")}
+            onClick={() => openWorld("computer")}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.94 }}
           >

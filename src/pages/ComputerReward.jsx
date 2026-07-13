@@ -262,13 +262,19 @@ export default function ComputerReward() {
             <motion.button
               type="button"
               className="computer-reward-continue-button"
-              onClick={() => navigate("/computer")}
+              onClick={() =>
+                navigate(
+                  isFinalUnit
+                    ? "/computer"
+                    : "/computer/beginner"
+                )
+              }
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
             >
               {isFinalUnit
-                ? "Ver niveles de Computación"
-                : "Mundo de Computación"}
+                ? "Mundo de Computación"
+                : "Ver unidades"}
 
               <ArrowRight size={23} />
             </motion.button>
