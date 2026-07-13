@@ -424,14 +424,14 @@ button {
 
 .continue-card {
   position: absolute;
-  top: 775px;
-  left: 25%;
+  top: 620px;
+  left: 21%;
 
   z-index: 30;
 
-  width: 1210px;
+  width: 1110px;
 
-  padding: 5px 28px;
+  padding: 0.5px 18px;
 
   transform: translateX(-50%);
 
@@ -568,7 +568,7 @@ button {
 .bottom-nav{
   position:absolute;
   bottom:15px;
-  left:25%;
+  left:19%;
 
   z-index:40;
 
