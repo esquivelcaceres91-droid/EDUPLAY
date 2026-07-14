@@ -1,0 +1,938 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Nunito", Arial, sans-serif;
+}
+
+.robotics-screen {
+  width: 100%;
+  min-height: 100vh;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(0, 224, 255, 0.2), transparent 30%),
+    radial-gradient(circle at 82% 25%, rgba(84, 76, 255, 0.22), transparent 34%),
+    linear-gradient(145deg, #041027, #071e46 48%, #11133d);
+}
+
+.robotics-topbar {
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 230px 1fr 180px;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 24px;
+  border-bottom: 1px solid rgba(91, 226, 255, 0.25);
+  background: rgba(2, 12, 35, 0.93);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(15px);
+}
+
+.robotics-nav {
+  justify-self: start;
+  display: flex;
+  gap: 8px;
+}
+
+.robotics-nav-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(101, 226, 255, 0.46);
+  border-radius: 14px;
+  color: #e6fbff;
+  background: linear-gradient(180deg, rgba(27, 99, 166, 0.82), rgba(10, 45, 98, 0.94));
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.robotics-heading {
+  text-align: center;
+}
+
+.robotics-heading span {
+  display: block;
+  color: #70e8ff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.robotics-heading strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 25px;
+}
+
+.robotics-hearts {
+  justify-self: end;
+  display: flex;
+  gap: 4px;
+  color: #ff5577;
+}
+
+.robotics-shell {
+  width: min(1160px, calc(100% - 30px));
+  margin: 0 auto;
+  padding: 28px 0 60px;
+}
+
+.robotics-lesson-card,
+.robotics-main-card {
+  min-height: 680px;
+  padding: 28px;
+  border: 1px solid rgba(99, 226, 255, 0.28);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 22% 38%, rgba(0, 220, 255, 0.09), transparent 28%),
+    linear-gradient(145deg, rgba(14, 58, 113, 0.96), rgba(7, 25, 62, 0.98));
+  box-shadow:
+    0 25px 58px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.robotics-progress-row {
+  display: flex;
+  justify-content: space-between;
+  color: #a9bfd8;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.robotics-progress-row strong {
+  color: #79ebff;
+}
+
+.robotics-progress-track {
+  height: 9px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.robotics-progress-track div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #1cd9f5, #5f7dff);
+}
+
+.robotics-lesson-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: center;
+  gap: 30px;
+  margin-top: 32px;
+}
+
+.robotics-lesson-visual {
+  position: relative;
+  min-height: 455px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(101, 228, 255, 0.22);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle, rgba(0, 225, 255, 0.18), transparent 55%),
+    rgba(3, 24, 59, 0.68);
+}
+
+.robotics-icon-core {
+  position: relative;
+  z-index: 3;
+  width: 215px;
+  height: 215px;
+  display: grid;
+  place-items: center;
+  border: 3px solid rgba(119, 236, 255, 0.72);
+  border-radius: 50%;
+  color: #75ebff;
+  background: linear-gradient(145deg, rgba(22, 105, 168, 0.86), rgba(32, 47, 121, 0.9));
+  box-shadow:
+    0 0 40px rgba(0, 220, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.robotics-orbit {
+  position: absolute;
+  border: 1px solid rgba(99, 225, 255, 0.24);
+  border-radius: 50%;
+}
+
+.robotics-orbit-one {
+  width: 310px;
+  height: 310px;
+}
+
+.robotics-orbit-two {
+  width: 390px;
+  height: 390px;
+}
+
+.robotics-small-part {
+  position: absolute;
+  z-index: 4;
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(120, 229, 255, 0.42);
+  border-radius: 18px;
+  color: #7cecff;
+  background: rgba(8, 43, 91, 0.92);
+}
+
+.robotics-part-one {
+  top: 70px;
+  right: 65px;
+}
+
+.robotics-part-two {
+  bottom: 72px;
+  left: 62px;
+}
+
+.robotics-lesson-copy h1 {
+  margin: 10px 0 0;
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.04;
+}
+
+.robotics-lesson-copy > p {
+  margin: 16px 0 0;
+  color: #c1d2e6;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.robotics-badge {
+  display: inline-flex;
+  padding: 8px 13px;
+  border: 1px solid rgba(101, 226, 255, 0.34);
+  border-radius: 999px;
+  color: #78eaff;
+  background: rgba(21, 99, 157, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.robotics-info-box {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid rgba(99, 226, 255, 0.25);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(33, 111, 174, 0.46), rgba(72, 52, 145, 0.42));
+}
+
+.robotics-info-box strong,
+.robotics-info-box span {
+  display: block;
+}
+
+.robotics-info-box strong {
+  color: #75ebff;
+  font-size: 16px;
+}
+
+.robotics-info-box span {
+  margin-top: 7px;
+  color: #cbd9e9;
+  line-height: 1.5;
+}
+
+.robotics-actions {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 13px;
+  margin-top: 26px;
+}
+
+.robotics-primary,
+.robotics-secondary {
+  min-height: 55px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: none;
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.robotics-primary {
+  background: linear-gradient(90deg, #18cceb, #5e70f1);
+  box-shadow: 0 9px 20px rgba(52, 111, 227, 0.28);
+}
+
+.robotics-secondary {
+  border: 1px solid rgba(101, 226, 255, 0.34);
+  background: rgba(25, 94, 160, 0.55);
+}
+
+.robotics-primary:disabled,
+.robotics-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  box-shadow: none;
+}
+
+.robotics-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(102, 224, 255, 0.16);
+}
+
+.robotics-panel-header > div:first-child > span {
+  color: #72e9ff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.robotics-panel-header h1 {
+  margin: 6px 0 0;
+  font-size: clamp(32px, 4vw, 47px);
+}
+
+.robotics-panel-header p {
+  margin: 8px 0 0;
+  color: #b9cce2;
+}
+
+.robotics-counter {
+  min-width: 145px;
+  padding: 14px;
+  border: 1px solid rgba(112, 228, 255, 0.28);
+  border-radius: 18px;
+  background: rgba(5, 24, 60, 0.7);
+  text-align: center;
+}
+
+.robotics-counter strong {
+  display: block;
+  color: #7cecff;
+  font-size: 30px;
+}
+
+.robotics-counter span {
+  color: #a9bfd8;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.robot-builder-layout,
+.robot-maze-layout {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.robot-parts-panel,
+.robot-assembly-panel,
+.robot-command-panel,
+.robot-maze-panel {
+  padding: 20px;
+  border: 1px solid rgba(103, 225, 255, 0.2);
+  border-radius: 22px;
+  background: rgba(4, 24, 61, 0.58);
+}
+
+.robot-parts-panel h2,
+.robot-command-panel h2 {
+  margin: 0 0 15px;
+}
+
+.robot-parts-list {
+  display: grid;
+  gap: 13px;
+}
+
+.robot-part-button {
+  min-height: 86px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px solid rgba(103, 226, 255, 0.27);
+  border-radius: 18px;
+  color: #ffffff;
+  background: linear-gradient(145deg, rgba(27, 105, 171, 0.78), rgba(18, 51, 111, 0.9));
+  text-align: left;
+  cursor: pointer;
+}
+
+.robot-part-button > span {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  color: #79ebff;
+  background: rgba(5, 32, 75, 0.72);
+}
+
+.robot-part-button strong,
+.robot-part-button small {
+  display: block;
+}
+
+.robot-part-button small {
+  margin-top: 3px;
+  color: #b7cae0;
+}
+
+.robot-part-selected {
+  border-color: #78eaff;
+  background: linear-gradient(145deg, rgba(35, 137, 190, 0.92), rgba(67, 58, 161, 0.9));
+  box-shadow: 0 0 0 3px rgba(86, 222, 255, 0.13);
+}
+
+.robot-parts-empty {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed rgba(82, 224, 145, 0.45);
+  border-radius: 18px;
+  color: #98e9b9;
+  background: rgba(21, 108, 70, 0.14);
+  text-align: center;
+}
+
+.robot-assembly-stage {
+  position: relative;
+  min-height: 470px;
+  display: grid;
+  grid-template-rows: 1fr 1.25fr 1fr;
+  gap: 13px;
+  padding: 23px;
+  overflow: hidden;
+  border: 1px solid rgba(105, 227, 255, 0.25);
+  border-radius: 23px;
+  background:
+    linear-gradient(rgba(87, 211, 241, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(87, 211, 241, 0.07) 1px, transparent 1px),
+    rgba(4, 18, 48, 0.82);
+  background-size: 25px 25px;
+}
+
+.robot-stage-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.robot-slot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 2px dashed rgba(108, 229, 255, 0.34);
+  border-radius: 19px;
+  color: #a6bfd8;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.robot-slot small {
+  color: #829bb8;
+}
+
+.robot-slot-complete {
+  flex-direction: row;
+  border-style: solid;
+  border-color: #5ddd96;
+  color: #9eebbc;
+  background: rgba(20, 118, 74, 0.24);
+}
+
+.robot-slot-wrong {
+  border-color: #ff7183;
+  color: #ff9cac;
+  background: rgba(133, 38, 59, 0.28);
+}
+
+.robotics-feedback {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 22px;
+  padding: 17px 19px;
+  border-radius: 18px;
+}
+
+.robotics-feedback strong,
+.robotics-feedback span {
+  display: block;
+}
+
+.robotics-feedback span {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.robotics-feedback-correct {
+  color: #a8f0c5;
+  border: 1px solid rgba(73, 224, 139, 0.56);
+  background: rgba(22, 123, 77, 0.2);
+}
+
+.robotics-feedback-wrong {
+  color: #ffacb8;
+  border: 1px solid rgba(255, 100, 123, 0.56);
+  background: rgba(134, 39, 59, 0.23);
+}
+
+.robot-command-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.robot-command-button {
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(104, 227, 255, 0.29);
+  border-radius: 17px;
+  color: #ffffff;
+  background: linear-gradient(145deg, rgba(29, 113, 178, 0.8), rgba(30, 52, 123, 0.9));
+  cursor: pointer;
+}
+
+.robot-program-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.robot-program-step {
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 11px;
+  border: 1px dashed rgba(104, 225, 255, 0.24);
+  border-radius: 13px;
+  color: #829cb9;
+  background: rgba(6, 29, 68, 0.62);
+}
+
+.robot-program-step > span {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  color: #72e9ff;
+  background: rgba(40, 128, 190, 0.24);
+  font-weight: 900;
+}
+
+.robot-program-step-filled {
+  grid-template-columns: 35px 27px 1fr;
+  color: #ffffff;
+  border-style: solid;
+}
+
+.robot-remove-command {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.robot-maze-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.robot-maze-board {
+  width: min(480px, 100%);
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 2px solid rgba(102, 228, 255, 0.48);
+  border-radius: 24px;
+  background: rgba(2, 17, 45, 0.88);
+}
+
+.robot-maze-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-right: 1px solid rgba(111, 225, 255, 0.16);
+  border-bottom: 1px solid rgba(111, 225, 255, 0.16);
+  color: #7beaff;
+}
+
+.robot-cell-start {
+  background: rgba(39, 133, 190, 0.16);
+}
+
+.robot-cell-goal {
+  color: #ffd94f;
+  background: rgba(158, 111, 17, 0.2);
+}
+
+.robot-cell-obstacle {
+  color: #ff6e82;
+  background: rgba(139, 35, 56, 0.3);
+}
+
+.robot-maze-player {
+  position: absolute;
+  z-index: 4;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #7cecff;
+  border-radius: 22px;
+  color: #78eaff;
+  background: linear-gradient(145deg, #175f9c, #343886);
+  box-shadow: 0 0 25px rgba(50, 217, 255, 0.28);
+}
+
+.robot-maze-legend {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.robot-maze-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border-radius: 11px;
+  color: #b4c9df;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.robotics-question-box {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 25px;
+  border: 1px solid rgba(103, 226, 255, 0.24);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(31, 103, 166, 0.52), rgba(75, 50, 145, 0.42));
+  text-align: center;
+}
+
+.robotics-question-icon {
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  color: #75ebff;
+  background: rgba(5, 31, 74, 0.75);
+}
+
+.robotics-question-box h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(25px, 3vw, 37px);
+}
+
+.robotics-options-grid {
+  display: grid;
+  gap: 13px;
+  margin-top: 23px;
+}
+
+.robotics-option {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+  padding: 14px 18px;
+  border: 1px solid rgba(104, 226, 255, 0.24);
+  border-radius: 17px;
+  color: #ffffff;
+  background: rgba(7, 31, 72, 0.68);
+  text-align: left;
+  cursor: pointer;
+}
+
+.robotics-option-selected {
+  border-color: #78eaff;
+  background: linear-gradient(145deg, rgba(35, 117, 176, 0.75), rgba(72, 55, 150, 0.66));
+}
+
+.robotics-option-correct {
+  border-color: #5fe09a;
+  background: rgba(23, 118, 73, 0.3);
+}
+
+.robotics-option-wrong {
+  border-color: #ff7184;
+  background: rgba(133, 39, 59, 0.3);
+}
+
+.robotics-reward-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 25px 15px;
+}
+
+.robotics-reward-card {
+  width: min(760px, 94vw);
+  padding: 40px;
+  border: 1px solid rgba(101, 226, 255, 0.28);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 210, 70, 0.16), transparent 28%),
+    linear-gradient(145deg, rgba(14, 58, 113, 0.97), rgba(7, 25, 62, 0.99));
+  text-align: center;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+}
+
+.robotics-reward-trophy {
+  width: 145px;
+  height: 145px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border: 5px solid #ffffff;
+  border-radius: 50%;
+  color: #ffc23a;
+  background: linear-gradient(180deg, #fff5b1, #ffd84f);
+  box-shadow: 0 12px 0 #d99d13;
+}
+
+.robotics-reward-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(75, 224, 139, 0.5);
+  border-radius: 999px;
+  color: #a6f0c5;
+  background: rgba(24, 122, 78, 0.2);
+  font-weight: 900;
+}
+
+.robotics-reward-card h1 {
+  margin: 18px 0 8px;
+  font-size: clamp(37px, 5vw, 56px);
+}
+
+.robotics-reward-card > p {
+  color: #bfd1e6;
+  font-size: 18px;
+}
+
+.robotics-reward-stars {
+  display: flex;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 23px;
+}
+
+.robotics-star-active {
+  color: #ffc238;
+}
+
+.robotics-star-empty {
+  color: rgba(255, 255, 255, 0.17);
+}
+
+.robotics-reward-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  margin-top: 28px;
+}
+
+.robotics-reward-summary > div {
+  min-height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid rgba(103, 225, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(7, 30, 70, 0.65);
+}
+
+.robotics-reward-summary span,
+.robotics-reward-summary strong {
+  display: block;
+}
+
+.robotics-reward-summary span {
+  color: #a8bdd6;
+  font-size: 11px;
+  text-align: left;
+}
+
+.robotics-reward-summary strong {
+  margin-top: 3px;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.robotics-unlocked-box {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 23px;
+  padding: 17px 19px;
+  border: 1px solid rgba(255, 210, 75, 0.42);
+  border-radius: 18px;
+  color: #ffe5a0;
+  background: rgba(111, 73, 17, 0.2);
+  text-align: left;
+}
+
+.robotics-unlocked-box strong,
+.robotics-unlocked-box span {
+  display: block;
+}
+
+.robotics-unlocked-box span {
+  margin-top: 3px;
+  color: #d5c9a3;
+  font-size: 13px;
+}
+
+.robotics-reward-actions {
+  display: grid;
+  grid-template-columns: 0.7fr 0.7fr 1.2fr;
+  gap: 12px;
+  margin-top: 27px;
+}
+
+@media (max-width: 820px) {
+  .robotics-topbar {
+    grid-template-columns: 145px 1fr 90px;
+    padding: 11px 12px;
+  }
+
+  .robotics-nav-button span {
+    display: none;
+  }
+
+  .robotics-lesson-layout,
+  .robot-builder-layout,
+  .robot-maze-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .robotics-lesson-visual {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 560px) {
+  .robotics-heading strong {
+    font-size: 17px;
+  }
+
+  .robotics-heading span {
+    font-size: 8px;
+  }
+
+  .robotics-shell {
+    width: calc(100% - 16px);
+    padding-top: 12px;
+  }
+
+  .robotics-lesson-card,
+  .robotics-main-card {
+    min-height: 0;
+    padding: 18px 13px;
+    border-radius: 22px;
+  }
+
+  .robotics-panel-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .robotics-counter {
+    min-width: 0;
+  }
+
+  .robotics-actions,
+  .robotics-reward-summary,
+  .robotics-reward-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .robotics-icon-core {
+    width: 165px;
+    height: 165px;
+  }
+
+  .robotics-orbit-one {
+    width: 240px;
+    height: 240px;
+  }
+
+  .robotics-orbit-two {
+    width: 300px;
+    height: 300px;
+  }
+
+  .robot-command-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .robot-maze-player {
+    width: 58px;
+    height: 58px;
+  }
+
+  .robotics-reward-card {
+    padding: 28px 17px;
+  }
+}

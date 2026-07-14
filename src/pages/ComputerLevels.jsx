@@ -18,6 +18,7 @@ import {
 } from "../utils/progressManager";
 
 const TOTAL_BEGINNER_UNITS = 9;
+const TOTAL_INTERMEDIATE_UNITS = 4;
 
 export default function ComputerLevels() {
   const navigate = useNavigate();
@@ -27,10 +28,23 @@ export default function ComputerLevels() {
     "beginner"
   );
 
+  const intermediateProgress = getLevelProgress(
+    "computer",
+    "intermediate"
+  );
+
+  const advancedProgress = getLevelProgress(
+    "computer",
+    "advanced"
+  );
+
   const streak = getStreak();
 
   const completedBeginnerUnits =
     beginnerProgress.completedUnits.length;
+
+  const completedIntermediateUnits =
+    intermediateProgress.completedUnits.length;
 
   const beginnerPercentage = Math.min(
     100,
@@ -41,14 +55,42 @@ export default function ComputerLevels() {
     )
   );
 
+  const intermediatePercentage = Math.min(
+    100,
+    Math.round(
+      (completedIntermediateUnits /
+        TOTAL_INTERMEDIATE_UNITS) *
+        100
+    )
+  );
+
+  const advancedPercentage = Math.min(
+    100,
+    Number(advancedProgress.percentage || 0)
+  );
+
   const intermediateUnlocked =
     localStorage.getItem(
       "eduplay-computer-intermediate-unlocked"
     ) === "true" ||
     completedBeginnerUnits >= TOTAL_BEGINNER_UNITS;
 
-  const totalXp = beginnerProgress.xp;
-  const totalStars = beginnerProgress.stars;
+  const advancedUnlocked =
+    localStorage.getItem(
+      "eduplay-computer-advanced-unlocked"
+    ) === "true" ||
+    completedIntermediateUnits >=
+      TOTAL_INTERMEDIATE_UNITS;
+
+  const totalXp =
+    beginnerProgress.xp +
+    intermediateProgress.xp +
+    advancedProgress.xp;
+
+  const totalStars =
+    beginnerProgress.stars +
+    intermediateProgress.stars +
+    advancedProgress.stars;
 
   const playerLevel = Math.max(
     1,
@@ -60,7 +102,8 @@ export default function ComputerLevels() {
       id: "beginner",
       title: "Principiante",
       subtitle: "Conceptos básicos de computación",
-      image: "/assets/computer/levels/beginner.png",
+      image:
+        "/assets/computer/levels/beginner.png",
       progress: beginnerPercentage,
       unlocked: true,
       className: "computer-beginner",
@@ -68,9 +111,11 @@ export default function ComputerLevels() {
     {
       id: "intermediate",
       title: "Intermedio",
-      subtitle: "Programación y herramientas digitales",
-      image: "/assets/computer/levels/intermediate.png",
-      progress: 0,
+      subtitle:
+        "Programación y herramientas digitales",
+      image:
+        "/assets/computer/levels/intermediate.png",
+      progress: intermediatePercentage,
       unlocked: intermediateUnlocked,
       className: "computer-intermediate",
     },
@@ -79,9 +124,10 @@ export default function ComputerLevels() {
       title: "Avanzado",
       subtitle:
         "Robótica, inteligencia artificial y redes",
-      image: "/assets/computer/levels/advanced.png",
-      progress: 0,
-      unlocked: false,
+      image:
+        "/assets/computer/levels/advanced.png",
+      progress: advancedPercentage,
+      unlocked: advancedUnlocked,
       className: "computer-advanced",
     },
   ];
@@ -162,13 +208,9 @@ export default function ComputerLevels() {
       <motion.section
         className="computer-levels-progress"
         initial={{
-          x: "-50%",
-          scale: 0.85,
           opacity: 0,
         }}
         animate={{
-          x: "-50%",
-          scale: 1,
           opacity: 1,
         }}
         transition={{
@@ -176,33 +218,38 @@ export default function ComputerLevels() {
           delay: 0.2,
         }}
       >
-        <div className="computer-progress-line">
-          <div
-            style={{
-              width: intermediateUnlocked
-                ? "50%"
-                : "0%",
-            }}
-          />
-        </div>
+  <div className="computer-progress-line">
+    <div
+      style={{
+        width: advancedUnlocked
+          ? "100%"
+          : intermediateUnlocked
+          ? "50%"
+          : "0%",
+      }}
+    />
+  </div>
 
-        <span className="computer-progress-step active">
-          1
-        </span>
+  <span className="computer-progress-step computer-progress-step-1 active">
+    1
+  </span>
 
-        <span
-          className={`computer-progress-step middle ${
-            intermediateUnlocked ? "active" : ""
-          }`}
-        >
-          2
-        </span>
+  <span
+    className={`computer-progress-step computer-progress-step-2 ${
+      intermediateUnlocked ? "active" : ""
+    }`}
+  >
+    2
+  </span>
 
-        <span className="computer-progress-step last">
-          3
-        </span>
-      </motion.section>
-
+  <span
+    className={`computer-progress-step computer-progress-step-3 ${
+      advancedUnlocked ? "active" : ""
+    }`}
+  >
+    3
+  </span>
+</motion.section>
       <section className="computer-levels-cards">
         {levels.map((level, index) => (
           <motion.button
@@ -352,9 +399,11 @@ export default function ComputerLevels() {
           delay: 0.72,
         }}
       >
-        {intermediateUnlocked
-          ? `🎉 ¡Intermedio desbloqueado! Obtuviste ${totalStars} estrellas.`
-          : `💡 Has completado ${completedBeginnerUnits} de ${TOTAL_BEGINNER_UNITS} unidades.`}
+        {advancedUnlocked
+          ? `🎉 ¡Avanzado desbloqueado! Tienes ${totalStars} estrellas.`
+          : intermediateUnlocked
+          ? `💡 Has completado ${completedIntermediateUnits} de ${TOTAL_INTERMEDIATE_UNITS} unidades de Intermedio.`
+          : `💡 Has completado ${completedBeginnerUnits} de ${TOTAL_BEGINNER_UNITS} unidades de Principiante.`}
       </motion.div>
     </main>
   );
