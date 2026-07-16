@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { getAccountLicense } from "../utils/licenseStorage";
@@ -11,43 +11,27 @@ const PUBLIC_PATHS = new Set([
   "/family-plans",
   "/activate-license",
   "/payment-success",
-  "/checkout",
   "/institution-info",
   "/admin",
 ]);
 
-const isPublicPath = (pathname) => PUBLIC_PATHS.has(pathname);
-
 export default function LicenseAccessGuard() {
   const location = useLocation();
   const navigate = useNavigate();
-  const verificationId = useRef(0);
 
   const verifyAccess = useCallback(async () => {
-    const requestId = ++verificationId.current;
-    const requestedPath = location.pathname;
-
-    // El panel privado nunca depende de una licencia familiar activa.
-    if (isPublicPath(requestedPath)) return;
+    if (PUBLIC_PATHS.has(location.pathname)) return;
 
     try {
       const { data, error } = await supabase.auth.getSession();
       if (error) throw error;
 
-      // Ignora resultados viejos si la ruta cambió mientras Supabase respondía.
-      if (requestId !== verificationId.current) return;
-      if (isPublicPath(window.location.pathname)) return;
-
       if (!data.session?.user) {
-        navigate(`/login?next=${encodeURIComponent(requestedPath)}`, { replace: true });
+        navigate(`/login?next=${encodeURIComponent(location.pathname)}`, { replace: true });
         return;
       }
 
       const license = await getAccountLicense();
-
-      if (requestId !== verificationId.current) return;
-      if (isPublicPath(window.location.pathname)) return;
-
       if (!license?.isActive) {
         const status = license?.status || "required";
         const licenseReason = ["expired", "revoked", "inactive"].includes(status)
@@ -58,14 +42,12 @@ export default function LicenseAccessGuard() {
           replace: true,
           state: {
             licenseReason,
-            returnTo: requestedPath,
+            returnTo: location.pathname,
           },
         });
       }
     } catch (error) {
       console.error("No se pudo validar la licencia:", error);
-      if (requestId !== verificationId.current) return;
-      if (isPublicPath(window.location.pathname)) return;
       navigate("/activate-license", { replace: true });
     }
   }, [location.pathname, navigate]);
@@ -89,7 +71,6 @@ export default function LicenseAccessGuard() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      verificationId.current += 1;
       window.removeEventListener("eduplay:license-changed", handleLicenseChange);
       window.removeEventListener("focus", verifyAccess);
       document.removeEventListener("visibilitychange", handleVisibilityChange);

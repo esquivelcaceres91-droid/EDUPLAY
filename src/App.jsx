@@ -17,11 +17,11 @@ import LessonCooldownGuard from "./components/LessonCooldownGuard";
 import LicenseAccessGuard from "./components/LicenseAccessGuard";
 import WelcomePage from "./pages/WelcomePage";
 import CreateAccountPage from "./pages/CreateAccountPage";
+import SessionEntryPage from "./pages/SessionEntryPage";
 import LoginPage from "./pages/LoginPage";
 import ChooseLicensePage from "./pages/ChooseLicensePage";
 import ActivateLicensePage from "./pages/ActivateLicensePage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
-import PaymentCheckoutPage from "./pages/PaymentCheckoutPage";
 import FamilyPlansPage from "./pages/FamilyPlansPage";
 import CreateProfilesPage from "./pages/CreateProfilesPage";
 import ProfileSelectorPage from "./pages/ProfileSelectorPage";
@@ -133,14 +133,13 @@ function AnimatedRoutes() {
           location={location}
           key={location.pathname}
         >
-          <Route path="/" element={<RoutePage direction="left"><CreateAccountPage /></RoutePage>} />
+          <Route path="/" element={<SessionEntryPage />} />
           <Route path="/create-account" element={<RoutePage><CreateAccountPage /></RoutePage>} />
           <Route path="/login" element={<RoutePage><LoginPage /></RoutePage>} />
           <Route path="/choose-license" element={<RoutePage><ChooseLicensePage /></RoutePage>} />
           <Route path="/family-plans" element={<RoutePage><FamilyPlansPage /></RoutePage>} />
           <Route path="/activate-license" element={<RoutePage><ActivateLicensePage /></RoutePage>} />
           <Route path="/payment-success" element={<RoutePage><PaymentSuccessPage /></RoutePage>} />
-          <Route path="/checkout" element={<RoutePage><PaymentCheckoutPage /></RoutePage>} />
           <Route path="/institution-info" element={<RoutePage><InstitutionInfoPage /></RoutePage>} />
           <Route path="/admin" element={<RoutePage><AdminGuard><AdminPage /></AdminGuard></RoutePage>} />
           <Route path="/create-profiles" element={<RoutePage><CreateProfilesPage /></RoutePage>} />
@@ -233,8 +232,8 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-  <ActivityTracker />
-  <LicenseAccessGuard />
+      <ActivityTracker />
+      <LicenseAccessGuard />
       <LessonCooldownGuard>
         <AnimatedRoutes />
       </LessonCooldownGuard>

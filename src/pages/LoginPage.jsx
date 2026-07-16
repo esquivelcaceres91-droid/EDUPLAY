@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LockKeyhole, Mail } from "lucide-react";
-import { loginFamily, migrateLegacyProfile } from "../utils/accountStorage";
+import { getAccount, loginFamily, migrateLegacyProfile } from "../utils/accountStorage";
 import "../styles/access.css";
 
 export default function LoginPage() {
@@ -12,6 +12,13 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    let active = true;
+    getAccount().then((account) => {
+      if (active && account) nav(requestedPath, { replace: true });
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [nav, requestedPath]);
 
   const submit = async (event) => {
     event.preventDefault();

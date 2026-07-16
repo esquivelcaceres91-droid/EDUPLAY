@@ -249,7 +249,3 @@ small{
     font-size:20px;
   }
 }
-
-/* Crédito discreto del creador */
-.eduplay-creator-credit{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:18;max-width:calc(100vw - 28px);padding:4px 10px;border-radius:999px;background:rgba(8,25,68,.42);backdrop-filter:blur(8px);color:rgba(255,255,255,.72);font:800 10px/1.2 "Nunito",Arial,sans-serif;letter-spacing:.15px;text-align:center;white-space:nowrap;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.45)}
-@media(max-width:620px){.eduplay-creator-credit{bottom:5px;font-size:8px;white-space:normal;width:max-content;max-width:92vw}}

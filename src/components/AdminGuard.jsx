@@ -1,45 +1,28 @@
 import { useEffect, useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
-
-const ADMIN_EMAILS = new Set([
-  "esquivelcaceres91@gmail.com",
-]);
-
-const normalizeEmail = (value) => String(value || "").trim().toLowerCase();
+import { getAdminAccess } from "../utils/adminLicenseStorage";
 
 export default function AdminGuard({ children }) {
-  const location = useLocation();
   const [state, setState] = useState({ loading: true, user: null, isAdmin: false });
 
   useEffect(() => {
     let active = true;
 
-    const applySession = (session) => {
-      if (!active) return;
-      const user = session?.user || null;
-      setState({
-        loading: false,
-        user,
-        isAdmin: Boolean(user && ADMIN_EMAILS.has(normalizeEmail(user.email))),
-      });
-    };
-
-    const restoreSession = async () => {
+    const verify = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        applySession(data?.session || null);
+        const result = await getAdminAccess();
+        if (active) setState({ loading: false, ...result });
       } catch (error) {
-        console.error("Error restaurando la sesión del administrador:", error);
+        console.error("Error verificando acceso de administrador:", error);
         if (active) setState({ loading: false, user: null, isAdmin: false });
       }
     };
 
-    restoreSession();
+    verify();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      applySession(session);
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      verify();
     });
 
     return () => {
@@ -56,11 +39,8 @@ export default function AdminGuard({ children }) {
     );
   }
 
-  if (!state.user) {
-    return <Navigate to="/login?next=/admin" replace state={{ from: location.pathname }} />;
-  }
-
-  if (!state.isAdmin) return <Navigate to="/login?next=/admin" replace state={{ from: location.pathname, switchAccount: true }} />;
+  if (!state.user) return <Navigate to="/login?next=/admin" replace />;
+  if (!state.isAdmin) return <Navigate to="/home" replace />;
 
   return children;
 }

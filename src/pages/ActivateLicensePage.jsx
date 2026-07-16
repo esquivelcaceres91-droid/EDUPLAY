@@ -197,8 +197,11 @@ export default function ActivateLicensePage() {
               className="activation-buy-button"
               type="button"
               onClick={() => {
-                const planId = isAnnualPlan ? "family-annual" : "family-6m";
-                navigate(`/checkout?plan=${planId}`);
+                const paymentUrl = isAnnualPlan
+                  ? "https://app.recurrente.com/s/estedup/o/o_66vvl7ne"
+                  : "https://app.recurrente.com/s/estedup/o/o_p9pgeyvs";
+
+                window.location.assign(paymentUrl);
               }}
             >
               <CreditCard /> {selectedPlan ? `Comprar ${isAnnualPlan ? "licencia anual" : "licencia de 6 meses"}` : "Comprar licencia familiar"}

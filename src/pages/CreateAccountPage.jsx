@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LockKeyhole, Mail, UserRound } from "lucide-react";
-import { continueWithGoogleAccount, createFamilyAccount } from "../utils/accountStorage";
+import { continueWithGoogleAccount, createFamilyAccount, getAccount } from "../utils/accountStorage";
 import "../styles/access.css";
 
 const authMessage = (error) => {
@@ -21,6 +21,13 @@ export default function CreateAccountPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
 
+  useEffect(() => {
+    let active = true;
+    getAccount().then((account) => {
+      if (active && account) navigate("/profiles", { replace: true });
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [navigate]);
 
   const change = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
