@@ -357,6 +357,14 @@ export default function HomePage() {
           <span>Ajustes</span>
         </button>
       </motion.nav>
+
+      <div className="home-creator-credit" aria-label="Créditos del creador">
+        <span className="home-creator-copyright">©</span>
+        <span>
+          <small>Created by</small>
+          <strong>José Esteban Esquivel</strong>
+        </span>
+      </div>
     </main>
   );
 }

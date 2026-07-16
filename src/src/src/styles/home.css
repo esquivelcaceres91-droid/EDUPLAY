@@ -1,0 +1,1073 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Nunito", Arial, sans-serif;
+  overflow: hidden;
+}
+
+button {
+  font-family: "Nunito", Arial, sans-serif;
+}
+
+/* =====================================================
+   PANTALLA PRINCIPAL
+===================================================== */
+
+.home-screen {
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.02),
+      rgba(21, 78, 132, 0.08)
+    ),
+    url("/assets/onboarding-scene.png") center / cover no-repeat;
+}
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.home-main-logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+
+  z-index: 50;
+
+  width: 290px;
+  height: auto;
+
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.25));
+}
+
+/* =====================================================
+   BOTÓN REGRESAR
+===================================================== */
+
+.home-back {
+  position: absolute;
+  top: 200px;
+  left: 35px;
+
+  z-index: 60;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 40px;
+
+  color: #123d8b;
+  background: #ffffff;
+
+  font-size: 18px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    inset 0 -3px 0 rgba(18, 61, 139, 0.12);
+}
+
+/* =====================================================
+   MASCOTA
+===================================================== */
+
+.home-mascot {
+  position: absolute;
+  left: -410px;
+  bottom: -25px;
+
+  z-index: 5;
+
+  width: 1070px;
+  height: auto;
+
+  user-select: none;
+  pointer-events: none;
+
+  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.28));
+}
+
+/* =====================================================
+   ESTADÍSTICAS
+===================================================== */
+
+.home-stats {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+
+  z-index: 60;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 12px 20px;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+
+  backdrop-filter: blur(8px);
+}
+
+.stat-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 28px;
+}
+
+.stat-box div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-box span {
+  color: #6a7380;
+
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.stat-box b {
+  color: #123d8b;
+
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.student-avatar {
+  width: 56px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  background: #eaf7ff;
+
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* =====================================================
+   SALUDO
+===================================================== */
+
+.home-title {
+  position: absolute;
+  top: 145px;
+  left: 28%;
+
+  z-index: 30;
+
+  width: 820px;
+
+  transform: translateX(-50%);
+
+  text-align: center;
+}
+
+.home-title h1 {
+  color: #123d8b;
+
+  font-size: 62px;
+  line-height: 1;
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.55),
+    0 7px 18px rgba(28, 67, 112, 0.12);
+}
+
+.home-title p {
+  margin-top: 12px;
+
+  color: #123d8b;
+
+  font-size: 28px;
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.5),
+    0 5px 14px rgba(28, 67, 112, 0.1);
+}
+
+/* =====================================================
+   TARJETAS DE MUNDOS
+===================================================== */
+
+.home-worlds {
+  position: absolute;
+  top: 270px;
+  left: 50%;
+
+  z-index: 30;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+
+  transform: translateX(-50%);
+}
+
+.world-card {
+  position: relative;
+
+  width: 560px;
+  height: 335px;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 5px solid rgba(255, 255, 255, 0.94);
+  border-radius: 34px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 20px 42px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+
+  transition:
+    box-shadow 0.28s ease,
+    border-color 0.28s ease,
+    filter 0.28s ease;
+}
+
+.world-card img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  user-select: none;
+  pointer-events: none;
+
+  transition: filter 0.28s ease;
+}
+
+.world-card:hover {
+  border-color: #ffffff;
+
+  box-shadow:
+    0 28px 52px rgba(0, 0, 0, 0.36),
+    0 0 0 7px rgba(255, 255, 255, 0.38),
+    0 0 32px rgba(75, 196, 255, 0.5);
+}
+
+.world-card:hover img {
+  filter:
+    saturate(1.1)
+    brightness(1.05);
+}
+
+/* =====================================================
+   BRILLO DE TARJETAS
+===================================================== */
+
+.world-shine {
+  position: absolute;
+  top: -35%;
+  left: -55%;
+
+  z-index: 4;
+
+  width: 34%;
+  height: 175%;
+
+  opacity: 0;
+
+  transform: rotate(20deg);
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.68),
+      rgba(255, 255, 255, 0.12),
+      transparent
+    );
+}
+
+.world-card:hover .world-shine {
+  opacity: 1;
+  animation: worldShine 1s ease;
+}
+
+@keyframes worldShine {
+  from {
+    left: -55%;
+  }
+
+  to {
+    left: 125%;
+  }
+}
+
+/* =====================================================
+   TARJETA SELECCIONADA
+===================================================== */
+
+.world-card.world-selected {
+  border-color: #ffffff;
+
+  filter:
+    brightness(1.05)
+    saturate(1.08);
+
+  box-shadow:
+    0 26px 54px rgba(0, 0, 0, 0.34),
+    0 0 0 8px rgba(255, 255, 255, 0.74),
+    0 0 42px rgba(255, 216, 45, 0.88);
+}
+
+.world-card.world-selected::after {
+  content: "✓";
+
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  z-index: 7;
+
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      #79e93c,
+      #27b900
+    );
+
+  font-size: 32px;
+  font-weight: 900;
+
+  box-shadow:
+    0 7px 15px rgba(0, 0, 0, 0.24),
+    0 0 18px rgba(118, 234, 56, 0.72);
+
+  animation: selectedPop 0.28s ease;
+}
+
+@keyframes selectedPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =====================================================
+   CONTINÚA DONDE LO DEJASTE
+===================================================== */
+
+.continue-card {
+  position: absolute;
+  top: 620px;
+  left: 21%;
+
+  z-index: 30;
+
+  width: 1110px;
+
+  padding: 0.5px 18px;
+
+  transform: translateX(-50%);
+
+  border: 3px solid rgba(255, 255, 255, 0.86);
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.68);
+
+  backdrop-filter: blur(9px);
+}
+
+.continue-card h3 {
+  margin-bottom: 16px;
+
+  color: #123d8b;
+
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.continue-row {
+  display: grid;
+  grid-template-columns:
+    68px
+    240px
+    1fr
+    78px
+    190px;
+
+  align-items: center;
+  gap: 18px;
+}
+
+.continue-row > img {
+  width: 64px;
+  height: 64px;
+
+  border-radius: 16px;
+
+  object-fit: cover;
+
+  background: #eaf7ff;
+
+  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.16);
+}
+
+.continue-row b {
+  display: block;
+
+  color: #1674ff;
+
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.continue-row span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #666f7d;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.progress {
+  height: 18px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #d9dde2;
+
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.16);
+}
+
+.progress div {
+  width: 75%;
+  height: 100%;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #55d63d,
+      #8ced4e
+    );
+
+  box-shadow: 0 0 12px rgba(76, 210, 57, 0.45);
+}
+
+.continue-row strong {
+  color: #123d8b;
+
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.continue-row > button {
+  height: 52px;
+
+  border: none;
+  border-radius: 26px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      #74eb39,
+      #27b900
+    );
+
+  font-size: 18px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 0 #178300,
+    0 10px 16px rgba(0, 0, 0, 0.18);
+}
+/* =====================================================
+   MENÚ INFERIOR
+===================================================== */
+
+.bottom-nav{
+  position:absolute;
+  bottom:15px;
+  left:19%;
+
+  z-index:40;
+
+  transform:translateX(-50%);
+
+  width:1210px;
+  height:88px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+
+  border:3px solid rgba(255,255,255,.84);
+  border-radius:30px;
+
+  background:rgba(255,255,255,.96);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.22),
+    inset 0 0 0 2px rgba(255,255,255,.65);
+
+  backdrop-filter:blur(8px);
+}
+
+.bottom-nav button{
+  position:relative;
+
+  min-width:110px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  gap:4px;
+
+  padding:8px 12px;
+
+  border:none;
+  border-radius:18px;
+
+  background:transparent;
+
+  color:#123d8b;
+
+  font-size:14px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    color .2s ease,
+    background .2s ease;
+}
+
+.bottom-nav button:hover{
+  transform:translateY(-4px);
+
+  background:#edf7ff;
+
+  color:#1674ff;
+}
+
+.bottom-nav button.active{
+  background:#e7f4ff;
+  color:#1674ff;
+}
+
+.bottom-nav button.active::after{
+  content:"";
+
+  position:absolute;
+  bottom:2px;
+  left:50%;
+
+  width:42px;
+  height:4px;
+
+  transform:translateX(-50%);
+
+  border-radius:20px;
+
+  background:#1674ff;
+}
+
+/* =====================================================
+   PC PEQUEÑAS
+===================================================== */
+
+@media (max-width:1500px){
+
+  .home-mascot{
+    left:-270px;
+    width:1040px;
+  }
+
+  .home-title{
+    top:140px;
+  }
+
+  .home-worlds{
+    top:285px;
+  }
+
+  .world-card{
+    width:530px;
+    height:305px;
+  }
+
+  .continue-card{
+    top:630px;
+    width:1090px;
+  }
+
+  .bottom-nav{
+    width:1090px;
+  }
+
+}
+
+/* =====================================================
+   TABLET Y CELULAR
+===================================================== */
+
+@media screen and (max-width:768px){
+
+html,
+body,
+#root{
+width:100%!important;
+height:100%!important;
+overflow:hidden!important;
+}
+
+.home-screen{
+width:100%!important;
+height:100dvh!important;
+
+overflow-x:hidden!important;
+overflow-y:auto!important;
+
+padding:18px 12px 115px;
+
+background-position:center;
+}
+
+.home-main-logo{
+position:relative;
+
+display:block;
+
+margin:auto;
+
+top:auto;
+left:auto;
+
+width:185px;
+}
+
+.home-back{
+position:absolute;
+
+top:18px;
+left:18px;
+
+padding:10px 15px;
+
+font-size:0;
+}
+
+.home-back svg{
+width:25px;
+height:25px;
+}
+
+.home-stats{
+position:relative!important;
+
+top:auto!important;
+right:auto!important;
+
+width:100%;
+
+margin-top:28px;
+
+justify-content:space-between;
+
+padding:12px 10px;
+
+transform:none!important;
+}
+
+.home-title{
+position:relative!important;
+
+top:auto!important;
+left:auto!important;
+
+width:100%;
+
+margin-top:28px;
+
+transform:none!important;
+}
+
+.home-title h1{
+font-size:36px;
+}
+
+.home-title p{
+font-size:19px;
+margin-top:7px;
+}
+
+.home-mascot{
+position:fixed;
+
+left:50%;
+bottom:60px;
+
+width:520px;
+
+opacity:.18;
+
+transform:translateX(-50%)!important;
+}
+
+.home-worlds{
+position:relative!important;
+
+top:auto!important;
+left:auto!important;
+
+margin-top:24px;
+
+display:flex;
+flex-direction:column;
+
+gap:20px;
+
+transform:none!important;
+}
+
+.world-card{
+width:100%;
+
+height:auto;
+
+aspect-ratio:16/9;
+}
+
+.continue-card{
+position:relative!important;
+
+top:auto!important;
+left:auto!important;
+
+width:100%;
+
+margin-top:22px;
+
+transform:none!important;
+}
+
+.continue-row{
+display:grid;
+
+grid-template-columns:
+52px
+1fr
+auto;
+
+gap:10px;
+}
+
+.continue-row .progress{
+grid-column:1/-1;
+
+margin-top:6px;
+}
+
+.continue-row button{
+grid-column:1/-1;
+
+margin-top:7px;
+
+width:100%;
+}
+
+.bottom-nav{
+position:fixed!important;
+
+left:10px!important;
+right:10px!important;
+bottom:10px!important;
+
+width:auto!important;
+height:76px!important;
+
+padding:6px;
+
+display:flex;
+
+overflow-x:auto;
+
+transform:none!important;
+}
+
+.bottom-nav button{
+min-width:78px;
+flex:0 0 78px;
+
+font-size:11px;
+}
+
+.bottom-nav button svg{
+width:23px;
+height:23px;
+}
+
+}
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
+
+@media screen and (max-width:390px){
+
+.home-main-logo{
+width:165px;
+}
+
+.home-title h1{
+font-size:31px;
+}
+
+.home-title p{
+font-size:16px;
+}
+
+.student-avatar{
+width:44px;
+height:44px;
+}
+
+.bottom-nav button{
+min-width:72px;
+flex-basis:72px;
+}
+
+}
+
+/* =====================================================
+   ESTADÍSTICAS COMPACTAS EN TABLET Y CELULAR
+===================================================== */
+
+@media screen and (max-width: 768px) {
+  .home-stats {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+
+    width: calc(100% - 8px) !important;
+    max-width: 650px !important;
+    height: 74px !important;
+
+    margin: 18px auto 20px !important;
+    padding: 7px 8px !important;
+
+    display: grid !important;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr))
+      40px !important;
+
+    align-items: center !important;
+    justify-content: stretch !important;
+    gap: 3px !important;
+
+    border-radius: 22px !important;
+
+    overflow: hidden !important;
+    transform: none !important;
+  }
+
+  .home-stats .stat-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 58px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1px !important;
+
+    margin: 0 !important;
+    padding: 2px 1px !important;
+
+    border-radius: 12px !important;
+
+    font-size: 17px !important;
+    line-height: 1 !important;
+
+    overflow: hidden !important;
+  }
+
+  .home-stats .stat-box > div {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+  }
+
+  .home-stats .stat-box span {
+    width: 100% !important;
+
+    color: #6a7380 !important;
+
+    font-size: 8px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .home-stats .stat-box b {
+    width: 100% !important;
+
+    color: #123d8b !important;
+
+    font-size: 13px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .home-stats .student-avatar {
+    position: static !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    margin: 0 !important;
+
+    border-width: 2px !important;
+    border-radius: 50% !important;
+
+    object-fit: cover !important;
+  }
+}
+
+/* =====================================================
+   CELULARES MUY PEQUEÑOS
+===================================================== */
+
+@media screen and (max-width: 390px) {
+  .home-stats {
+    width: 100% !important;
+    height: 68px !important;
+
+    padding: 5px 5px !important;
+    gap: 1px !important;
+
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr))
+      34px !important;
+
+    border-radius: 19px !important;
+  }
+
+  .home-stats .stat-box {
+    height: 54px !important;
+
+    padding: 1px 0 !important;
+
+    font-size: 15px !important;
+  }
+
+  .home-stats .stat-box span {
+    font-size: 7px !important;
+  }
+
+  .home-stats .stat-box b {
+    font-size: 11px !important;
+  }
+
+  .home-stats .student-avatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}

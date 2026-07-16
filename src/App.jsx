@@ -230,10 +230,30 @@ function AnimatedRoutes() {
   );
 }
 
+function AppCredit() {
+  const location = useLocation();
+  const visibleRoutes = [
+    "/home", "/lessons", "/games", "/achievements", "/calendar",
+    "/settings", "/profiles", "/english", "/computer"
+  ];
+  const shouldShow = visibleRoutes.some((route) =>
+    location.pathname === route || location.pathname.startsWith(`${route}/`)
+  );
+
+  if (!shouldShow) return null;
+
+  return (
+    <div className="eduplay-creator-credit" aria-label="Créditos de EduPlay">
+      © 2026 EduPlay · Desarrollado por José Esteban Esquivel · Guatemala 🇬🇹
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <ActivityTracker />
+      <AppCredit />
       <LicenseAccessGuard />
       <LessonCooldownGuard>
         <AnimatedRoutes />
