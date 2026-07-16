@@ -9,12 +9,73 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import Onboarding from "./pages/Onboarding";
 import HomePage from "./pages/HomePage";
+import DashboardHub from "./pages/DashboardHub";
+import CalendarPage from "./pages/CalendarPage";
+import SettingsPage from "./pages/SettingsPage";
+import ActivityTracker from "./components/ActivityTracker";
+import LessonCooldownGuard from "./components/LessonCooldownGuard";
+import LicenseAccessGuard from "./components/LicenseAccessGuard";
+import WelcomePage from "./pages/WelcomePage";
+import CreateAccountPage from "./pages/CreateAccountPage";
+import LoginPage from "./pages/LoginPage";
+import ChooseLicensePage from "./pages/ChooseLicensePage";
+import ActivateLicensePage from "./pages/ActivateLicensePage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import PaymentCheckoutPage from "./pages/PaymentCheckoutPage";
+import FamilyPlansPage from "./pages/FamilyPlansPage";
+import CreateProfilesPage from "./pages/CreateProfilesPage";
+import ProfileSelectorPage from "./pages/ProfileSelectorPage";
+import InstitutionInfoPage from "./pages/InstitutionInfoPage";
+import AdminPage from "./pages/AdminPage";
+import AdminGuard from "./components/AdminGuard";
 import EnglishLevels from "./pages/EnglishLevels";
 import ComputerLevels from "./pages/ComputerLevels";
 
 import EnglishBeginner from "./pages/EnglishBeginner";
 import EnglishIntermediate from "./pages/EnglishIntermediate";
+import EnglishIntermediateUnit from "./pages/EnglishIntermediateUnit";
+import EnglishIntermediateLesson from "./pages/EnglishIntermediateLesson";
+import EnglishIntermediateGame from "./pages/EnglishIntermediateGame";
+import EnglishIntermediateQuiz from "./pages/EnglishIntermediateQuiz";
+import EnglishIntermediateReward from "./pages/EnglishIntermediateReward";
 import EnglishAdvanced from "./pages/EnglishAdvanced";
+import EnglishAdvancedUnit from "./pages/EnglishAdvancedUnit";
+import EnglishAdvancedLesson from "./pages/EnglishAdvancedLesson";
+import EnglishAdvancedGame from "./pages/EnglishAdvancedGame";
+import EnglishAdvancedQuiz from "./pages/EnglishAdvancedQuiz";
+import EnglishAdvancedReward from "./pages/EnglishAdvancedReward";
+import EnglishBeginnerUnit from "./pages/EnglishBeginnerUnit";
+import EnglishColorsLesson from "./pages/EnglishColorsLesson";
+import EnglishColorsGame from "./pages/EnglishColorsGame";
+import EnglishColorsQuiz from "./pages/EnglishColorsQuiz";
+import EnglishColorsReward from "./pages/EnglishColorsReward";
+import EnglishNumbersLesson from "./pages/EnglishNumbersLesson";
+import EnglishNumbersGame from "./pages/EnglishNumbersGame";
+import EnglishNumbersQuiz from "./pages/EnglishNumbersQuiz";
+import EnglishNumbersReward from "./pages/EnglishNumbersReward";
+import EnglishFamilyUnit from "./pages/EnglishFamilyUnit";
+import EnglishFamilyLesson from "./pages/EnglishFamilyLesson";
+import EnglishFamilyGame from "./pages/EnglishFamilyGame";
+import EnglishFamilyQuiz from "./pages/EnglishFamilyQuiz";
+import EnglishFamilyReward from "./pages/EnglishFamilyReward";
+import EnglishAnimalsUnit from "./pages/EnglishAnimalsUnit";
+import EnglishAnimalsLesson from "./pages/EnglishAnimalsLesson";
+import EnglishAnimalsGame from "./pages/EnglishAnimalsGame";
+import EnglishAnimalsQuiz from "./pages/EnglishAnimalsQuiz";
+import EnglishAnimalsReward from "./pages/EnglishAnimalsReward";
+import EnglishSchoolUnit from "./pages/EnglishSchoolUnit";
+import EnglishSchoolLesson from "./pages/EnglishSchoolLesson";
+import EnglishSchoolGame from "./pages/EnglishSchoolGame";
+import EnglishSchoolQuiz from "./pages/EnglishSchoolQuiz";
+import EnglishSchoolReward from "./pages/EnglishSchoolReward";
+import EnglishFoodUnit from "./pages/EnglishFoodUnit";
+import EnglishFoodLesson from "./pages/EnglishFoodLesson";
+import EnglishFoodGame from "./pages/EnglishFoodGame";
+import EnglishFoodQuiz from "./pages/EnglishFoodQuiz";
+import EnglishFoodReward from "./pages/EnglishFoodReward";
+import EnglishFinalChestUnit from "./pages/EnglishFinalChestUnit";
+import EnglishFinalChestChallenge from "./pages/EnglishFinalChestChallenge";
+import EnglishFinalChestReward from "./pages/EnglishFinalChestReward";
 
 import ComputerBeginner from "./pages/ComputerBeginner";
 import ComputerIntermediate from "./pages/ComputerIntermediate";
@@ -72,14 +133,74 @@ function AnimatedRoutes() {
           location={location}
           key={location.pathname}
         >
-          <Route path="/" element={<RoutePage direction="left"><Onboarding /></RoutePage>} />
+          <Route path="/" element={<RoutePage direction="left"><CreateAccountPage /></RoutePage>} />
+          <Route path="/create-account" element={<RoutePage><CreateAccountPage /></RoutePage>} />
+          <Route path="/login" element={<RoutePage><LoginPage /></RoutePage>} />
+          <Route path="/choose-license" element={<RoutePage><ChooseLicensePage /></RoutePage>} />
+          <Route path="/family-plans" element={<RoutePage><FamilyPlansPage /></RoutePage>} />
+          <Route path="/activate-license" element={<RoutePage><ActivateLicensePage /></RoutePage>} />
+          <Route path="/payment-success" element={<RoutePage><PaymentSuccessPage /></RoutePage>} />
+          <Route path="/checkout" element={<RoutePage><PaymentCheckoutPage /></RoutePage>} />
+          <Route path="/institution-info" element={<RoutePage><InstitutionInfoPage /></RoutePage>} />
+          <Route path="/admin" element={<RoutePage><AdminGuard><AdminPage /></AdminGuard></RoutePage>} />
+          <Route path="/create-profiles" element={<RoutePage><CreateProfilesPage /></RoutePage>} />
+          <Route path="/profiles" element={<RoutePage><ProfileSelectorPage /></RoutePage>} />
+          <Route path="/onboarding" element={<RoutePage><Onboarding /></RoutePage>} />
           <Route path="/home" element={<RoutePage><HomePage /></RoutePage>} />
+          <Route path="/lessons" element={<RoutePage><DashboardHub type="lessons" /></RoutePage>} />
+          <Route path="/games" element={<RoutePage><DashboardHub type="games" /></RoutePage>} />
+          <Route path="/achievements" element={<RoutePage><DashboardHub type="achievements" /></RoutePage>} />
+          <Route path="/calendar" element={<RoutePage><CalendarPage /></RoutePage>} />
+          <Route path="/settings" element={<RoutePage><SettingsPage /></RoutePage>} />
           <Route path="/english" element={<RoutePage><EnglishLevels /></RoutePage>} />
           <Route path="/computer" element={<RoutePage><ComputerLevels /></RoutePage>} />
 
           <Route path="/english/beginner" element={<RoutePage><EnglishBeginner /></RoutePage>} />
           <Route path="/english/intermediate" element={<RoutePage><EnglishIntermediate /></RoutePage>} />
+          <Route path="/english/intermediate/unit/:unitId" element={<RoutePage><EnglishIntermediateUnit /></RoutePage>} />
+          <Route path="/english/intermediate/unit/:unitId/lesson" element={<RoutePage><EnglishIntermediateLesson /></RoutePage>} />
+          <Route path="/english/intermediate/unit/:unitId/game" element={<RoutePage><EnglishIntermediateGame /></RoutePage>} />
+          <Route path="/english/intermediate/unit/:unitId/quiz" element={<RoutePage><EnglishIntermediateQuiz /></RoutePage>} />
+          <Route path="/english/intermediate/unit/:unitId/reward" element={<RoutePage><EnglishIntermediateReward /></RoutePage>} />
           <Route path="/english/advanced" element={<RoutePage><EnglishAdvanced /></RoutePage>} />
+          <Route path="/english/advanced/unit/:unitId" element={<RoutePage><EnglishAdvancedUnit /></RoutePage>} />
+          <Route path="/english/advanced/unit/:unitId/lesson" element={<RoutePage><EnglishAdvancedLesson /></RoutePage>} />
+          <Route path="/english/advanced/unit/:unitId/game" element={<RoutePage><EnglishAdvancedGame /></RoutePage>} />
+          <Route path="/english/advanced/unit/:unitId/quiz" element={<RoutePage><EnglishAdvancedQuiz /></RoutePage>} />
+          <Route path="/english/advanced/unit/:unitId/reward" element={<RoutePage><EnglishAdvancedReward /></RoutePage>} />
+
+          <Route path="/english/beginner/unit/6" element={<RoutePage><EnglishFoodUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/6/lesson" element={<RoutePage><EnglishFoodLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/6/game" element={<RoutePage><EnglishFoodGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/6/quiz" element={<RoutePage><EnglishFoodQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/6/reward" element={<RoutePage><EnglishFoodReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/7" element={<RoutePage><EnglishFinalChestUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/7/challenge" element={<RoutePage><EnglishFinalChestChallenge /></RoutePage>} />
+          <Route path="/english/beginner/unit/7/reward" element={<RoutePage><EnglishFinalChestReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/5" element={<RoutePage><EnglishSchoolUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/5/lesson" element={<RoutePage><EnglishSchoolLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/5/game" element={<RoutePage><EnglishSchoolGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/5/quiz" element={<RoutePage><EnglishSchoolQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/5/reward" element={<RoutePage><EnglishSchoolReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/4" element={<RoutePage><EnglishAnimalsUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/4/lesson" element={<RoutePage><EnglishAnimalsLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/4/game" element={<RoutePage><EnglishAnimalsGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/4/quiz" element={<RoutePage><EnglishAnimalsQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/4/reward" element={<RoutePage><EnglishAnimalsReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/3" element={<RoutePage><EnglishFamilyUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/3/lesson" element={<RoutePage><EnglishFamilyLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/3/game" element={<RoutePage><EnglishFamilyGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/3/quiz" element={<RoutePage><EnglishFamilyQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/3/reward" element={<RoutePage><EnglishFamilyReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/:unitId" element={<RoutePage><EnglishBeginnerUnit /></RoutePage>} />
+          <Route path="/english/beginner/unit/2/lesson" element={<RoutePage><EnglishNumbersLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/2/game" element={<RoutePage><EnglishNumbersGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/2/quiz" element={<RoutePage><EnglishNumbersQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/2/reward" element={<RoutePage><EnglishNumbersReward /></RoutePage>} />
+          <Route path="/english/beginner/unit/:unitId/lesson" element={<RoutePage><EnglishColorsLesson /></RoutePage>} />
+          <Route path="/english/beginner/unit/:unitId/game" element={<RoutePage><EnglishColorsGame /></RoutePage>} />
+          <Route path="/english/beginner/unit/:unitId/quiz" element={<RoutePage><EnglishColorsQuiz /></RoutePage>} />
+          <Route path="/english/beginner/unit/:unitId/reward" element={<RoutePage><EnglishColorsReward /></RoutePage>} />
 
           <Route path="/computer/beginner" element={<RoutePage><ComputerBeginner /></RoutePage>} />
           <Route path="/computer/intermediate" element={<RoutePage><ComputerIntermediate /></RoutePage>} />
@@ -112,7 +233,11 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AnimatedRoutes />
+      <ActivityTracker />
+      <LicenseAccessGuard />
+      <LessonCooldownGuard>
+        <AnimatedRoutes />
+      </LessonCooldownGuard>
     </BrowserRouter>
   );
 }

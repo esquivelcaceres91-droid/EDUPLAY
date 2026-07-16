@@ -1,0 +1,140 @@
+.dashboard-screen{min-height:100vh;padding:24px 36px 130px;background:linear-gradient(rgba(7,36,105,.22),rgba(4,20,70,.4)),url('/assets/onboarding-scene.png') center/cover fixed;font-family:'Nunito',sans-serif;color:#12357f;overflow:auto}.dashboard-header{max-width:1380px;margin:auto;display:grid;grid-template-columns:190px 1fr 260px;align-items:center;gap:20px}.dashboard-header>button{justify-self:start;border:2px solid #fff;background:#143c8c;color:#fff;border-radius:22px;padding:12px 20px;font-weight:900;display:flex;gap:8px;align-items:center;box-shadow:0 7px 0 #082357}.dashboard-header>div:nth-child(2){text-align:center}.dashboard-header span{font-size:.78rem;font-weight:1000;letter-spacing:4px;color:#6545d8}.dashboard-header h1{margin:4px 0;font-size:clamp(2rem,4vw,4rem);display:flex;justify-content:center;align-items:center;gap:14px;color:#fff;text-shadow:0 5px 0 #174594,0 8px 18px #082660}.dashboard-header p{margin:0;color:#fff;font-weight:900}.hub-stats{display:flex;justify-content:flex-end;gap:10px}.hub-stats b{background:#fff;border:2px solid #ffd84a;padding:10px 14px;border-radius:18px;box-shadow:0 6px 0 #16458e;white-space:nowrap;display:flex;align-items:center;gap:5px}.hub-content-grid,.achievement-grid{max-width:1320px;margin:38px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}.learning-card{position:relative;background:linear-gradient(145deg,#fff,#eaf7ff);border:4px solid #fff;border-radius:28px;padding:24px;box-shadow:0 12px 0 #103c86,0 18px 35px #07255a55;min-height:260px;overflow:hidden}.learning-card:before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;right:-70px;top:-70px;background:#52cfff35}.learning-card.completed{border-color:#ffe769}.learning-card.locked{filter:saturate(.35);opacity:.72}.world-chip{display:inline-flex;padding:7px 12px;border-radius:999px;color:#fff;font-weight:1000;font-size:.72rem}.world-chip.english{background:linear-gradient(90deg,#2675ef,#32c8ff)}.world-chip.computer{background:linear-gradient(90deg,#6936df,#db42d9)}.unit-number{display:block;margin-top:20px;font-weight:1000;color:#7852df;font-size:.73rem;letter-spacing:2px}.learning-card h3{font-size:1.35rem;margin:8px 0 2px;color:#153b88}.learning-card p{margin:0 0 20px;font-weight:800}.mini-progress{height:12px;background:#dce7f4;border-radius:10px;overflow:hidden}.mini-progress span{display:block;height:100%;background:linear-gradient(90deg,#45d654,#b9f43b);border-radius:10px}.learning-card button{margin-top:20px;width:100%;border:0;border-radius:16px;padding:12px;background:linear-gradient(#4adc39,#25a90e);color:#fff;font-weight:1000;display:flex;justify-content:center;align-items:center;gap:8px;box-shadow:0 5px 0 #168208}.learning-card button:disabled{background:#a8b4c6;box-shadow:0 5px 0 #77859b}.achievement-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.achievement-hero,.achievement-summary{grid-column:1/-1;background:linear-gradient(120deg,#3824a8,#147ed5);color:#fff;border:3px solid #79e8ff;border-radius:30px;padding:25px 35px;display:flex;align-items:center;gap:24px;box-shadow:0 12px 0 #102665}.achievement-hero svg{width:65px;height:65px;color:#ffd83d}.achievement-hero h2{font-size:2.4rem;margin:0}.diploma-card{background:#fff;border:4px solid #fff;border-radius:26px;padding:24px;text-align:center;box-shadow:0 10px 0 #154187}.diploma-card svg{width:48px;height:48px;color:#f6b900}.diploma-card.locked{opacity:.65}.diploma-card h3{margin:10px 0 0}.diploma-card p{font-weight:900}.diploma-card .diploma-progress{height:10px;background:#dce5f0;border-radius:10px;overflow:hidden}.diploma-card .diploma-progress span{display:block;height:100%;background:#55d43d}.calendar-shell,.settings-shell{max-width:1050px;margin:35px auto 0;background:rgba(255,255,255,.95);border:5px solid #fff;border-radius:34px;padding:30px;box-shadow:0 14px 0 #103d88,0 20px 50px #001f5d55}.calendar-toolbar{display:flex;justify-content:center;align-items:center;gap:25px}.calendar-toolbar button{border:0;background:#345bd2;color:#fff;border-radius:15px;padding:10px}.calendar-toolbar h2{text-transform:capitalize;font-size:2rem}.weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}.weekdays{text-align:center;margin:20px 0 10px}.calendar-grid>div{aspect-ratio:1.25;border-radius:18px;background:#eef5ff;display:flex;align-items:center;justify-content:center;position:relative;font-weight:1000;font-size:1.2rem;border:2px solid #d5e7ff}.calendar-grid>div.visited{background:linear-gradient(145deg,#d9ffb9,#55da45);border-color:#24a826;color:#0c6819;box-shadow:0 5px 0 #1b8d23}.calendar-grid em{position:absolute;right:9px;bottom:5px;font-style:normal}.calendar-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}.calendar-summary article{text-align:center;background:#173f98;color:#fff;border-radius:20px;padding:15px}.calendar-summary b{display:block;font-size:2rem;color:#ffe54f}.calendar-summary span{font-weight:900}.profile-editor{display:flex;align-items:center;gap:25px;border-bottom:2px dashed #bed6f5;padding-bottom:25px}.avatar-preview{width:140px;height:140px;border-radius:50%;background:#d9f3ff;border:5px solid #fff;box-shadow:0 8px 0 #2c5db3;position:relative}.avatar-preview>img{width:100%;height:100%;object-fit:cover;border-radius:50%}.avatar-preview>svg{position:absolute;right:-6px;bottom:5px;background:#4c34cf;color:#fff;padding:7px;border-radius:50%}.avatar-options{display:flex;gap:10px;flex-wrap:wrap}.avatar-options button{width:72px;height:72px;border:3px solid transparent;border-radius:18px;background:#eaf5ff;padding:3px}.avatar-options button.selected{border-color:#6c41df;background:#fff3a8}.avatar-options img{width:100%;height:100%;object-fit:cover;border-radius:13px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}.form-grid label{font-weight:1000;color:#173b84}.form-grid input,.form-grid select{display:block;width:100%;margin-top:7px;padding:14px;border:2px solid #b7d0f1;border-radius:15px;font:inherit;background:#f8fbff}.sound-panel{display:grid;grid-template-columns:1fr 1fr 2fr;gap:15px;margin-top:25px}.sound-panel label{background:#eaf4ff;border-radius:18px;padding:17px;display:flex;align-items:center;gap:10px;font-weight:1000}.sound-panel input[type=checkbox]{margin-left:auto;width:24px;height:24px}.volume-range{flex-direction:column;align-items:stretch!important}.settings-actions{display:flex;justify-content:center;gap:15px;margin-top:25px}.settings-actions button{border:0;border-radius:18px;padding:14px 24px;font-weight:1000;display:flex;gap:8px;align-items:center}.save-settings{background:#39c52b;color:#fff;box-shadow:0 6px 0 #168b13}.secondary{background:#e7effa;color:#173b84}.dashboard-bottom-nav{position:fixed!important;z-index:30}
+@media(max-width:900px){.dashboard-screen{padding:18px 16px 120px}.dashboard-header{grid-template-columns:1fr}.dashboard-header>button{position:static}.hub-stats{justify-content:center}.hub-content-grid,.achievement-grid{grid-template-columns:repeat(2,1fr)}.sound-panel{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.profile-editor{flex-direction:column}.calendar-grid{gap:5px}.calendar-grid>div{border-radius:10px}.dashboard-bottom-nav span{display:none}}
+@media(max-width:560px){.hub-content-grid,.achievement-grid{grid-template-columns:1fr}.dashboard-header h1{font-size:2rem}.hub-stats{flex-wrap:wrap}.calendar-shell,.settings-shell{padding:15px}.calendar-summary{grid-template-columns:1fr}.weekdays{font-size:.72rem}}
+
+/* HOME 2.1 — portadas reales y barra centrada */
+.hub-content-grid{align-items:stretch}
+.learning-card{padding:0;min-height:330px;display:flex;flex-direction:column;background:#f7fbff}
+.learning-card:before{display:none}
+.learning-cover{position:relative;width:100%;height:170px;overflow:hidden;background:#102c68;border-bottom:4px solid rgba(255,255,255,.92)}
+.learning-cover img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;transition:transform .35s ease,filter .35s ease}
+.learning-card:hover .learning-cover img{transform:scale(1.045)}
+.learning-cover .world-chip{position:absolute;left:14px;top:14px;box-shadow:0 4px 12px rgba(0,0,0,.26);border:2px solid rgba(255,255,255,.78)}
+.cover-lock{position:absolute;inset:0;display:grid;place-items:center;background:rgba(7,20,58,.57);backdrop-filter:blur(2px)}
+.cover-lock svg{width:48px;height:48px;color:#fff;background:#152f71;border:3px solid #ffe153;border-radius:50%;padding:11px;box-shadow:0 7px 0 #081b4d}
+.learning-card-body{padding:17px 20px 20px;display:flex;flex-direction:column;flex:1}
+.learning-card-body .unit-number{margin-top:0}
+.learning-card-body h3{min-height:34px}
+.learning-card-body .mini-progress{margin-top:auto}
+.learning-card-body button{margin-top:16px}
+
+.diploma-card{padding:0;overflow:hidden;text-align:left;background:linear-gradient(145deg,#fff,#eaf7ff)}
+.diploma-cover{position:relative;height:155px;overflow:hidden;background:#173c86}
+.diploma-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.diploma-card:hover .diploma-cover img{transform:scale(1.045)}
+.diploma-status{position:absolute;right:14px;top:14px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(#ffe568,#efae00);border:3px solid #fff;box-shadow:0 6px 0 #9a6200}
+.diploma-status svg{width:28px!important;height:28px!important;color:#573700!important}
+.diploma-info{padding:18px 22px 22px}
+.diploma-info h3{margin:0 0 3px;font-size:1.25rem;color:#153b88}
+.diploma-info b{color:#7251d5}
+.diploma-info p{margin:9px 0 12px}
+.diploma-progress{height:11px;background:#dce5f0;border-radius:10px;overflow:hidden}
+.diploma-progress span{display:block;height:100%;background:linear-gradient(90deg,#36cf50,#b0ef35)}
+.diploma-card.locked .diploma-cover img{filter:grayscale(.7) brightness(.65)}
+
+.dashboard-bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:14px!important;
+  transform:translateX(-50%)!important;
+  width:min(1210px,calc(100vw - 28px))!important;
+  margin:0!important;
+}
+@media(max-width:900px){
+  .learning-cover{height:150px}
+  .dashboard-bottom-nav{left:14px!important;right:14px!important;width:auto!important;transform:none!important}
+}
+@media(max-width:560px){
+  .learning-cover{height:180px}
+  .diploma-cover{height:175px}
+}
+/* account actions added to settings */
+.account-settings-panel{grid-column:1/-1}
+
+/* FIX FINAL — portadas completas en la Galería de logros */
+.achievement-grid .diploma-card > .diploma-cover{
+  position:relative;
+  width:100%;
+  height:190px !important;
+  min-height:190px !important;
+  padding:0 !important;
+  margin:0 !important;
+  overflow:hidden !important;
+  border-radius:22px 22px 0 0 !important;
+  background:rgba(10,39,101,.88) !important;
+}
+.achievement-grid .diploma-card > .diploma-cover img{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  background:rgba(10,39,101,.88);
+}
+.achievement-grid .diploma-card > .diploma-info{
+  height:auto !important;
+  min-height:150px !important;
+  padding:18px 22px 22px !important;
+  overflow:visible !important;
+  border-radius:0 0 22px 22px !important;
+  background:rgba(245,250,255,.96) !important;
+}
+.achievement-grid .diploma-card > .diploma-info .diploma-progress{
+  height:11px !important;
+  min-height:11px !important;
+  background:#dce5f0 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+}
+.achievement-grid .diploma-card > .diploma-info .diploma-progress span{
+  display:block !important;
+  height:100% !important;
+  background:linear-gradient(90deg,#36cf50,#b0ef35) !important;
+}
+@media(max-width:560px){
+  .achievement-grid .diploma-card > .diploma-cover{
+    height:210px !important;
+    min-height:210px !important;
+  }
+}
+
+
+/* CORRECCIÓN DEFINITIVA — Logros con portada completa */
+.achievement-grid .diploma-card{
+  display:flex !important;
+  flex-direction:column !important;
+  min-width:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+.achievement-grid .diploma-card > .diploma-cover{
+  flex:0 0 190px !important;
+  width:100% !important;
+  height:190px !important;
+  min-height:190px !important;
+  max-height:190px !important;
+}
+.achievement-grid .diploma-card > .diploma-cover > img{
+  position:static !important;
+  inset:auto !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  max-width:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
+.achievement-grid .diploma-card > .diploma-info{
+  flex:1 1 auto !important;
+  width:100% !important;
+}
+@media(max-width:560px){
+  .achievement-grid .diploma-card > .diploma-cover{
+    flex-basis:210px !important;
+    height:210px !important;
+    min-height:210px !important;
+    max-height:210px !important;
+  }
+}
