@@ -60,7 +60,7 @@ export default function AdminGuard({ children }) {
     return <Navigate to="/login?next=/admin" replace state={{ from: location.pathname }} />;
   }
 
-  if (!state.isAdmin) return <Navigate to="/home" replace />;
+  if (!state.isAdmin) return <Navigate to="/login?next=/admin" replace state={{ from: location.pathname, switchAccount: true }} />;
 
   return children;
 }

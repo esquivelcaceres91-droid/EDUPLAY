@@ -1,0 +1,54 @@
+EDUPLAY — ACTIVAR CORREOS DE SOLICITUDES INSTITUCIONALES
+
+La carpeta y el formulario ya están conectados. Falta desplegar la Edge Function y guardar la clave privada del servicio de correo.
+
+1) CREA UNA CUENTA EN RESEND
+   - Entra a https://resend.com y crea una cuenta con el correo que administrarás.
+   - En API Keys crea una clave nueva.
+   - Copia la clave. No la pongas en src, GitHub ni Vercel.
+
+2) INSTALA SUPABASE CLI EN LA COMPUTADORA
+   En la terminal de VS Code, dentro de EDUPLAY:
+
+   npm install -D supabase
+
+3) INICIA SESIÓN Y ENLAZA EL PROYECTO
+
+   npx supabase login
+   npx supabase link --project-ref lmvvzlteuguhhntallsg
+
+4) GUARDA LOS SECRETOS EN SUPABASE
+   Sustituye PEGA_AQUI_TU_CLAVE por tu clave real de Resend:
+
+   npx supabase secrets set RESEND_API_KEY=PEGA_AQUI_TU_CLAVE
+   npx supabase secrets set INSTITUTION_NOTIFICATION_EMAIL=esquivelcaceres91@gmail.com
+
+   Para pruebas se usa por defecto:
+   EduPlay <onboarding@resend.dev>
+
+   Si Resend limita los destinatarios durante pruebas, verifica tu dominio eduplaygt.com en Resend y después ejecuta:
+
+   npx supabase secrets set INSTITUTION_SENDER_EMAIL="EduPlay <solicitudes@eduplaygt.com>"
+
+5) DESPLIEGA LA FUNCIÓN
+
+   npx supabase functions deploy send-institution-request --no-verify-jwt
+
+6) PRUEBA LOCAL
+
+   npm run dev
+
+   Abre el formulario institucional, llena los campos y pulsa Enviar solicitud.
+   Debe llegar un único correo a esquivelcaceres91@gmail.com.
+   El colegio NO recibe respuesta automática.
+
+7) PUBLICA EN EDUPLAYGT.COM
+
+   npm run build
+   git add .
+   git commit -m "Conectar solicitudes institucionales al correo"
+   git push
+
+IMPORTANTE
+- Nunca subas RESEND_API_KEY a GitHub ni la pongas en .env del frontend.
+- La función está desplegada públicamente porque el formulario institucional puede usarse antes de iniciar sesión.
