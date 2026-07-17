@@ -420,3 +420,82 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* CORRECCIÓN FINAL SOLO PARA CELULAR: listas dentro de Inglés y Computación */
+@media (max-width: 760px) {
+  .world-grid {
+    align-items: stretch;
+  }
+
+  .world-card,
+  .world-card.english-world,
+  .world-card.computer-world {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
+    padding: 20px 18px 24px !important;
+    overflow: hidden !important;
+  }
+
+  .world-card > .world-icon {
+    margin-bottom: 14px;
+  }
+
+  .world-card > div:last-child {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+
+  .world-card p {
+    margin-bottom: 14px !important;
+  }
+
+  .world-card ul {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 14px 0 0 !important;
+    padding: 0 !important;
+    gap: 10px !important;
+    list-style: none !important;
+  }
+
+  .world-card li {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 9px !important;
+    align-items: flex-start !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    line-height: 1.35 !important;
+  }
+
+  .world-card li svg {
+    flex: 0 0 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: 2px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .world-card,
+  .world-card.english-world,
+  .world-card.computer-world {
+    padding: 18px 15px 22px !important;
+  }
+
+  .world-card li {
+    font-size: 14px !important;
+  }
+}
