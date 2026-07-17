@@ -13,6 +13,14 @@
 .landing-login{color:#fff;border-color:#0797ff;background:rgba(3,16,44,.78)}
 .landing-menu-button{background:#0b2455;color:#fff}
 .landing-brand img{object-fit:contain;background:transparent;border-radius:0;padding:0}
+
+/* Accesos únicos del encabezado: institución y familia comparten estilo. */
+.landing-access-button{min-height:46px;padding:0 18px!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(57,181,255,.58);border-radius:999px;color:#eaf8ff!important;background:linear-gradient(135deg,rgba(8,115,211,.92),rgba(13,171,207,.92));font-size:13px!important;font-weight:1000;white-space:nowrap;box-shadow:0 10px 25px rgba(0,112,190,.28),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.landing-access-button:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 14px 30px rgba(0,112,190,.38),0 0 0 4px rgba(52,186,255,.1)}
+.landing-access-button:active{transform:translateY(1px) scale(.98)}
+.landing-access-button svg{width:18px;height:18px;flex:0 0 auto}
+@media(max-width:1250px) and (min-width:901px){.landing-header{padding-left:18px;padding-right:18px}.landing-brand img{width:112px}.landing-nav{gap:9px}.landing-nav>a:not(.landing-access-button){font-size:11px}.landing-access-button{max-width:185px;padding:0 12px!important;white-space:normal;text-align:center;line-height:1.05}}
+@media(max-width:900px){.landing-header{height:74px;padding:8px 18px}.landing-menu-button{display:grid;place-items:center;width:45px;height:45px;border:0;border-radius:14px;background:#0b2455;color:#fff}.landing-nav{position:fixed;left:18px;right:18px;top:80px;padding:22px;display:none;flex-direction:column;align-items:stretch;border-radius:22px;background:#071b43;box-shadow:0 22px 55px rgba(20,37,80,.2)}.landing-nav.is-open{display:flex}.landing-nav a{text-align:center;font-size:16px}.landing-nav .landing-access-button{width:100%;max-width:none;min-height:52px;padding:12px 16px!important;color:#fff!important;font-size:15px!important;white-space:normal}}
 .landing-hero-image{background:#03102c;padding:0 0 18px;overflow:hidden}
 .landing-hero-art{position:relative;width:100%;max-width:1536px;margin:0 auto;line-height:0}
 .landing-hero-art>img{display:block;width:100%;height:auto}

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Award,
   BookOpen,
   Building2,
   Check,
@@ -16,7 +15,6 @@ import {
   School,
   ShieldCheck,
   Sparkles,
-  Star,
   Trophy,
   Users,
   X,
@@ -68,10 +66,10 @@ export default function LandingPage() {
           <a href="#beneficios" onClick={closeMenu}>Beneficios</a>
           <a href="#planes" onClick={closeMenu}>Planes</a>
           <a href="#preguntas" onClick={closeMenu}>Preguntas</a>
-          <Link className="landing-login mobile-only" to="/login" onClick={closeMenu}>Iniciar sesión</Link>
+          <Link className="landing-access-button" to="/institution-access" onClick={closeMenu}><School size={18} /> Ingresar como colegio o institución</Link>
+          <Link className="landing-access-button" to="/login" onClick={closeMenu}>Iniciar sesión familiar</Link>
         </nav>
 
-        <Link className="landing-login desktop-only" to="/login">Iniciar sesión</Link>
         <button className="landing-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
           {menuOpen ? <X /> : <Menu />}
         </button>
