@@ -39,3 +39,154 @@
 /* Diferenciador exclusivo del plan anual */
 .future-worlds-benefit{margin-top:10px;padding:12px 13px;border-radius:14px;background:linear-gradient(135deg,rgba(113,72,215,.12),rgba(28,144,255,.12));border:1px solid rgba(113,72,215,.24);color:#4d2fa5;font-weight:900;align-items:flex-start!important}
 .future-worlds-benefit svg{flex:0 0 auto;margin-top:1px;color:#7346d7}
+
+/* Ajuste móvil final: contenido completo, legible y sin tarjetas gigantes */
+@media (max-width:760px){
+  .landing-page{
+    overflow-x:hidden;
+    overflow-y:visible;
+  }
+
+  .intro-section{
+    padding-top:58px;
+    padding-bottom:58px;
+  }
+
+  .section-kicker{
+    font-size:11px;
+    letter-spacing:1.2px;
+  }
+
+  .section-block h2{
+    font-size:31px;
+    line-height:1.12;
+    letter-spacing:-.8px;
+    margin-bottom:12px;
+  }
+
+  .section-lead{
+    font-size:16px;
+    line-height:1.5;
+    margin-bottom:30px;
+  }
+
+  .world-grid{
+    gap:18px;
+  }
+
+  .world-card{
+    min-height:0;
+    width:100%;
+    padding:22px 20px;
+    grid-template-columns:68px minmax(0,1fr);
+    gap:15px;
+    align-items:start;
+    border-radius:24px;
+    overflow:visible;
+  }
+
+  .world-icon{
+    width:68px;
+    height:68px;
+    border-radius:20px;
+  }
+
+  .world-icon svg{
+    width:34px;
+    height:34px;
+  }
+
+  .world-card h3{
+    margin:0 0 7px;
+    font-size:30px;
+    line-height:1.08;
+    overflow-wrap:anywhere;
+  }
+
+  .world-label{
+    display:block;
+    margin-bottom:4px;
+    font-size:10px;
+  }
+
+  .world-card p{
+    margin:0;
+    font-size:15px;
+    line-height:1.48;
+  }
+
+  .world-card ul{
+    grid-column:1 / -1;
+    width:100%;
+    margin:12px 0 0;
+  }
+
+  .world-card li{
+    margin:8px 0;
+    gap:8px;
+    font-size:15px;
+    line-height:1.35;
+    align-items:flex-start;
+  }
+
+  .world-card li svg{
+    flex:0 0 18px;
+    margin-top:1px;
+  }
+
+  .landing-hero-art{
+    overflow:hidden;
+  }
+
+  .landing-hero-art>img{
+    width:100%;
+    max-width:100%;
+    transform:none;
+  }
+
+  .proof-strip{
+    width:calc(100% - 28px);
+    gap:12px;
+    border-radius:20px;
+  }
+
+  .plan-card,
+  .benefit-card,
+  .audience-card,
+  .step-card{
+    min-width:0;
+  }
+}
+
+@media (max-width:390px){
+  .section-block{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .world-card{
+    padding:19px 16px;
+    grid-template-columns:58px minmax(0,1fr);
+    gap:12px;
+  }
+
+  .world-icon{
+    width:58px;
+    height:58px;
+    border-radius:17px;
+  }
+
+  .world-icon svg{
+    width:29px;
+    height:29px;
+  }
+
+  .world-card h3{
+    font-size:27px;
+  }
+
+  .world-card p,
+  .world-card li{
+    font-size:14px;
+  }
+}
