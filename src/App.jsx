@@ -26,6 +26,9 @@ import FamilyPlansPage from "./pages/FamilyPlansPage";
 import CreateProfilesPage from "./pages/CreateProfilesPage";
 import ProfileSelectorPage from "./pages/ProfileSelectorPage";
 import InstitutionInfoPage from "./pages/InstitutionInfoPage";
+import InstitutionAccessPage from "./pages/InstitutionAccessPage";
+import InstitutionRegisterPage from "./pages/InstitutionRegisterPage";
+import InstitutionLoginPage from "./pages/InstitutionLoginPage";
 import AdminPage from "./pages/AdminPage";
 import AdminGuard from "./components/AdminGuard";
 import EnglishLevels from "./pages/EnglishLevels";
@@ -143,6 +146,9 @@ function AnimatedRoutes() {
           <Route path="/activate-license" element={<RoutePage><ActivateLicensePage /></RoutePage>} />
           <Route path="/payment-success" element={<RoutePage><PaymentSuccessPage /></RoutePage>} />
           <Route path="/institution-info" element={<RoutePage><InstitutionInfoPage /></RoutePage>} />
+          <Route path="/institution-access" element={<RoutePage><InstitutionAccessPage /></RoutePage>} />
+          <Route path="/institution-register" element={<RoutePage><InstitutionRegisterPage /></RoutePage>} />
+          <Route path="/institution-login" element={<RoutePage><InstitutionLoginPage /></RoutePage>} />
           <Route path="/admin" element={<RoutePage><AdminGuard><AdminPage /></AdminGuard></RoutePage>} />
           <Route path="/create-profiles" element={<RoutePage><CreateProfilesPage /></RoutePage>} />
           <Route path="/profiles" element={<RoutePage><ProfileSelectorPage /></RoutePage>} />

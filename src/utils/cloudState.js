@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabaseClient";
+import { isInstitutionSession, saveInstitutionProgress } from "./institutionStorage";
 
 const ACTIVE_KEY = "eduplay_active_profile";
 let saveTimer = null;
@@ -52,6 +53,7 @@ export async function loadCloudProfileState(profileId) {
 }
 
 export async function saveCloudProfileState(profileId = getActiveProfileId()) {
+  if (isInstitutionSession()) return saveInstitutionProgress();
   if (!profileId) return null;
   const state = readLocalProfileState();
   const { data, error } = await supabase

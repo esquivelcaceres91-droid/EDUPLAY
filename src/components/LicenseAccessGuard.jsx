@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { getAccountLicense } from "../utils/licenseStorage";
+import { getInstitutionSession } from "../utils/institutionStorage";
 
 const PUBLIC_PATHS = new Set([
   "/",
@@ -12,6 +13,9 @@ const PUBLIC_PATHS = new Set([
   "/activate-license",
   "/payment-success",
   "/institution-info",
+  "/institution-access",
+  "/institution-register",
+  "/institution-login",
   "/admin",
 ]);
 
@@ -21,6 +25,7 @@ export default function LicenseAccessGuard() {
 
   const verifyAccess = useCallback(async () => {
     if (PUBLIC_PATHS.has(location.pathname)) return;
+    if (getInstitutionSession()) return;
 
     try {
       const { data, error } = await supabase.auth.getSession();

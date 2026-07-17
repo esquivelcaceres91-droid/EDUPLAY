@@ -18,7 +18,7 @@ export default function ChooseLicensePage(){
     </article>
     <article className="premium-license-card institution-license-card">
       <div className="license-cover"><img src="/assets/computer/computer-background.png" alt="Institución educativa EduPlay"/><span className="license-cover-badge blue"><Building2/> INSTITUCIONES</span></div>
-      <div className="license-card-content"><h2>Colegio, institución o municipalidad</h2><strong>Planes personalizados</strong>{institutionBenefits.map(x=><p key={x}><CheckCircle2/>{x}</p>)}<button className="institution-info-button" onClick={()=>nav('/institution-info')}>Más información</button></div>
+      <div className="license-card-content"><h2>Colegio, institución o municipalidad</h2><strong>Planes personalizados</strong>{institutionBenefits.map(x=><p key={x}><CheckCircle2/>{x}</p>)}<button className="institution-info-button" onClick={()=>nav('/institution-access')}>Ingresar con código institucional</button><button className="institution-more-info" onClick={()=>nav('/institution-info')}>Más información</button></div>
     </article>
    </div>
   </section>

@@ -287,6 +287,16 @@ button {
   transition: filter 0.28s ease;
 }
 
+/* Evita que las tarjetas informativas de la Landing sobrescriban el Home. */
+.home-screen .home-worlds > .world-card {
+  display: block;
+  grid-template-columns: none;
+  gap: 0;
+  min-height: 0;
+  padding: 0;
+  text-align: initial;
+}
+
 .world-card:hover {
   border-color: #ffffff;
 

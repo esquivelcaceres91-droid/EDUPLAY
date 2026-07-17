@@ -6,6 +6,7 @@ import {
   loadProfiles,
 } from "../utils/accountStorage";
 import { getAccountLicense } from "../utils/licenseStorage";
+import { getInstitutionSession, hydrateInstitutionProgress } from "../utils/institutionStorage";
 
 export default function SessionEntryPage() {
   const navigate = useNavigate();
@@ -15,6 +16,11 @@ export default function SessionEntryPage() {
 
     const restoreSession = async () => {
       try {
+        if (getInstitutionSession()) {
+          await hydrateInstitutionProgress();
+          if (active) navigate("/home", { replace: true });
+          return;
+        }
         const { data, error } = await supabase.auth.getSession();
         if (error) throw error;
 
