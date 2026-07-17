@@ -30,6 +30,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminGuard from "./components/AdminGuard";
 import EnglishLevels from "./pages/EnglishLevels";
 import ComputerLevels from "./pages/ComputerLevels";
+import LandingPage from "./pages/LandingPage";
 
 import EnglishBeginner from "./pages/EnglishBeginner";
 import EnglishIntermediate from "./pages/EnglishIntermediate";
@@ -133,7 +134,8 @@ function AnimatedRoutes() {
           location={location}
           key={location.pathname}
         >
-          <Route path="/" element={<SessionEntryPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/session" element={<SessionEntryPage />} />
           <Route path="/create-account" element={<RoutePage><CreateAccountPage /></RoutePage>} />
           <Route path="/login" element={<RoutePage><LoginPage /></RoutePage>} />
           <Route path="/choose-license" element={<RoutePage><ChooseLicensePage /></RoutePage>} />

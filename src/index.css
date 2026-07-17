@@ -109,3 +109,12 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Landing pública: ancho completo sin alterar las pantallas internas */
+body:has(.landing-page) #root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  text-align: initial;
+}
