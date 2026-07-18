@@ -40,7 +40,7 @@ export default function AdminGuard({ children }) {
   }
 
   if (!state.user) return <Navigate to="/login?next=/admin" replace />;
-  if (!state.isAdmin) return <Navigate to="/home" replace />;
+  if (!state.isAdmin) return <Navigate to="/login?next=/admin" replace />;
 
   return children;
 }

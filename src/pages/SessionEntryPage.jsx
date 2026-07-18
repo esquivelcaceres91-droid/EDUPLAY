@@ -1,12 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
-import {
-  getActiveProfileId,
-  loadProfiles,
-} from "../utils/accountStorage";
-import { getAccountLicense } from "../utils/licenseStorage";
-import { getInstitutionSession, hydrateInstitutionProgress } from "../utils/institutionStorage";
+import { resolveSessionDestination } from "../utils/sessionDestination";
 
 export default function SessionEntryPage() {
   const navigate = useNavigate();
@@ -16,45 +10,8 @@ export default function SessionEntryPage() {
 
     const restoreSession = async () => {
       try {
-        if (getInstitutionSession()) {
-          await hydrateInstitutionProgress();
-          if (active) navigate("/home", { replace: true });
-          return;
-        }
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
-
-        if (!active) return;
-
-        if (!data.session?.user) {
-          navigate("/create-account", { replace: true });
-          return;
-        }
-
-        const license = await getAccountLicense();
-        if (!active) return;
-
-        if (!license?.isActive) {
-          navigate("/choose-license", { replace: true });
-          return;
-        }
-
-        const profiles = await loadProfiles();
-        if (!active) return;
-
-        if (!profiles.length) {
-          navigate("/create-profiles", { replace: true });
-          return;
-        }
-
-        const activeProfileId = getActiveProfileId();
-        const activeProfileExists = profiles.some(
-          (profile) => profile.id === activeProfileId,
-        );
-
-        navigate(activeProfileExists ? "/home" : "/profiles", {
-          replace: true,
-        });
+        const destination = await resolveSessionDestination();
+        if (active) navigate(destination, { replace: true });
       } catch (error) {
         console.error("No se pudo restaurar la sesión de EduPlay:", error);
         if (active) navigate("/login", { replace: true });

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LockKeyhole, Mail, UserRound } from "lucide-react";
-import { continueWithGoogleAccount, createFamilyAccount, getAccount } from "../utils/accountStorage";
+import { continueWithGoogleAccount, createFamilyAccount } from "../utils/accountStorage";
 import "../styles/access.css";
 
 const authMessage = (error) => {
+  if (error?.code === "SESSION_CONFIRMATION_REQUIRED") return error.message;
   const message = String(error?.message || "").toLowerCase();
   if (message.includes("already registered") || message.includes("already been registered")) return "Este correo ya tiene una cuenta. Inicia sesión.";
   if (message.includes("invalid email")) return "Escribe un correo electrónico válido.";
@@ -20,14 +21,6 @@ export default function CreateAccountPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
-
-  useEffect(() => {
-    let active = true;
-    getAccount().then((account) => {
-      if (active && account) navigate("/profiles", { replace: true });
-    }).catch(() => {});
-    return () => { active = false; };
-  }, [navigate]);
 
   const change = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));

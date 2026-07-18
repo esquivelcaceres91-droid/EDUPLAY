@@ -18,19 +18,21 @@
 .landing-access-button{min-height:46px;padding:0 18px!important;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(57,181,255,.58);border-radius:999px;color:#eaf8ff!important;background:linear-gradient(135deg,rgba(8,115,211,.92),rgba(13,171,207,.92));font-size:13px!important;font-weight:1000;white-space:nowrap;box-shadow:0 10px 25px rgba(0,112,190,.28),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
 .landing-access-button:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 14px 30px rgba(0,112,190,.38),0 0 0 4px rgba(52,186,255,.1)}
 .landing-access-button:active{transform:translateY(1px) scale(.98)}
+.landing-nav button.landing-access-button{font-family:inherit;cursor:pointer}.landing-access-button:disabled{opacity:.7;cursor:wait;transform:none}.footer-links button{padding:0;border:0;background:transparent;color:#fff;font:800 14px "Nunito",Arial,sans-serif;cursor:pointer}.footer-links button:disabled{opacity:.7;cursor:wait}
 .landing-access-button svg{width:18px;height:18px;flex:0 0 auto}
 @media(max-width:1250px) and (min-width:901px){.landing-header{padding-left:18px;padding-right:18px}.landing-brand img{width:112px}.landing-nav{gap:9px}.landing-nav>a:not(.landing-access-button){font-size:11px}.landing-access-button{max-width:185px;padding:0 12px!important;white-space:normal;text-align:center;line-height:1.05}}
 @media(max-width:900px){.landing-header{height:74px;padding:8px 18px}.landing-menu-button{display:grid;place-items:center;width:45px;height:45px;border:0;border-radius:14px;background:#0b2455;color:#fff}.landing-nav{position:fixed;left:18px;right:18px;top:80px;padding:22px;display:none;flex-direction:column;align-items:stretch;border-radius:22px;background:#071b43;box-shadow:0 22px 55px rgba(20,37,80,.2)}.landing-nav.is-open{display:flex}.landing-nav a{text-align:center;font-size:16px}.landing-nav .landing-access-button{width:100%;max-width:none;min-height:52px;padding:12px 16px!important;color:#fff!important;font-size:15px!important;white-space:normal}}
 .landing-hero-image{background:#03102c;padding:0 0 18px;overflow:hidden}
 .landing-hero-art{position:relative;width:100%;max-width:1536px;margin:0 auto;line-height:0}
 .landing-hero-art>img{display:block;width:100%;height:auto}
-.hero-hotspot{position:absolute;z-index:5;display:block;border-radius:999px;outline:none}
+.hero-hotspot{position:absolute;z-index:5;display:block;border:0;border-radius:999px;outline:none;background:transparent;cursor:pointer}
 .hero-hotspot:focus-visible{box-shadow:0 0 0 4px #fff,0 0 0 8px #159cff}
 .hero-hotspot-create{left:4.3%;top:43.8%;width:16.7%;height:7.2%}
 .hero-hotspot-how{left:22.4%;top:43.8%;width:18.2%;height:7.2%}
 .hero-hotspot-plan-six{left:60.2%;top:86.2%;width:10.2%;height:4.8%}
 .hero-hotspot-plan-year{left:79.5%;top:86.2%;width:10.2%;height:4.8%}
 .hero-mobile-actions{display:none;max-width:560px;margin:18px auto 0;padding:0 18px;gap:12px}
+.hero-mobile-actions button.secondary-cta{font-family:inherit;font-size:16px;cursor:pointer}
 .proof-strip{margin-top:0}
 @media(max-width:760px){
   .landing-brand img{width:108px;height:54px}
@@ -507,3 +509,12 @@
     font-size: 14px !important;
   }
 }
+
+/* Presentación de EduPlay */
+.landing-video-backdrop{position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:24px;background:rgba(1,10,32,.82);backdrop-filter:blur(10px);animation:landing-video-fade .2s ease}
+.landing-video-modal{position:relative;width:min(980px,94vw);max-height:92vh;padding:24px;border:1px solid rgba(255,255,255,.25);border-radius:28px;background:linear-gradient(145deg,rgba(12,35,82,.98),rgba(7,19,53,.98));box-shadow:0 32px 90px rgba(0,0,0,.48);overflow:auto}
+.landing-video-heading{text-align:center;color:#fff}.landing-video-heading span{color:#60c9ff;font-size:11px;font-weight:1000;letter-spacing:1.8px}.landing-video-heading h2{margin:5px 48px 18px;font-size:clamp(25px,3vw,38px)}
+.landing-video-modal video{display:block;width:100%;max-height:72vh;border-radius:18px;background:#000;box-shadow:0 16px 45px rgba(0,0,0,.35)}
+.landing-video-close{position:absolute;z-index:2;top:16px;right:16px;width:43px;height:43px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(255,255,255,.12);color:#fff;cursor:pointer}.landing-video-close:hover{background:rgba(255,255,255,.22)}
+@keyframes landing-video-fade{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){.landing-video-backdrop{padding:10px}.landing-video-modal{width:100%;padding:18px 12px 14px;border-radius:21px}.landing-video-heading h2{margin:7px 45px 14px;font-size:24px}.landing-video-close{top:10px;right:10px;width:38px;height:38px}.landing-video-modal video{max-height:75vh;border-radius:13px}}

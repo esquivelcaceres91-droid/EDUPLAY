@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
@@ -20,9 +20,11 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import logo from "../assets/landing/eduplay-logo.png";
 import heroDark from "../assets/landing/hero-dark.png";
+import { resolveSessionDestination } from "../utils/sessionDestination";
+import { getInstitutionSession, hydrateInstitutionProgress } from "../utils/institutionStorage";
 import "../styles/landing.css";
 
 const benefits = [
@@ -48,10 +50,46 @@ const faqs = [
 ];
 
 export default function LandingPage() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
+  const [restoringSession, setRestoringSession] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
+  const videoRef = useRef(null);
 
   const closeMenu = () => setMenuOpen(false);
+  const closeVideo = useCallback(() => {
+    const video = videoRef.current;
+    if (video) { video.pause(); video.currentTime = 0; }
+    setVideoOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!videoOpen) return undefined;
+    const onKeyDown = (event) => { if (event.key === "Escape") closeVideo(); };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [closeVideo, videoOpen]);
+
+  const openExistingSession = async () => {
+    if (restoringSession) return;
+    setRestoringSession(true);
+    closeMenu();
+    try {
+      if (getInstitutionSession()) {
+        await hydrateInstitutionProgress();
+        navigate("/home");
+        return;
+      }
+      const destination = await resolveSessionDestination();
+      navigate(destination === "/activate-license" ? "/login" : destination);
+    } catch (error) {
+      console.error("No se pudo restaurar la sesión:", error);
+      navigate("/login");
+    } finally {
+      setRestoringSession(false);
+    }
+  };
 
   return (
     <main className="landing-page">
@@ -67,7 +105,7 @@ export default function LandingPage() {
           <a href="#planes" onClick={closeMenu}>Planes</a>
           <a href="#preguntas" onClick={closeMenu}>Preguntas</a>
           <Link className="landing-access-button" to="/institution-access" onClick={closeMenu}><School size={18} /> Ingresar como colegio o institución</Link>
-          <Link className="landing-access-button" to="/login" onClick={closeMenu}>Iniciar sesión familiar</Link>
+          <button className="landing-access-button" type="button" onClick={openExistingSession} disabled={restoringSession}>{restoringSession ? "Comprobando sesión…" : "Iniciar sesión familiar"}</button>
         </nav>
 
         <button className="landing-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
@@ -84,10 +122,11 @@ export default function LandingPage() {
             to="/create-account"
             aria-label="Crear cuenta en EduPlay"
           />
-          <a
+          <button
+            type="button"
             className="hero-hotspot hero-hotspot-how"
-            href="#como-funciona"
-            aria-label="Ver cómo funciona EduPlay"
+            onClick={() => setVideoOpen(true)}
+            aria-label="¿Qué es EduPlay?"
           />
           <Link
             className="hero-hotspot hero-hotspot-plan-six"
@@ -103,7 +142,7 @@ export default function LandingPage() {
 
         <div className="hero-mobile-actions">
           <Link className="primary-cta" to="/create-account">Crear cuenta <ArrowRight size={20} /></Link>
-          <a className="secondary-cta" href="#como-funciona"><Play size={18} fill="currentColor" /> Ver cómo funciona</a>
+          <button className="secondary-cta" type="button" onClick={() => setVideoOpen(true)}><Play size={18} fill="currentColor" /> ¿Qué es EduPlay?</button>
         </div>
       </section>
 
@@ -219,9 +258,17 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <img src={logo} alt="EduPlay" />
         <p>Explora • Aprende • Diviértete</p>
-        <div className="footer-links"><Link to="/login">Iniciar sesión</Link><Link to="/institution-info">Instituciones</Link><a href="#preguntas">Preguntas frecuentes</a></div>
+        <div className="footer-links"><button type="button" onClick={openExistingSession} disabled={restoringSession}>Iniciar sesión</button><Link to="/institution-info">Instituciones</Link><a href="#preguntas">Preguntas frecuentes</a></div>
         <small>© 2026 EduPlay. Hecho por José Esteban Esquivel.</small>
       </footer>
+
+      {videoOpen && <div className="landing-video-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeVideo(); }}>
+        <section className="landing-video-modal" role="dialog" aria-modal="true" aria-label="Presentación de EduPlay">
+          <button className="landing-video-close" type="button" onClick={closeVideo} aria-label="Cerrar video"><X /></button>
+          <div className="landing-video-heading"><span>CONOCE EDUPLAY</span><h2>¿Qué es EduPlay?</h2></div>
+          <video ref={videoRef} src="/assets/landing/eduplay-presentacion.mp4" controls playsInline preload="metadata" />
+        </section>
+      </div>}
     </main>
   );
 }

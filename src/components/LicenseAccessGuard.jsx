@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { getAccountLicense } from "../utils/licenseStorage";
 import { getInstitutionSession } from "../utils/institutionStorage";
+import { resolveDemoAccount } from "../utils/demoAccess";
 
 const PUBLIC_PATHS = new Set([
   "/",
@@ -24,17 +25,20 @@ export default function LicenseAccessGuard() {
   const navigate = useNavigate();
 
   const verifyAccess = useCallback(async () => {
+    if (location.pathname === "/admin" || location.pathname.startsWith("/admin/")) return;
     if (PUBLIC_PATHS.has(location.pathname)) return;
     if (getInstitutionSession()) return;
 
     try {
-      const { data, error } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getUser();
       if (error) throw error;
 
-      if (!data.session?.user) {
+      if (!data.user) {
         navigate(`/login?next=${encodeURIComponent(location.pathname)}`, { replace: true });
         return;
       }
+
+      if (await resolveDemoAccount()) return;
 
       const license = await getAccountLicense();
       if (!license?.isActive) {

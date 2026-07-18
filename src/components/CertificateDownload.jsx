@@ -3,6 +3,7 @@ import "../styles/certificate-download.css";
 import { Download } from "lucide-react";
 import { getProfile } from "../utils/profileStorage";
 import { queueCloudProfileStateSave } from "../utils/cloudState";
+import { shouldSuppressDemoProgressWrites } from "../utils/demoAccess";
 
 const LEVEL_CONFIG = {
   beginner: {
@@ -103,8 +104,10 @@ const createCertificateCode = (levelCode, studentName) => {
 
   const number = String(Date.now()).slice(-6);
   const code = `EDU-COMP-${levelCode}-${normalized}-${number}`;
-  localStorage.setItem(storedKey, code);
-  queueCloudProfileStateSave();
+  if (!shouldSuppressDemoProgressWrites()) {
+    localStorage.setItem(storedKey, code);
+    queueCloudProfileStateSave();
+  }
   return code;
 };
 

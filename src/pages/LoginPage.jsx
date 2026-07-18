@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LockKeyhole, Mail } from "lucide-react";
-import { getAccount, loginFamily, migrateLegacyProfile } from "../utils/accountStorage";
+import { loginFamily, migrateLegacyProfile } from "../utils/accountStorage";
+import { resolveSessionDestination } from "../utils/sessionDestination";
+import { getAdminAccess } from "../utils/adminLicenseStorage";
 import "../styles/access.css";
 
 export default function LoginPage() {
@@ -14,9 +16,20 @@ export default function LoginPage() {
 
   useEffect(() => {
     let active = true;
-    getAccount().then((account) => {
-      if (active && account) nav(requestedPath, { replace: true });
-    }).catch(() => {});
+    const restore = async () => {
+      if (requestedPath === "/admin") {
+        const access = await getAdminAccess();
+        if (active && access.isAdmin) nav("/admin", { replace: true });
+        return;
+      }
+
+      const destination = await resolveSessionDestination();
+      if (active && destination !== "/login" && destination !== "/activate-license") {
+        nav(destination, { replace: true });
+      }
+    };
+
+    restore().catch(() => {});
     return () => { active = false; };
   }, [nav, requestedPath]);
 
@@ -27,7 +40,8 @@ export default function LoginPage() {
     try {
       await loginFamily(form);
       await migrateLegacyProfile();
-      nav(requestedPath, { replace: true });
+      const destination = requestedPath === "/admin" ? "/admin" : await resolveSessionDestination();
+      nav(destination, { replace: true });
     } catch {
       setError("Correo o contraseña incorrectos.");
     } finally {

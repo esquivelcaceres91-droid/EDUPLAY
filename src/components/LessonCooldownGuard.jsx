@@ -5,6 +5,7 @@ import {
   getLessonCooldown,
   isUnitCompleted,
 } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 import "../styles/lesson-cooldown.css";
 
 const ROUTE_PATTERN =
@@ -27,6 +28,7 @@ export default function LessonCooldownGuard({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [now, setNow] = useState(Date.now());
+  const demoAccount = useDemoAccount();
 
   const routeInfo = useMemo(() => {
     const match = location.pathname.match(ROUTE_PATTERN);
@@ -45,6 +47,7 @@ export default function LessonCooldownGuard({ children }) {
 
   const cooldown = getLessonCooldown();
   const blocked = Boolean(
+    !demoAccount &&
     routeInfo &&
       cooldown.active &&
       !isUnitCompleted(routeInfo.world, routeInfo.level, routeInfo.unitId)

@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, Gamepad2, Trophy, CalendarDays, LockKeyhole, Play, Award, Star } from "lucide-react";
+import { ArrowLeft, BookOpen, Gamepad2, Trophy, LockKeyhole, Play, Award, Star } from "lucide-react";
 import DashboardNav from "../components/DashboardNav";
 import { getProgress, getGlobalStats } from "../utils/progressManager";
 import { getEngagement } from "../utils/engagementStorage";
 import { levelTotals, names, worldLabel, levelLabel, unitRoute, unitImage, levelImages } from "../utils/contentCatalog";
+import { useDemoAccount } from "../utils/demoAccess";
 import "../styles/dashboard-hub.css";
 
 function allUnits() {
@@ -23,7 +24,8 @@ function allUnits() {
 
 export default function DashboardHub({ type }) {
   const navigate = useNavigate();
-  const units = useMemo(allUnits, []);
+  const demoAccount = useDemoAccount();
+  const units = useMemo(() => allUnits(), []);
   const stats = getGlobalStats();
   const engagement = getEngagement();
   const config = {
@@ -61,7 +63,7 @@ export default function DashboardHub({ type }) {
         // La biblioteca de Lecciones y la Zona de Juegos muestran únicamente
         // contenido que el perfil activo ya completó dentro de su aventura.
         // Las unidades nuevas se inician desde el mapa de cada mundo.
-        const available = unit.completed;
+        const available = demoAccount || unit.completed;
         return <article className={`learning-card ${unit.completed?"completed":""} ${!available?"locked":""}`} key={`${unit.world}-${unit.level}-${unit.id}`}>
           <div className="learning-cover">
             <img src={unit.image} alt={unit.name} loading="lazy" />

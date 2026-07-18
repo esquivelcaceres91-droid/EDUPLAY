@@ -75,7 +75,6 @@ export default function ActivateLicensePage() {
         throw new Error("No se pudo confirmar la licencia activa.");
       }
 
-      localStorage.setItem("eduplay_license", JSON.stringify(license));
       setStatus("success");
       setMessage("¡Licencia activada! Ya puedes crear hasta 3 perfiles.");
     } catch (error) {

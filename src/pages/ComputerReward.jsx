@@ -17,6 +17,7 @@ import {
 } from "react-router-dom";
 
 import { completeUnit } from "../utils/progressManager";
+import { shouldSuppressDemoProgressWrites } from "../utils/demoAccess";
 import CertificateDownload from "../components/CertificateDownload";
 
 import "../styles/computer-unit.css";
@@ -79,7 +80,7 @@ export default function ComputerReward() {
       xp
     );
 
-    if (isFinalUnit) {
+    if (isFinalUnit && !shouldSuppressDemoProgressWrites()) {
       localStorage.setItem(
         "eduplay-computer-intermediate-unlocked",
         "true"

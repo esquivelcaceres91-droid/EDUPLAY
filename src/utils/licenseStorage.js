@@ -19,17 +19,15 @@ const normalizeLicense = (row) => {
 };
 
 export async function getAccountLicense() {
-  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const userId = sessionData.session?.user?.id;
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError) throw userError;
+  const userId = userData.user?.id;
   if (!userId) return null;
 
-  // Actualiza automáticamente el estado cuando la fecha de vencimiento ya pasó.
-  const { error: syncError } = await supabase.rpc("sync_my_license_expiration");
-  if (syncError) {
-    // Compatibilidad temporal si el SQL aún no se ha ejecutado.
-    console.warn("No se pudo sincronizar el vencimiento de la licencia:", syncError.message);
-  }
+  const { data: rpcLicense, error: rpcError } = await supabase.rpc("get_my_account_license");
+  if (!rpcError) return normalizeLicense(rpcLicense);
+
+  console.warn("No se pudo consultar get_my_account_license; usando lectura compatible:", rpcError.message);
 
   const { data, error } = await supabase
     .from("account_licenses")
@@ -47,6 +45,12 @@ export async function activateFamilyLicense(code) {
   const normalizedCode = String(code || "").trim().toUpperCase().replace(/\s+/g, "");
   if (!normalizedCode) throw new Error("Escribe el código de tu licencia familiar.");
 
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user?.id) {
+    throw userError || new Error("Debes iniciar sesión antes de activar una licencia.");
+  }
+  const activatingUserId = userData.user.id;
+
   const { data, error } = await supabase.rpc("activate_license_code", {
     p_code: normalizedCode,
   });
@@ -55,6 +59,11 @@ export async function activateFamilyLicense(code) {
   const result = Array.isArray(data) ? data[0] : data;
   if (!result?.success) {
     throw new Error(result?.message || "El código no es válido o todavía no ha sido activado.");
+  }
+
+  const { data: verifiedUserData, error: verifiedUserError } = await supabase.auth.getUser();
+  if (verifiedUserError || verifiedUserData.user?.id !== activatingUserId) {
+    throw verifiedUserError || new Error("La sesión cambió durante la activación. Inicia sesión nuevamente.");
   }
 
   const license = await getAccountLicense();

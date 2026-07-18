@@ -16,12 +16,14 @@ import {
   getLevelProgress,
   getStreak,
 } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 
 const TOTAL_BEGINNER_UNITS = 9;
 const TOTAL_INTERMEDIATE_UNITS = 4;
 
 export default function ComputerLevels() {
   const navigate = useNavigate();
+  const demoAccount = useDemoAccount();
 
   const beginnerProgress = getLevelProgress(
     "computer",
@@ -72,11 +74,10 @@ export default function ComputerLevels() {
   // El desbloqueo depende exclusivamente del progreso del perfil activo.
   // No se usan banderas globales de localStorage porque mezclaban perfiles.
   const intermediateUnlocked =
-    completedBeginnerUnits >= TOTAL_BEGINNER_UNITS;
+    demoAccount || completedBeginnerUnits >= TOTAL_BEGINNER_UNITS;
 
   const advancedUnlocked =
-    intermediateUnlocked &&
-    completedIntermediateUnits >= TOTAL_INTERMEDIATE_UNITS;
+    demoAccount || (intermediateUnlocked && completedIntermediateUnits >= TOTAL_INTERMEDIATE_UNITS);
 
   const totalXp =
     beginnerProgress.xp +

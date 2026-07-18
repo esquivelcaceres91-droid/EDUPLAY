@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Flame, Lock, Play, Star, Trophy } from "lucide-react";
 import { getLevelProgress } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 import { intermediateUnits } from "../data/englishIntermediateData";
 import "../styles/english-intermediate.css";
 
@@ -15,6 +16,7 @@ const missionImages = {
 
 export default function EnglishIntermediate() {
   const navigate = useNavigate();
+  const demoAccount = useDemoAccount();
   const progress = useMemo(
     () => getLevelProgress("english", "intermediate"),
     []
@@ -41,7 +43,7 @@ export default function EnglishIntermediate() {
 
       <section className="ei-map-track ei-image-map-track">
         {intermediateUnits.map((unit, index) => {
-          const unlocked = progress.unlockedUnits.includes(unit.id);
+          const unlocked = demoAccount || progress.unlockedUnits.includes(unit.id);
           const completed = progress.completedUnits.includes(unit.id);
           const unitProgress = completed ? 100 : progress.progress?.[unit.id] || 0;
 

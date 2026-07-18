@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { getLevelProgress, getGlobalStats } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 
 import {
   ArrowLeft,
@@ -46,12 +47,13 @@ const baseLevels = [
 
 export default function EnglishLevels() {
   const navigate = useNavigate();
+  const demoAccount = useDemoAccount();
   const beginnerProgress = useMemo(() => getLevelProgress("english", "beginner"), []);
-  const intermediateUnlocked = beginnerProgress.completedUnits.includes(7);
+  const intermediateUnlocked = demoAccount || beginnerProgress.completedUnits.includes(7);
   const intermediateProgress = useMemo(() => getLevelProgress("english", "intermediate"), []);
   const advancedProgress = useMemo(() => getLevelProgress("english", "advanced"), []);
   const globalStats = useMemo(() => getGlobalStats(), []);
-  const advancedUnlocked = intermediateProgress.completedUnits.includes(4);
+  const advancedUnlocked = demoAccount || intermediateProgress.completedUnits.includes(4);
   const intermediatePercent = Math.round((intermediateProgress.completedUnits.filter(id => id >= 1 && id <= 4).length / 4) * 100);
   const beginnerPercent = Math.round((beginnerProgress.completedUnits.filter(id => id >= 1 && id <= 7).length / 7) * 100);
   const advancedPercent = Math.round((advancedProgress.completedUnits.filter(id => id >= 1 && id <= 3).length / 3) * 100);

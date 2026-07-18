@@ -69,7 +69,12 @@ export async function saveInstitutionProgress() {
 }
 export async function logoutInstitutionStudent() {
   const session = getInstitutionSession();
-  if (session) { try { await saveInstitutionProgress(); } catch (error) { console.error("No se pudo sincronizar el progreso institucional:", error); } await rpc("logout_institution_student", { p_session_token: session.session_token }); }
+  if (session) {
+    try { await saveInstitutionProgress(); }
+    catch (error) { console.error("No se pudo sincronizar el progreso institucional:", error); }
+    try { await rpc("logout_institution_student", { p_session_token: session.session_token }); }
+    catch (error) { console.error("No se pudo invalidar la sesión institucional en el servidor:", error); }
+  }
   localStorage.removeItem(SESSION_KEY); TRANSIENT_KEYS.forEach((key) => localStorage.removeItem(key));
   Object.keys(localStorage).forEach((key) => { if (key.startsWith("eduplay_certificate_") || key.startsWith("eduplay-certificate-")) localStorage.removeItem(key); });
 }

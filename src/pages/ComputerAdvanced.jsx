@@ -18,6 +18,7 @@ import {
   getLevelProgress,
   getStreak,
 } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 
 const advancedUnits = [
   {
@@ -52,6 +53,7 @@ const advancedUnits = [
 
 export default function ComputerAdvanced() {
   const navigate = useNavigate();
+  const demoAccount = useDemoAccount();
 
   const levelProgress = getLevelProgress(
     "computer",
@@ -64,14 +66,14 @@ export default function ComputerAdvanced() {
     return advancedUnits.map((unit) => ({
       ...unit,
       unlocked:
-        levelProgress.unlockedUnits.includes(unit.id),
+        demoAccount || levelProgress.unlockedUnits.includes(unit.id),
       completed:
         levelProgress.completedUnits.includes(unit.id),
       progress: Number(
         levelProgress.progress[unit.id] || 0
       ),
     }));
-  }, [levelProgress]);
+  }, [demoAccount, levelProgress]);
 
   const openUnit = (unit) => {
     if (!unit.unlocked) return;

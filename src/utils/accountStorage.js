@@ -1,9 +1,12 @@
 import { supabase } from "../lib/supabaseClient";
 import { loadCloudProfileState, saveCloudProfileState } from "./cloudState";
+import { resolveDemoAccount } from "./demoAccess";
 
 const PROFILES_KEY = "eduplay_profiles";
 const ACTIVE_KEY = "eduplay_active_profile";
+const ACCOUNT_OWNER_KEY = "eduplay_local_account_id";
 const LEGACY_KEYS = ["eduplay_profile", "eduplay_progress", "eduplay_engagement"];
+const CERTIFICATE_PREFIXES = ["eduplay_certificate_", "eduplay-certificate-"];
 
 const safeParse = (value, fallback) => {
   try { return value ? JSON.parse(value) : fallback; } catch { return fallback; }
@@ -28,11 +31,39 @@ const cacheProfiles = (profiles) => {
   return profiles;
 };
 
+const clearLocalAccountState = () => {
+  localStorage.removeItem(ACTIVE_KEY);
+  localStorage.removeItem(ACCOUNT_OWNER_KEY);
+  localStorage.removeItem("eduplay_license");
+  cacheProfiles([]);
+  LEGACY_KEYS.forEach((key) => localStorage.removeItem(key));
+  Object.keys(localStorage).forEach((key) => {
+    if (CERTIFICATE_PREFIXES.some((prefix) => key.startsWith(prefix))) {
+      localStorage.removeItem(key);
+    }
+  });
+  window.dispatchEvent(new Event("eduplay:profile-changed"));
+  window.dispatchEvent(new Event("eduplay:progress-synced"));
+};
+
+const bindLocalStateToUser = (userId) => {
+  const normalizedUserId = String(userId || "").trim();
+  if (!normalizedUserId) {
+    clearLocalAccountState();
+    return;
+  }
+
+  const previousUserId = localStorage.getItem(ACCOUNT_OWNER_KEY);
+  if (previousUserId !== normalizedUserId) clearLocalAccountState();
+  localStorage.setItem(ACCOUNT_OWNER_KEY, normalizedUserId);
+};
+
 export async function getAccount() {
-  const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getUser();
   if (error) throw error;
-  const user = data.session?.user;
+  const user = data.user;
   if (!user) return null;
+  bindLocalStateToUser(user.id);
   return {
     id: user.id,
     ownerName: user.user_metadata?.owner_name || user.user_metadata?.full_name || "Familia EduPlay",
@@ -44,11 +75,26 @@ export async function getAccount() {
 }
 
 export async function createFamilyAccount({ ownerName, email, password }) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const { data: currentSession } = await supabase.auth.getSession();
+  const currentEmail = currentSession.session?.user?.email?.trim().toLowerCase();
+  if (currentEmail && currentEmail !== normalizedEmail) {
+    const { error: signOutError } = await supabase.auth.signOut();
+    if (signOutError) throw signOutError;
+  }
+
   const { data, error } = await supabase.auth.signUp({
-    email: email.trim().toLowerCase(), password,
+    email: normalizedEmail, password,
     options: { data: { owner_name: ownerName.trim(), license: "family" } },
   });
   if (error) throw error;
+  const createdUser = data.session?.user;
+  if (!createdUser || createdUser.email?.trim().toLowerCase() !== normalizedEmail) {
+    const confirmationError = new Error("Confirma tu correo e inicia sesión antes de activar la licencia.");
+    confirmationError.code = "SESSION_CONFIRMATION_REQUIRED";
+    throw confirmationError;
+  }
+  bindLocalStateToUser(createdUser.id);
   return data;
 }
 
@@ -57,10 +103,12 @@ export async function loginFamily({ email, password }) {
     email: email.trim().toLowerCase(), password,
   });
   if (error) throw error;
+  bindLocalStateToUser(data.user?.id);
   return data;
 }
 
 export async function continueWithGoogleAccount() {
+  clearLocalAccountState();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google", options: { redirectTo: `${window.location.origin}/profiles` },
   });
@@ -206,9 +254,25 @@ export async function migrateLegacyProfile() {
 }
 
 export async function signOutFamily() {
-  await persistActiveProfile();
-  localStorage.removeItem(ACTIVE_KEY);
-  cacheProfiles([]);
+  const demoAccount = await resolveDemoAccount();
+  if (!demoAccount) {
+    try {
+      await persistActiveProfile();
+    } catch (error) {
+      console.error("No se pudo sincronizar el perfil antes de cerrar sesión:", error);
+    }
+  }
+
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
+
+  clearLocalAccountState();
 }
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_OUT" || !session?.user) {
+    clearLocalAccountState();
+    return;
+  }
+  bindLocalStateToUser(session.user.id);
+});

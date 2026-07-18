@@ -19,6 +19,7 @@ import {
   getProfile,
   saveProfile,
 } from "../utils/profileStorage";
+import { shouldSuppressDemoProgressWrites } from "../utils/demoAccess";
 
 const lessonSteps = [
   {
@@ -151,6 +152,7 @@ const quizQuestions = [
 ];
 
 function updateComputerProgress(score, stars) {
+  if (shouldSuppressDemoProgressWrites()) return;
   const profile = getProfile();
   const progress = profile.progress || {};
   const computer = progress.computer || {};

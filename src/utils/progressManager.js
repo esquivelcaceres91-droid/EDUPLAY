@@ -1,4 +1,5 @@
 import { queueCloudProfileStateSave } from "./cloudState";
+import { shouldSuppressDemoProgressWrites } from "./demoAccess";
 const STORAGE_KEY = "eduplay_progress";
 const LESSON_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
@@ -194,6 +195,14 @@ const updateStreak = (progress) => {
 };
 
 export const getProgress = () => {
+  if (shouldSuppressDemoProgressWrites()) {
+    try {
+      const demoSnapshot = localStorage.getItem(STORAGE_KEY);
+      return ensureProgressStructure(demoSnapshot ? JSON.parse(demoSnapshot) : createDefaultProgress());
+    } catch {
+      return createDefaultProgress();
+    }
+  }
   try {
     const savedProgress = localStorage.getItem(STORAGE_KEY);
 
@@ -234,6 +243,7 @@ export const getProgress = () => {
 };
 
 export const saveProgress = (progressData) => {
+  if (shouldSuppressDemoProgressWrites()) return ensureProgressStructure(progressData);
   try {
     const safeProgress =
       ensureProgressStructure(progressData);
@@ -505,6 +515,7 @@ export const clearLessonCooldown = () => {
 };
 
 export const resetProgress = () => {
+  if (shouldSuppressDemoProgressWrites()) return getProgress();
   const defaultProgress = createDefaultProgress();
 
   localStorage.setItem(

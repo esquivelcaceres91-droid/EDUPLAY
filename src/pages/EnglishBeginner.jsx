@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { getLevelProgress } from "../utils/progressManager";
+import { useDemoAccount } from "../utils/demoAccess";
 
 import {
   ArrowLeft,
@@ -26,10 +27,11 @@ const units = [
 
 export default function EnglishBeginner() {
   const navigate = useNavigate();
+  const demoAccount = useDemoAccount();
   const levelProgress = useMemo(() => getLevelProgress("english", "beginner"), []);
   const visibleUnits = units.map((unit) => ({
     ...unit,
-    unlocked: levelProgress.unlockedUnits.includes(unit.id),
+    unlocked: demoAccount || levelProgress.unlockedUnits.includes(unit.id),
     progress: Number(levelProgress.progress?.[unit.id] || 0),
   }));
 
