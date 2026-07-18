@@ -9,6 +9,24 @@ const emptyForm = { affiliate_name: "", code: "", commission_type: "percentage",
 const money = (value) => `Q${Number(value || 0).toFixed(2)}`;
 const date = (value) => value ? new Intl.DateTimeFormat("es-GT", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value)) : "—";
 
+const allowedStatuses = {
+  pending: [["pending", "Pendiente"], ["paid", "Pagada"], ["cancelled", "Cancelada"]],
+  paid: [["paid", "Pagada"], ["commission_paid", "Comisión pagada"]],
+  commission_paid: [["commission_paid", "Comisión pagada"]],
+  cancelled: [["cancelled", "Cancelada"]],
+};
+
+function SalesTable({ title, description, rows, loading, emptyText, onStatusChange }) {
+  return <section className="admin-list-card admin-sales-group">
+    <div className="admin-list-header"><div><h2>{title}</h2><p>{description}</p></div><strong className="admin-sales-count">{rows.length}</strong></div>
+    <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Fecha</th><th>Código</th><th>Afiliado</th><th>Plan</th><th>Comprador</th><th>Total</th><th>Comisión</th><th>Estado</th><th>Acción</th></tr></thead><tbody>
+      {loading ? <tr><td colSpan="9">Cargando…</td></tr> : rows.length === 0 ? <tr><td colSpan="9">{emptyText}</td></tr> : rows.map((sale) => <tr key={sale.id}><td className="admin-date">{date(sale.created_at)}</td><td><code>{sale.promo_code}</code></td><td>{sale.affiliate_name}</td><td>{sale.plan_type === "annual" ? "Anual" : "6 meses"}</td><td>{sale.buyer_email || "—"}</td><td>{money(sale.final_price)}</td><td>{money(sale.commission_amount)}</td><td><span className={`admin-status ${sale.status}`}>{sale.status}</span></td><td>
+        <select className="admin-status-select" value={sale.status} onChange={(event) => onStatusChange(sale, event.target.value)}>{allowedStatuses[sale.status].map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select>
+      </td></tr>)}
+    </tbody></table></div>
+  </section>;
+}
+
 export default function AdminCouponsSection() {
   const [coupons, setCoupons] = useState([]);
   const [sales, setSales] = useState([]);
@@ -33,12 +51,21 @@ export default function AdminCouponsSection() {
     return () => window.clearTimeout(timer);
   }, [load]);
 
+  const groupedSales = useMemo(() => ({
+    pending: sales.filter((item) => item.status === "pending"),
+    confirmed: sales.filter((item) => ["paid", "commission_paid"].includes(item.status)),
+    cancelled: sales.filter((item) => item.status === "cancelled"),
+  }), [sales]);
+
   const stats = useMemo(() => ({
-    coupons: coupons.length,
-    affiliates: new Set(coupons.map((item) => item.affiliate_name)).size,
-    confirmed: coupons.reduce((sum, item) => sum + Number(item.confirmed_uses || 0), 0),
-    pending: sales.filter((item) => item.status === "paid").reduce((sum, item) => sum + Number(item.commission_amount || 0), 0),
-  }), [coupons, sales]);
+    pendingAttempts: groupedSales.pending.length,
+    confirmedSales: groupedSales.confirmed.length,
+    cancelledSales: groupedSales.cancelled.length,
+    confirmedRevenue: groupedSales.confirmed.reduce((sum, item) => sum + Number(item.final_price || 0), 0),
+    confirmedUses: coupons.reduce((sum, item) => sum + Number(item.confirmed_uses || 0), 0),
+    pendingCommission: sales.filter((item) => item.status === "paid").reduce((sum, item) => sum + Number(item.commission_amount || 0), 0),
+    paidCommission: sales.filter((item) => item.status === "commission_paid").reduce((sum, item) => sum + Number(item.commission_amount || 0), 0),
+  }), [coupons, groupedSales, sales]);
 
   const change = (event) => setForm((old) => ({ ...old, [event.target.name]: event.target.value }));
   const reset = () => { setForm(emptyForm); setEditing(null); };
@@ -76,10 +103,13 @@ export default function AdminCouponsSection() {
       </div>
 
       <div className="admin-stats admin-coupon-stats">
-        <article><strong>{stats.coupons}</strong><span>Cupones</span></article>
-        <article><strong>{stats.affiliates}</strong><span>Afiliados</span></article>
-        <article><strong>{stats.confirmed}</strong><span>Usos confirmados</span></article>
-        <article><strong>{money(stats.pending)}</strong><span>Comisión pendiente</span></article>
+        <article><strong>{stats.pendingAttempts}</strong><span>Intentos pendientes</span></article>
+        <article><strong>{stats.confirmedSales}</strong><span>Ventas confirmadas</span></article>
+        <article><strong>{stats.cancelledSales}</strong><span>Canceladas</span></article>
+        <article><strong>{money(stats.confirmedRevenue)}</strong><span>Ingresos generados</span></article>
+        <article><strong>{stats.confirmedUses}</strong><span>Usos confirmados</span></article>
+        <article><strong>{money(stats.pendingCommission)}</strong><span>Comisión pendiente</span></article>
+        <article><strong>{money(stats.paidCommission)}</strong><span>Comisión pagada</span></article>
       </div>
 
       <form id="admin-coupon-form" className="admin-generator admin-coupon-form" onSubmit={submit}>
@@ -101,21 +131,17 @@ export default function AdminCouponsSection() {
 
       <section className="admin-list-card">
         <div className="admin-list-header"><div><h2>Cupones</h2><p>Control de vigencia, usos y comisiones.</p></div></div>
-        <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Código</th><th>Afiliado</th><th>Comisión</th><th>Estado</th><th>Vence</th><th>Usos</th><th>Creado</th><th>Acciones</th></tr></thead><tbody>
-          {loading ? <tr><td colSpan="8">Cargando…</td></tr> : coupons.length === 0 ? <tr><td colSpan="8">No hay cupones.</td></tr> : coupons.map((coupon) => <tr key={coupon.id}>
+        <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Código</th><th>Afiliado</th><th>Comisión</th><th>Estado</th><th>Ventas</th><th>Ingresos</th><th>Comisión pendiente</th><th>Comisión pagada</th><th>Vence</th><th>Usos</th><th>Creado</th><th>Acciones</th></tr></thead><tbody>
+          {loading ? <tr><td colSpan="12">Cargando…</td></tr> : coupons.length === 0 ? <tr><td colSpan="12">No hay cupones.</td></tr> : coupons.map((coupon) => <tr key={coupon.id}>
             <td><code>{coupon.code}</code></td><td>{coupon.affiliate_name}</td><td>{coupon.commission_type === "percentage" ? `${coupon.commission_value}%` : money(coupon.commission_value)}</td>
-            <td><span className={`admin-status ${coupon.status}`}>{coupon.status}</span></td><td>{coupon.expires_at || "—"}</td><td>{coupon.confirmed_uses}{coupon.usage_limit ? ` / ${coupon.usage_limit}` : ""}</td><td className="admin-date">{date(coupon.created_at)}</td>
+            <td><span className={`admin-status ${coupon.status}`}>{coupon.status}</span></td><td>{coupon.confirmed_sales || 0}</td><td>{money(coupon.confirmed_revenue)}</td><td>{money(coupon.pending_commission)}</td><td>{money(coupon.paid_commission)}</td><td>{coupon.expires_at || "—"}</td><td>{coupon.confirmed_uses}{coupon.usage_limit ? ` / ${coupon.usage_limit}` : ""}</td><td className="admin-date">{date(coupon.created_at)}</td>
             <td className="admin-actions"><button type="button" onClick={() => edit(coupon)} title="Editar"><Pencil size={16} /></button><button type="button" onClick={() => toggle(coupon)}>{coupon.status === "active" ? "Desactivar" : "Activar"}</button><button type="button" onClick={() => remove(coupon)} title="Eliminar"><Trash2 size={16} /></button></td>
           </tr>)}</tbody></table></div>
       </section>
 
-      <section className="admin-list-card">
-        <div className="admin-list-header"><div><h2>Ventas de afiliados</h2><p>Confirma pagos y marca las comisiones liquidadas.</p></div></div>
-        <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Fecha</th><th>Código</th><th>Afiliado</th><th>Plan</th><th>Comprador</th><th>Total</th><th>Comisión</th><th>Estado</th><th>Acción</th></tr></thead><tbody>
-          {loading ? <tr><td colSpan="9">Cargando…</td></tr> : sales.length === 0 ? <tr><td colSpan="9">No hay ventas registradas.</td></tr> : sales.map((sale) => <tr key={sale.id}><td className="admin-date">{date(sale.created_at)}</td><td><code>{sale.promo_code}</code></td><td>{sale.affiliate_name}</td><td>{sale.plan_type === "annual" ? "Anual" : "6 meses"}</td><td>{sale.buyer_email || "—"}</td><td>{money(sale.final_price)}</td><td>{money(sale.commission_amount)}</td><td><span className={`admin-status ${sale.status}`}>{sale.status}</span></td><td>
-            <select className="admin-status-select" value={sale.status} onChange={(event) => changeSaleStatus(sale, event.target.value)}><option value="pending">Pendiente</option><option value="paid">Pagada</option><option value="cancelled">Cancelada</option><option value="commission_paid">Comisión pagada</option></select>
-          </td></tr>)}</tbody></table></div>
-      </section>
+      <SalesTable title="Intentos pendientes" description="Checkouts iniciados que todavía no son ventas." rows={groupedSales.pending} loading={loading} emptyText="No hay intentos pendientes." onStatusChange={changeSaleStatus} />
+      <SalesTable title="Ventas confirmadas" description="Únicamente pagos confirmados y comisiones liquidadas." rows={groupedSales.confirmed} loading={loading} emptyText="No hay ventas confirmadas." onStatusChange={changeSaleStatus} />
+      <SalesTable title="Canceladas" description="Intentos sin pago; no generan uso ni comisión." rows={groupedSales.cancelled} loading={loading} emptyText="No hay operaciones canceladas." onStatusChange={changeSaleStatus} />
     </section>
   );
 }
