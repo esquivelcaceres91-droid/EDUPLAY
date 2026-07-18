@@ -7,6 +7,7 @@ import {
   LoaderCircle,
   ShieldCheck,
 } from "lucide-react";
+import { FAMILY_PLANS } from "../config/paymentConfig";
 import "../styles/access.css";
 
 const CHECKOUTS = {
@@ -15,14 +16,14 @@ const CHECKOUTS = {
     title: "Licencia Familiar · 6 meses",
     price: "Q299",
     duration: "180 días",
-    url: "https://app.recurrente.com/s/estedup/o/o_p9pgeyvs",
+    url: FAMILY_PLANS["family-6m"].paymentLinks.normal,
   },
   "family-annual": {
     id: "family-annual",
     title: "Licencia Familiar · Anual",
     price: "Q499",
     duration: "365 días",
-    url: "https://app.recurrente.com/s/estedup/o/o_66vvl7ne",
+    url: FAMILY_PLANS["family-annual"].paymentLinks.normal,
   },
 };
 

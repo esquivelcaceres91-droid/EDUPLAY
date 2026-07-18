@@ -14,6 +14,8 @@ import {
   XCircle,
 } from "lucide-react";
 import { activateFamilyLicense } from "../utils/licenseStorage";
+import { getFamilyPaymentLink } from "../config/paymentConfig";
+import { registerAffiliateSale } from "../utils/couponStorage";
 import "../styles/access.css";
 
 const normalizeCode = (value) => value.trim().toUpperCase().replace(/\s+/g, "");
@@ -49,6 +51,7 @@ export default function ActivateLicensePage() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [activating, setActivating] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
 
   const normalizedCode = useMemo(() => normalizeCode(code), [code]);
 
@@ -85,6 +88,20 @@ export default function ActivateLicensePage() {
   };
 
   const goToProfiles = () => navigate("/create-profiles");
+
+  const buySelectedPlan = async () => {
+    if (purchasing) return;
+    setPurchasing(true); setStatus("idle"); setMessage("");
+    try {
+      const hasPromo = Boolean(selectedPlan?.promo?.code);
+      if (hasPromo) await registerAffiliateSale(selectedPlan.promo.code, selectedPlan.planType || (isAnnualPlan ? "annual" : "six_months"));
+      window.location.assign(getFamilyPaymentLink(selectedPlan?.id || (isAnnualPlan ? "family-annual" : "family-6m"), hasPromo));
+    } catch (error) {
+      setStatus("error");
+      setMessage(error?.message || "No se pudo validar el cupón antes de continuar al pago.");
+      setPurchasing(false);
+    }
+  };
 
   return (
     <main className="access-screen license-activation-screen">
@@ -196,15 +213,10 @@ export default function ActivateLicensePage() {
             <button
               className="activation-buy-button"
               type="button"
-              onClick={() => {
-                const paymentUrl = isAnnualPlan
-                  ? "https://app.recurrente.com/s/estedup/o/o_66vvl7ne"
-                  : "https://app.recurrente.com/s/estedup/o/o_p9pgeyvs";
-
-                window.location.assign(paymentUrl);
-              }}
+              onClick={buySelectedPlan}
+              disabled={purchasing}
             >
-              <CreditCard /> {selectedPlan ? `Comprar ${isAnnualPlan ? "licencia anual" : "licencia de 6 meses"}` : "Comprar licencia familiar"}
+              <CreditCard /> {purchasing ? "Preparando pago…" : selectedPlan ? `Comprar ${isAnnualPlan ? "licencia anual" : "licencia de 6 meses"}` : "Comprar licencia familiar"}
             </button>
 
             <p className="activation-safe-note"><ShieldCheck /> El pago se realizará en una página segura.</p>

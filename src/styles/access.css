@@ -1490,3 +1490,144 @@
 .institution-avatar-grid button.selected{border-color:#2186e6;background:#fff;box-shadow:0 6px 16px rgba(33,134,230,.25)}
 .institution-avatar-grid img{width:100%;height:100%;object-fit:contain}.institution-avatar-grid button span{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:#13b978;color:white}.institution-avatar-grid button span svg{width:13px}
 @media(max-width:650px){.institution-student-screen{padding:68px 10px 18px;align-items:start}.institution-back{top:12px;left:12px;padding:8px 12px}.institution-student-card{padding:24px 16px;border-radius:24px}.institution-form-grid{grid-template-columns:1fr}.institution-avatar-grid{gap:6px}.institution-avatar-grid button{width:51px;height:51px;border-radius:15px}}
+
+/* Cupones familiares: estilos limitados a las tarjetas de planes */
+.family-plan-old-price{display:block;color:#7d89a1;font-weight:900;text-decoration:line-through;font-size:16px}.family-plan-price em{display:block;margin-top:3px;color:#14834c;font-size:13px;font-style:normal;font-weight:1000}.family-coupon-box{margin:13px 0 15px;padding:13px;border:1px solid #d9e7f6;border-radius:16px;background:rgba(244,249,255,.88);text-align:left}.family-coupon-box>label{display:block;margin-bottom:7px;color:#173f79;font-size:13px;font-weight:1000}.family-coupon-box>div{display:grid;grid-template-columns:1fr auto;gap:7px}.family-coupon-box input{min-width:0;height:42px;box-sizing:border-box;padding:9px 11px;border:2px solid #d5e3f3;border-radius:11px;background:#fff;color:#15396e;font:900 13px inherit;text-transform:uppercase;outline:none}.family-coupon-box input:focus{border-color:#2687e5;box-shadow:0 0 0 3px rgba(38,135,229,.12)}.family-coupon-box>div>button{padding:0 13px;border:0;border-radius:11px;background:linear-gradient(135deg,#1b8be5,#145bc5);color:#fff;font-weight:1000;cursor:pointer}.family-coupon-box>div>button:disabled{opacity:.65}.family-coupon-box>p{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 0;font-size:11px;font-weight:1000}.family-coupon-box>p.success{color:#13804a}.family-coupon-box>p.error{color:#b33b45}.family-coupon-box>p button{display:inline-flex;align-items:center;gap:3px;padding:3px 5px;border:0;background:transparent;color:inherit;font-weight:1000;cursor:pointer}.family-coupon-box.is-applied{border-color:#83dab1;background:#effcf5}
+@media(max-width:600px){.family-coupon-box{padding:11px}.family-coupon-box>div{grid-template-columns:1fr}.family-coupon-box>div>button{min-height:40px}}
+
+/* Bloque compacto de futuros mundos, exclusivo del plan anual */
+.family-plan-card.featured .future-worlds-box{
+  margin:7px 0 0;
+  padding:8px 9px 9px;
+  border:1px solid rgba(255,255,255,.68);
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(255,255,255,.55),rgba(250,242,255,.38));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 5px 14px rgba(91,43,152,.07);
+  backdrop-filter:blur(10px);
+}
+.family-plan-card.featured .future-worlds-title{
+  gap:7px;
+  margin-bottom:6px;
+}
+.family-plan-card.featured .future-worlds-title>svg{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+}
+.family-plan-card.featured .future-worlds-title strong{
+  font-size:11px;
+  line-height:1.1;
+}
+.family-plan-card.featured .future-worlds-title small{
+  margin-top:1px;
+  font-size:8px;
+  line-height:1.1;
+}
+.family-plan-card.featured .future-worlds-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:4px;
+}
+.family-plan-card.featured .future-worlds-grid span{
+  min-width:0;
+  min-height:25px;
+  padding:3px 6px;
+  border:1px solid rgba(118,79,183,.14);
+  border-radius:999px;
+  background:rgba(255,255,255,.48);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78);
+  color:#34446a;
+  font-size:8.5px;
+  line-height:1.08;
+  overflow-wrap:anywhere;
+}
+.family-plan-card.featured .future-worlds-grid svg{
+  width:11px;
+  height:11px;
+  flex:0 0 11px;
+}
+@media(max-width:920px){
+  .family-plan-card.featured .future-worlds-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .family-plan-card.featured .future-worlds-grid span{font-size:10px;padding:4px 7px}
+}
+@media(max-width:420px){
+  .family-plan-card.featured .future-worlds-box{padding:8px}
+  .family-plan-card.featured .future-worlds-grid{gap:4px}
+  .family-plan-card.featured .future-worlds-grid span{font-size:8.5px;padding:3px 5px}
+}
+
+/* Equilibrio vertical de ambas tarjetas en escritorio y laptop */
+@media(min-width:921px){
+  .family-plan-benefits{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:5px 12px;
+  }
+  .family-plan-benefits li{
+    min-width:0;
+    font-size:11px;
+    line-height:1.12;
+  }
+  .family-plan-benefits li:last-child{
+    grid-column:1/-1;
+  }
+  .family-plan-card.featured .future-worlds-box{
+    margin-top:6px;
+    padding:6px 8px 7px;
+  }
+  .family-plan-card.featured .future-worlds-title{
+    margin-bottom:4px;
+  }
+  .family-plan-card.featured .future-worlds-title strong{
+    font-size:13px;
+  }
+  .family-plan-card.featured .future-worlds-title small{
+    font-size:10px;
+  }
+  .family-plan-card.featured .future-worlds-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:3px 4px;
+  }
+  .family-plan-card.featured .future-worlds-grid span{
+    min-height:28px;
+    padding:4px 7px;
+    font-size:11px;
+    line-height:1.15;
+  }
+  .family-plan-card.featured .future-worlds-grid svg{
+    width:13px;
+    height:13px;
+    flex-basis:13px;
+  }
+  .family-plan-price{
+    padding-top:4px;
+  }
+  .family-plan-card.featured .family-plan-price strong{
+    font-size:42px;
+  }
+  .family-coupon-box{
+    margin:6px 0 8px;
+    padding:8px 9px;
+    border-radius:13px;
+  }
+  .family-coupon-box>label{
+    margin-bottom:4px;
+    font-size:11px;
+  }
+  .family-coupon-box input{
+    height:36px;
+    padding:7px 10px;
+    font-size:12px;
+  }
+  .family-coupon-box>div>button{
+    min-height:36px;
+    padding:0 12px;
+    font-size:12px;
+  }
+  .family-coupon-box>p{
+    margin-top:4px;
+    font-size:9px;
+    line-height:1.15;
+  }
+  .family-have-code{
+    margin-top:18px;
+  }
+}

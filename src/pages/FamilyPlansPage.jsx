@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -21,7 +21,10 @@ import {
   Sparkles,
   Star,
   Users,
+  X,
 } from "lucide-react";
+import { FAMILY_PLANS, formatQuetzales } from "../config/paymentConfig";
+import { normalizeCouponCode, validateAffiliateCoupon } from "../utils/couponStorage";
 import "../styles/access.css";
 
 const commonBenefits = [
@@ -44,6 +47,10 @@ const futureWorlds = [
 
 export default function FamilyPlansPage() {
   const navigate = useNavigate();
+  const [promoCode, setPromoCode] = useState(() => sessionStorage.getItem("eduplay_applied_promo_code") || "");
+  const [promoResults, setPromoResults] = useState(null);
+  const [promoMessage, setPromoMessage] = useState("");
+  const [applyingPromo, setApplyingPromo] = useState(false);
 
   const plans = useMemo(
     () => [
@@ -69,13 +76,49 @@ export default function FamilyPlansPage() {
     [],
   );
 
+  const applyPromo = async (event) => {
+    event?.preventDefault();
+    const normalized = normalizeCouponCode(promoCode);
+    if (!normalized) { setPromoMessage("Escribe un código de cupón."); return; }
+    setApplyingPromo(true); setPromoMessage("");
+    try {
+      const [sixMonths, annual] = await Promise.all([
+        validateAffiliateCoupon(normalized, "six_months"),
+        validateAffiliateCoupon(normalized, "annual"),
+      ]);
+      if (!sixMonths?.valid || !annual?.valid) throw new Error(sixMonths?.message || annual?.message || "Cupón no válido.");
+      setPromoCode(normalized);
+      setPromoResults({ "family-6m": sixMonths, "family-annual": annual });
+      sessionStorage.setItem("eduplay_applied_promo_code", normalized);
+      setPromoMessage("¡Cupón aplicado correctamente!");
+    } catch (error) {
+      setPromoResults(null); sessionStorage.removeItem("eduplay_applied_promo_code");
+      setPromoMessage(error?.message || "El cupón no es válido o ya venció.");
+    } finally { setApplyingPromo(false); }
+  };
+
+  useEffect(() => {
+    const timer = promoCode && !promoResults ? window.setTimeout(applyPromo, 0) : null;
+    return () => { if (timer) window.clearTimeout(timer); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const removePromo = () => {
+    setPromoCode(""); setPromoResults(null); setPromoMessage("");
+    sessionStorage.removeItem("eduplay_applied_promo_code");
+  };
+
   const choosePlan = (plan) => {
+    const promo = promoResults?.[plan.id];
+    const config = FAMILY_PLANS[plan.id];
     const selection = {
       id: plan.id,
       licenseType: "family",
       durationDays: plan.durationDays,
-      price: plan.price,
+      price: promo?.valid ? formatQuetzales(promo.final_price) : plan.price,
       title: plan.title,
+      planType: config.planType,
+      promo: promo?.valid ? { code: normalizeCouponCode(promoCode), discountPercent: Number(promo.discount_percent), originalPrice: Number(promo.original_price), savings: Number(promo.savings), finalPrice: Number(promo.final_price) } : null,
     };
 
     sessionStorage.setItem("eduplay_selected_family_plan", JSON.stringify(selection));
@@ -154,8 +197,21 @@ export default function FamilyPlansPage() {
 
               <div className="family-plan-price">
                 <small>{plan.featured ? "Más contenido por menos" : "Precio del plan"}</small>
-                <strong>{plan.price}</strong>
+                {promoResults?.[plan.id]?.valid ? <>
+                  <span className="family-plan-old-price">{formatQuetzales(promoResults[plan.id].original_price, 0)}</span>
+                  <strong>{formatQuetzales(promoResults[plan.id].final_price)}</strong>
+                  <em>Ahorras {formatQuetzales(promoResults[plan.id].savings)} ({promoResults[plan.id].discount_percent}%)</em>
+                </> : <strong>{plan.price}</strong>}
               </div>
+
+              <form className={`family-coupon-box ${promoResults ? "is-applied" : ""}`} onSubmit={applyPromo}>
+                <label htmlFor={`promo-${plan.id}`}>¿Tienes un cupón?</label>
+                <div>
+                  <input id={`promo-${plan.id}`} value={promoCode} onChange={(event) => { setPromoCode(event.target.value); if (promoResults) { setPromoResults(null); sessionStorage.removeItem("eduplay_applied_promo_code"); } setPromoMessage(""); }} placeholder="Escribe tu código" autoComplete="off" />
+                  <button type="submit" disabled={applyingPromo}>{applyingPromo ? "Validando…" : "Aplicar"}</button>
+                </div>
+                {promoMessage && <p className={promoResults ? "success" : "error"}><span>{promoMessage}{promoResults && <> · <strong>{normalizeCouponCode(promoCode)}</strong></>}</span>{promoResults && <button type="button" onClick={removePromo} aria-label="Quitar cupón"><X size={14} /> Quitar</button>}</p>}
+              </form>
 
               <button
                 className="family-plan-buy"

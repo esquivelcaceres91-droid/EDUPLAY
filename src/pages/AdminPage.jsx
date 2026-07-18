@@ -3,6 +3,7 @@ import { Copy, KeyRound, LogOut, RefreshCw, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import AdminInstitutionsSection from "../components/AdminInstitutionsSection";
+import AdminCouponsSection from "../components/AdminCouponsSection";
 import {
   generateLicenseCode,
   listLicenseCodes,
@@ -203,6 +204,7 @@ export default function AdminPage() {
         </section>
 
         <AdminInstitutionsSection />
+        <AdminCouponsSection />
       </section>
     </main>
   );

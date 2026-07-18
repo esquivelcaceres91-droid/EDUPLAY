@@ -1,12 +1,8 @@
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, ExternalLink, LockKeyhole, ShieldCheck } from "lucide-react";
+import { getFamilyPaymentLink } from "../config/paymentConfig";
 import "../styles/access.css";
-
-const PAYMENT_LINKS = {
-  "family-6m": "https://app.recurrente.com/s/estedup/o/o_p9pgeyvs",
-  "family-annual": "https://app.recurrente.com/s/estedup/o/o_66vvl7ne",
-};
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -24,9 +20,9 @@ export default function CheckoutPage() {
   }, [location.state]);
 
   const isAnnual = selectedPlan?.id === "family-annual" || selectedPlan?.durationDays === 365;
-  const paymentUrl = isAnnual ? PAYMENT_LINKS["family-annual"] : PAYMENT_LINKS["family-6m"];
+  const paymentUrl = getFamilyPaymentLink(isAnnual ? "family-annual" : "family-6m", Boolean(selectedPlan?.promo?.code));
   const planLabel = isAnnual ? "Licencia Familiar Anual" : "Licencia Familiar 6 meses";
-  const planPrice = isAnnual ? "Q499" : "Q299";
+  const planPrice = selectedPlan?.price || (isAnnual ? "Q499" : "Q299");
 
   return (
     <main className="access-screen recurrente-checkout-screen">
