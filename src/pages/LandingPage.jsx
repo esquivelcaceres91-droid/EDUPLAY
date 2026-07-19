@@ -9,10 +9,14 @@ import {
   GraduationCap,
   Heart,
   Laptop,
+  Mail,
   Menu,
+  MessageSquare,
   MonitorSmartphone,
+  Phone,
   Play,
   School,
+  Send,
   ShieldCheck,
   Sparkles,
   Trophy,
@@ -25,7 +29,11 @@ import logo from "../assets/landing/eduplay-logo.png";
 import heroDark from "../assets/landing/hero-dark.png";
 import { resolveSessionDestination } from "../utils/sessionDestination";
 import { getInstitutionSession, hydrateInstitutionProgress } from "../utils/institutionStorage";
+import { supabase } from "../lib/supabaseClient";
 import "../styles/landing.css";
+
+const EMPTY_CONTACT = { name: "", email: "", phone: "", inquiryType: "Familia", message: "", website: "" };
+const CONTACT_TYPES = ["Familia", "Colegio", "Municipalidad", "ONG", "Afiliación", "Otro"];
 
 const benefits = [
   { icon: BookOpen, title: "Lecciones interactivas", text: "Contenido claro, divertido y adaptado para primaria." },
@@ -55,7 +63,12 @@ export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState(0);
   const [restoringSession, setRestoringSession] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [contactForm, setContactForm] = useState(EMPTY_CONTACT);
+  const [contactStatus, setContactStatus] = useState({ type: "", message: "" });
+  const [contactSending, setContactSending] = useState(false);
   const videoRef = useRef(null);
+  const contactSendingRef = useRef(false);
 
   const closeMenu = () => setMenuOpen(false);
   const closeVideo = useCallback(() => {
@@ -63,6 +76,54 @@ export default function LandingPage() {
     if (video) { video.pause(); video.currentTime = 0; }
     setVideoOpen(false);
   }, []);
+  const closeContact = useCallback(() => {
+    if (contactSendingRef.current) return;
+    setContactOpen(false);
+    setContactStatus({ type: "", message: "" });
+  }, []);
+
+  const openContact = () => {
+    closeMenu();
+    setContactStatus({ type: "", message: "" });
+    setContactOpen(true);
+  };
+
+  const setContactField = (field, value) => {
+    setContactForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const submitContact = async (event) => {
+    event.preventDefault();
+    if (contactSendingRef.current) return;
+    const name = contactForm.name.trim();
+    const email = contactForm.email.trim().toLowerCase();
+    const message = contactForm.message.trim();
+    if (!name || !email || !message) {
+      setContactStatus({ type: "error", message: "Completa nombre, correo y mensaje." });
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setContactStatus({ type: "error", message: "Escribe un correo electrónico válido." });
+      return;
+    }
+    contactSendingRef.current = true;
+    setContactSending(true);
+    setContactStatus({ type: "", message: "" });
+    try {
+      const { error } = await supabase.functions.invoke("send-institution-request", {
+        body: { ...contactForm, name, email, message, requestType: "landing_contact", origin: "Formulario de contacto de la Landing" },
+      });
+      if (error) throw error;
+      setContactForm(EMPTY_CONTACT);
+      setContactStatus({ type: "success", message: "¡Mensaje enviado! Pronto nos pondremos en contacto contigo." });
+    } catch (error) {
+      console.error("No se pudo enviar el mensaje de contacto:", error);
+      setContactStatus({ type: "error", message: "No pudimos enviar el mensaje. Inténtalo nuevamente." });
+    } finally {
+      contactSendingRef.current = false;
+      setContactSending(false);
+    }
+  };
 
   useEffect(() => {
     if (!videoOpen) return undefined;
@@ -70,6 +131,13 @@ export default function LandingPage() {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [closeVideo, videoOpen]);
+
+  useEffect(() => {
+    if (!contactOpen) return undefined;
+    const onKeyDown = (event) => { if (event.key === "Escape") closeContact(); };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [closeContact, contactOpen]);
 
   const openExistingSession = async () => {
     if (restoringSession) return;
@@ -104,6 +172,7 @@ export default function LandingPage() {
           <a href="#beneficios" onClick={closeMenu}>Beneficios</a>
           <a href="#planes" onClick={closeMenu}>Planes</a>
           <a href="#preguntas" onClick={closeMenu}>Preguntas</a>
+          <button className="landing-access-button landing-contact-button" type="button" onClick={openContact}><MessageSquare size={18} /> Contáctanos</button>
           <Link className="landing-access-button" to="/institution-access" onClick={closeMenu}><School size={18} /> Ingresar como colegio o institución</Link>
           <button className="landing-access-button" type="button" onClick={openExistingSession} disabled={restoringSession}>{restoringSession ? "Comprobando sesión…" : "Iniciar sesión familiar"}</button>
         </nav>
@@ -272,6 +341,25 @@ export default function LandingPage() {
           <button className="landing-video-close" type="button" onClick={closeVideo} aria-label="Cerrar video"><X /></button>
           <div className="landing-video-heading"><span>CONOCE EDUPLAY</span><h2>¿Qué es EduPlay?</h2></div>
           <video ref={videoRef} src="/assets/landing/eduplay-presentacion.mp4" controls playsInline preload="metadata" />
+        </section>
+      </div>}
+
+      {contactOpen && <div className="landing-contact-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeContact(); }}>
+        <section className="landing-contact-modal" role="dialog" aria-modal="true" aria-labelledby="landing-contact-title">
+          <button className="landing-contact-close" type="button" onClick={closeContact} disabled={contactSending} aria-label="Cerrar formulario"><X /></button>
+          <div className="landing-contact-heading"><span><MessageSquare /> CONTACTO EDUPLAY</span><h2 id="landing-contact-title">¿Cómo podemos ayudarte?</h2><p>Escríbenos y nuestro equipo responderá tu consulta.</p></div>
+          <form className="landing-contact-form" onSubmit={submitContact} noValidate>
+            <label><span>Nombre *</span><div><Users /><input value={contactForm.name} onChange={(event) => setContactField("name", event.target.value)} maxLength={100} autoComplete="name" required /></div></label>
+            <label><span>Correo electrónico *</span><div><Mail /><input type="email" value={contactForm.email} onChange={(event) => setContactField("email", event.target.value)} maxLength={160} autoComplete="email" required /></div></label>
+            <div className="landing-contact-row">
+              <label><span>Teléfono opcional</span><div><Phone /><input type="tel" value={contactForm.phone} onChange={(event) => setContactField("phone", event.target.value)} maxLength={40} autoComplete="tel" /></div></label>
+              <label><span>Tipo de consulta *</span><select value={contactForm.inquiryType} onChange={(event) => setContactField("inquiryType", event.target.value)}>{CONTACT_TYPES.map((type) => <option key={type}>{type}</option>)}</select></label>
+            </div>
+            <label><span>Mensaje *</span><textarea value={contactForm.message} onChange={(event) => setContactField("message", event.target.value)} maxLength={2000} rows={5} required /></label>
+            <label className="landing-contact-honeypot" aria-hidden="true">Sitio web<input tabIndex="-1" autoComplete="off" value={contactForm.website} onChange={(event) => setContactField("website", event.target.value)} /></label>
+            {contactStatus.message && <div className={`landing-contact-status ${contactStatus.type}`} role="status">{contactStatus.message}</div>}
+            <button className="landing-contact-submit" type="submit" disabled={contactSending}><Send /> {contactSending ? "Enviando…" : "Enviar mensaje"}</button>
+          </form>
         </section>
       </div>}
     </main>

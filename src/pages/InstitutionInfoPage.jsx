@@ -1,25 +1,33 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Building2, CheckCircle2, Mail, MapPin, Phone, Send, UserRound } from "lucide-react";
 import "../styles/access.css";
+import { supabase } from "../lib/supabaseClient";
 
-const INITIAL = { institution:"", contact:"", role:"", email:"", phone:"", city:"", students:"", message:"" };
+const INITIAL = { institution:"", contact:"", role:"", email:"", phone:"", city:"", students:"", message:"", website:"" };
 
 export default function InstitutionInfoPage(){
   const navigate=useNavigate();
   const [form,setForm]=useState(INITIAL);
   const [sent,setSent]=useState(false);
   const [error,setError]=useState("");
+  const [sending,setSending]=useState(false);
+  const sendingRef=useRef(false);
   const set=(key,value)=>setForm(current=>({...current,[key]:value}));
-  const submit=(event)=>{
+  const submit=async(event)=>{
     event.preventDefault(); setError("");
+    if(sendingRef.current)return;
     if(!form.institution.trim()||!form.contact.trim()||!form.email.trim()||!form.phone.trim()){
       setError("Completa institución, contacto, correo y teléfono."); return;
     }
-    const requests=JSON.parse(localStorage.getItem("eduplay_institution_requests")||"[]");
-    requests.push({...form,id:`request_${Date.now()}`,createdAt:new Date().toISOString(),status:"pending"});
-    localStorage.setItem("eduplay_institution_requests",JSON.stringify(requests));
-    setSent(true);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())){setError("Escribe un correo válido.");return;}
+    sendingRef.current=true;setSending(true);
+    try{
+      const {error:sendError}=await supabase.functions.invoke("send-institution-request",{body:{...form,requestType:"institution"}});
+      if(sendError)throw sendError;
+      setForm(INITIAL);setSent(true);
+    }catch(sendError){console.error("No se pudo enviar la solicitud institucional:",sendError);setError("No pudimos enviar la solicitud. Inténtalo nuevamente.");}
+    finally{sendingRef.current=false;setSending(false);}
   };
 
   return <main className="access-screen institution-request-screen">
@@ -51,8 +59,9 @@ export default function InstitutionInfoPage(){
               <label><Building2/><span><b>Estudiantes aproximados</b><select value={form.students} onChange={e=>set("students",e.target.value)}><option value="">Seleccionar</option><option>1 a 100</option><option>101 a 500</option><option>501 a 1,500</option><option>Más de 1,500</option></select></span></label>
             </div>
             <label className="institution-message"><span><b>¿Qué necesitas?</b><textarea value={form.message} onChange={e=>set("message",e.target.value)} placeholder="Cuéntanos brevemente sobre el proyecto educativo..."/></span></label>
+            <label aria-hidden="true" style={{position:"absolute",left:"-10000px",width:"1px",height:"1px",overflow:"hidden"}}>Sitio web<input tabIndex="-1" autoComplete="off" value={form.website} onChange={e=>set("website",e.target.value)}/></label>
             {error&&<div className="form-error">{error}</div>}
-            <button className="institution-send"><Send/> Enviar solicitud</button>
+            <button className="institution-send" disabled={sending}><Send/> {sending?"Enviando…":"Enviar solicitud"}</button>
           </form>
         </>}
       </section>
