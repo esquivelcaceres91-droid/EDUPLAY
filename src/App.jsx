@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,7 +16,6 @@ import SettingsPage from "./pages/SettingsPage";
 import ActivityTracker from "./components/ActivityTracker";
 import LessonCooldownGuard from "./components/LessonCooldownGuard";
 import LicenseAccessGuard from "./components/LicenseAccessGuard";
-import WelcomePage from "./pages/WelcomePage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import SessionEntryPage from "./pages/SessionEntryPage";
 import LoginPage from "./pages/LoginPage";
@@ -34,6 +34,9 @@ import AdminGuard from "./components/AdminGuard";
 import EnglishLevels from "./pages/EnglishLevels";
 import ComputerLevels from "./pages/ComputerLevels";
 import LandingPage from "./pages/LandingPage";
+import { PublicExploreFrame, PublicLessonPreview, PublicLockedPage } from "./components/PublicExplore";
+import PublicExploreScreen from "./components/PublicExploreScreens";
+import { isPublicExplorePath } from "./utils/publicExplore";
 
 import EnglishBeginner from "./pages/EnglishBeginner";
 import EnglishIntermediate from "./pages/EnglishIntermediate";
@@ -161,6 +164,15 @@ function AnimatedRoutes() {
           <Route path="/settings" element={<RoutePage><SettingsPage /></RoutePage>} />
           <Route path="/english" element={<RoutePage><EnglishLevels /></RoutePage>} />
           <Route path="/computer" element={<RoutePage><ComputerLevels /></RoutePage>} />
+          <Route path="/explore" element={<Navigate to="/explore/home" replace />} />
+          <Route path="/explore/home" element={<RoutePage><PublicExploreFrame><PublicExploreScreen view="home" /></PublicExploreFrame></RoutePage>} />
+          <Route path="/explore/english" element={<RoutePage><PublicExploreFrame><PublicExploreScreen view="levels" world="english" /></PublicExploreFrame></RoutePage>} />
+          <Route path="/explore/computer" element={<RoutePage><PublicExploreFrame><PublicExploreScreen view="levels" world="computer" /></PublicExploreFrame></RoutePage>} />
+          <Route path="/explore/english/beginner" element={<RoutePage><PublicExploreFrame><PublicExploreScreen view="map" world="english" /></PublicExploreFrame></RoutePage>} />
+          <Route path="/explore/computer/beginner" element={<RoutePage><PublicExploreFrame><PublicExploreScreen view="map" world="computer" /></PublicExploreFrame></RoutePage>} />
+          <Route path="/explore/preview/english" element={<RoutePage><PublicLessonPreview world="english" /></RoutePage>} />
+          <Route path="/explore/preview/computer" element={<RoutePage><PublicLessonPreview world="computer" /></RoutePage>} />
+          <Route path="/explore/locked" element={<RoutePage><PublicLockedPage /></RoutePage>} />
 
           <Route path="/english/beginner" element={<RoutePage><EnglishBeginner /></RoutePage>} />
           <Route path="/english/intermediate" element={<RoutePage><EnglishIntermediate /></RoutePage>} />
@@ -240,11 +252,14 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ActivityTracker />
-      <LicenseAccessGuard />
-      <LessonCooldownGuard>
-        <AnimatedRoutes />
-      </LessonCooldownGuard>
+      <AppRuntime />
     </BrowserRouter>
   );
+}
+
+function AppRuntime() {
+  const location = useLocation();
+  const publicExplore = isPublicExplorePath(location.pathname);
+  if (publicExplore) return <AnimatedRoutes />;
+  return <><ActivityTracker /><LicenseAccessGuard /><LessonCooldownGuard><AnimatedRoutes /></LessonCooldownGuard></>;
 }

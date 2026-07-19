@@ -138,9 +138,14 @@ export default function LandingPage() {
             to="/create-account"
             aria-label="Elegir plan anual"
           />
+          <Link className="landing-explore-cta" to="/explore/home">
+            <span><Sparkles /> Explorar la plataforma</span>
+            <small>Conoce EduPlay antes de adquirir tu licencia.</small>
+          </Link>
         </div>
 
         <div className="hero-mobile-actions">
+          <Link className="landing-explore-cta-mobile" to="/explore/home"><span><Sparkles /> Explorar la plataforma</span><small>Conoce EduPlay antes de adquirir tu licencia.</small></Link>
           <Link className="primary-cta" to="/create-account">Crear cuenta <ArrowRight size={20} /></Link>
           <button className="secondary-cta" type="button" onClick={() => setVideoOpen(true)}><Play size={18} fill="currentColor" /> ¿Qué es EduPlay?</button>
         </div>
