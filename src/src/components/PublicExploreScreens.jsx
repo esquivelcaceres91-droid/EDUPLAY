@@ -12,6 +12,8 @@ import "../styles/computer-advanced.css";
 import "../styles/english-intermediate.css";
 import "../styles/english-advanced.css";
 import "../styles/math-world.css";
+import "../styles/language-world.css";
+import { languageLevels } from "../data/languageWorldData";
 
 const go = (path) => window.location.assign(path);
 
@@ -20,6 +22,18 @@ const LEVELS = [
   { id: "intermediate", title: "Intermedio", subtitle: "Nuevas herramientas y desafíos" },
   { id: "advanced", title: "Avanzado", subtitle: "Retos para dominar lo aprendido" },
 ];
+
+const MATH_LEVEL_IMAGES = {
+  beginner: "/worlds/math/official/math-level-beginner.webp",
+  intermediate: "/worlds/math/official/math-level-intermediate.webp",
+  advanced: "/worlds/math/official/math-level-advanced.webp",
+};
+
+const MATH_UNIT_IMAGES = {
+  beginner: ["math-numeros-cantidades", "math-sumas", "math-restas", "math-figuras-geometricas", "math-patrones-secuencias", "math-mayor-menor"],
+  intermediate: ["math-multiplicacion", "math-division", "math-fracciones", "math-medidas", "math-tiempo-calendario", "math-dinero"],
+  advanced: ["math-numeros-grandes-decimales", "math-problemas-matematicos", "math-fracciones-equivalentes", "math-perimetro-area", "math-coordenadas-plano", "math-logica-matematica"],
+};
 
 const CONTENT = {
   math: {
@@ -105,6 +119,7 @@ function ExploreHome() {
     <section className="explore-home-worlds">
       <button type="button" onClick={() => go("/explore/english")}><img src="/assets/english-world.png" alt="English World" /><b>Explorar English <ChevronRight /></b></button>
       <button type="button" onClick={() => go("/explore/math")}><img src="/worlds/math/math-world.svg" alt="Mundo Matemáticas" /><b>Explorar Matemáticas <ChevronRight /></b></button>
+      <button type="button" onClick={() => go("/explore/language")}><img src="/worlds/language/official/language-world.png" alt="Comunicación y Lenguaje" /><b>Explorar Lenguaje <ChevronRight /></b></button>
       <button type="button" onClick={() => go("/explore/computer")}><img src="/assets/computer-world.png" alt="Mundo Computación" /><b>Explorar Computación <ChevronRight /></b></button>
     </section>
 
@@ -136,12 +151,15 @@ function Stat({ icon, label, value }) {
 }
 
 function ExploreLevels({ world }) {
+  if (world === "language") return <LanguageLevelsVisual />;
   if (world === "math") return <MathLevelsVisual />;
   if (world === "computer") return <ComputerLevelsVisual />;
   return <EnglishLevelsVisual />;
 }
 
-function MathLevelsVisual(){return <main className="math-levels-screen public-original-visual"><img className="math-logo" src="/assets/logo.png" alt="EduPlay"/><button className="math-back" onClick={()=>go("/explore/home")}><ArrowLeft/> Volver</button><section className="math-level-stats"><div><Flame/><span>Racha</span><b>5 días</b></div><div><Gem/><span>Nivel</span><b>1</b></div><div><Star fill="currentColor"/><span>XP</span><b>350</b></div></section><header className="math-level-heading"><span>✨ MUNDO DE MATEMÁTICAS</span><h1>¡Elige tu próxima misión!</h1><p>Todos los niveles están disponibles en este recorrido visual.</p></header><div className="math-level-track"><i style={{width:"100%"}}/>{LEVELS.map((_,i)=><b className="active" key={i}>{i+1}</b>)}</div><section className="math-level-cards">{LEVELS.map((level,index)=><button key={level.id} className={`math-level-card math-${level.id}`} onClick={()=>go(`/explore/math/${level.id}`)}><img src={`/worlds/math/${level.id}/level.svg`} alt=""/><div><small>NIVEL {index+1}</small><h2>{level.title}</h2><p>{["Números, operaciones y formas","Multiplica, divide y mide","Resuelve desafíos increíbles"][index]}</p><div className="math-card-progress"><i style={{width:"0%"}}/></div><footer><span>0% completado</span><strong>Entrar <ChevronRight/></strong></footer></div></button>)}</section></main>}
+function LanguageLevelsVisual(){return <main className="language-levels-screen public-original-visual"><button className="language-back" onClick={()=>go("/explore/home")}><ArrowLeft/> Volver</button><section className="language-stats"><span><Flame/> 5 días</span><span><Gem/> Nivel 1</span><span><Star fill="currentColor"/> 18</span></section><header className="language-level-heading"><div className="language-lumi"><span>✦</span>🕊️</div><small>LA BIBLIOTECA VIVA</small><h1>Comunicación y Lenguaje</h1><p>Abre un portal y conoce la aventura visual.</p></header><div className="language-portal-line">{LEVELS.map((_,i)=><b className="active" key={i}>{i+1}</b>)}</div><section className="language-level-portals">{Object.values(languageLevels).map((level)=><button key={level.id} className={`language-portal language-${level.id}`} onClick={()=>go(`/explore/language/${level.id}`)}><div className="language-book-cover"><img src={level.image} alt=""/><span className="language-book-spine"/><span className="language-portal-number">{level.number}</span></div><div className="language-portal-copy"><small>{level.icon} PORTAL {level.number}</small><h2>{level.title}</h2><p>{level.subtitle}</p><div className="language-progress"><i style={{width:"0%"}}/></div><footer><span>0% explorado</span><strong>Abrir libro <ChevronRight/></strong></footer></div></button>)}</section></main>}
+
+function MathLevelsVisual(){return <main className="math-levels-screen public-original-visual"><img className="math-logo" src="/assets/logo.png" alt="EduPlay"/><button className="math-back" onClick={()=>go("/explore/home")}><ArrowLeft/> Volver</button><section className="math-level-stats"><div><Flame/><span>Racha</span><b>5 días</b></div><div><Gem/><span>Nivel</span><b>1</b></div><div><Star fill="currentColor"/><span>XP</span><b>350</b></div></section><header className="math-level-heading"><span>✨ MUNDO DE MATEMÁTICAS</span><h1>¡Elige tu próxima misión!</h1><p>Todos los niveles están disponibles en este recorrido visual.</p></header><div className="math-level-track"><i style={{width:"100%"}}/>{LEVELS.map((_,i)=><b className="active" key={i}>{i+1}</b>)}</div><section className="math-level-cards">{LEVELS.map((level,index)=><button key={level.id} className={`math-level-card math-${level.id}`} onClick={()=>go(`/explore/math/${level.id}`)}><img src={MATH_LEVEL_IMAGES[level.id]} alt=""/><div><small>NIVEL {index+1}</small><h2>{level.title}</h2><p>{["Números, operaciones y formas","Multiplica, divide y mide","Resuelve desafíos increíbles"][index]}</p><div className="math-card-progress"><i style={{width:"0%"}}/></div><footer><span>0% completado</span><strong>Entrar <ChevronRight/></strong></footer></div></button>)}</section></main>}
 
 function ComputerLevelsVisual() {
   return <main className="computer-levels-screen public-original-visual">
@@ -165,8 +183,9 @@ function EnglishLevelsVisual() {
 }
 
 function ExploreMap({ world, level }) {
-  const safeLevel = CONTENT[world][level] ? level : "beginner";
-  const units = CONTENT[world][safeLevel];
+  const safeLevel = (world === "language" ? languageLevels[level] : CONTENT[world]?.[level]) ? level : "beginner";
+  const units = world === "language" ? languageLevels[safeLevel].units.map((unit)=>[unit.title,unit.subtitle]) : CONTENT[world][safeLevel];
+  if (world === "language") return <LanguageMapVisual units={units} level={safeLevel}/>;
   if (world === "math") return <MathMapVisual units={units} level={safeLevel}/>;
   if (world === "computer" && safeLevel === "beginner") return <ComputerBeginnerVisual units={units} />;
   if (world === "english" && safeLevel === "beginner") return <EnglishBeginnerVisual units={units} />;
@@ -176,7 +195,9 @@ function ExploreMap({ world, level }) {
   return <EnglishAdvancedVisual units={units} />;
 }
 
-function MathMapVisual({units,level}){const title=LEVELS.find(item=>item.id===level)?.title||"Principiante";return <main className={`math-map-screen math-map-${level} public-original-visual`}><header className="math-map-topbar"><button onClick={()=>go("/explore/math")}><ArrowLeft/> Volver</button><div><span>Mundo de Matemáticas</span><strong>{title}</strong></div><section><span><Flame/>5 días</span><span><Gem/>350 XP</span><span><Star fill="currentColor"/>18</span></section></header><div className="math-map-intro"><small>MAPA DE AVENTURAS</small><h1>Misiones matemáticas</h1><p>Selecciona cualquier unidad para conocer la experiencia.</p></div><section className="math-map-viewport"><div className="math-map-world"><div className="math-route-line"/>{units.map(([name,subtitle],index)=><button key={name} className={`math-map-unit math-unit-${index+1}`} onClick={()=>go(`/explore/preview/math/${level}/${index+1}`)}><div className="math-unit-number">{String(index+1).padStart(2,"0")}</div><div className="math-unit-art" style={{background:"linear-gradient(145deg,#7448e4,#15366f)"}}><img src={`/worlds/math/${level}/unit-placeholder.svg`} alt=""/></div><div className="math-unit-info"><span>UNIDAD {index+1}</span><h2>{name}</h2><p>{subtitle}</p><div><i style={{width:"0%"}}/></div><strong><Play fill="currentColor"/> Comenzar</strong></div></button>)}</div></section></main>}
+function LanguageMapVisual({units,level}){const data=languageLevels[level];return <main className={`language-map-screen language-map-${level} public-original-visual`}><header className="language-map-top"><button onClick={()=>go("/explore/language")}><ArrowLeft/> Portales</button><div><span>Biblioteca Viva</span><strong>{data.title}</strong><small>{data.subtitle}</small></div><section><span><Flame/>5 días</span><span><Gem/>350 XP</span><span><Star fill="currentColor"/>18</span></section></header><div className="language-map-intro"><div className="language-lumi-mini">🕊️</div><div><small>CAPÍTULOS DE LA AVENTURA</small><h1>El gran libro de las palabras</h1><p>Selecciona un capítulo para conocerlo.</p></div></div><section className="language-scroll"><div className="language-story-path"><div className="language-ink-line"/>{units.map(([title,subtitle],index)=><button key={title} className={`language-unit language-unit-${index+1}`} onClick={()=>go(`/explore/preview/language/${level}/${index+1}`)}><span className="language-page-tab">CAPÍTULO {String(index+1).padStart(2,"0")}</span><div className="language-unit-art"><img src={`/worlds/language/${level}/level.svg`} alt=""/></div><div className="language-unit-copy"><span>AVENTURA DE PALABRAS</span><h2>{title}</h2><p>{subtitle}</p><div><i style={{width:"0%"}}/></div><strong><Play fill="currentColor"/> Comenzar</strong></div></button>)}</div></section></main>}
+
+function MathMapVisual({units,level}){const title=LEVELS.find(item=>item.id===level)?.title||"Principiante";return <main className={`math-map-screen math-map-${level} public-original-visual`}><header className="math-map-topbar"><button onClick={()=>go("/explore/math")}><ArrowLeft/> Volver</button><div><span>Mundo de Matemáticas</span><strong>{title}</strong></div><section><span><Flame/>5 días</span><span><Gem/>350 XP</span><span><Star fill="currentColor"/>18</span></section></header><div className="math-map-intro"><small>MAPA DE AVENTURAS</small><h1>Misiones matemáticas</h1><p>Selecciona cualquier unidad para conocer la experiencia.</p></div><section className="math-map-viewport"><div className="math-map-world"><div className="math-route-line"/>{units.map(([name,subtitle],index)=><button key={name} className={`math-map-unit math-unit-${index+1}`} onClick={()=>go(`/explore/preview/math/${level}/${index+1}`)}><div className="math-unit-number">{String(index+1).padStart(2,"0")}</div><div className="math-unit-art" style={{background:"linear-gradient(145deg,#7448e4,#15366f)"}}><img src={`/worlds/math/official/${MATH_UNIT_IMAGES[level][index]}.webp`} alt=""/></div><div className="math-unit-info"><span>UNIDAD {index+1}</span><h2>{name}</h2><p>{subtitle}</p><div><i style={{width:"0%"}}/></div><strong><Play fill="currentColor"/> Comenzar</strong></div></button>)}</div></section></main>}
 
 function ComputerBeginnerVisual({ units }) {
   return <main className="computer-map-screen public-original-visual"><header className="computer-map-topbar"><button type="button" className="computer-map-back" onClick={() => go("/explore/computer")}><ArrowLeft size={24}/> Volver</button><div className="computer-map-title"><span>Mundo de Computación</span><strong>Principiante</strong></div><div className="computer-map-stats"><div><Flame size={28}/><span>5 días</span></div><div><Gem size={28}/><span>350 XP</span></div><div><Star size={30} fill="currentColor"/><span>18</span></div></div></header><section className="computer-map-viewport"><div className="computer-map-world"><div className="computer-route-line"/>{units.map(([title,subtitle,image],index)=><button type="button" key={title} className={`computer-map-unit computer-unit-${index+1} ${index===units.length-1?"computer-map-unit-final":""}`} onClick={()=>go(`/explore/preview/computer/beginner/${index+1}`)}><span className="computer-unit-glow"/><div className="computer-unit-image"><img src={image} alt={title}/></div><div className="computer-unit-info"><strong>{title}</strong><p>{subtitle}</p><div className="computer-unit-progress"><div style={{width:"0%"}}/></div><span><Play size={15} fill="currentColor"/> Comenzar</span></div></button>)}</div></section></main>;

@@ -10,7 +10,8 @@ import "../styles/language-world.css";
 export default function LanguageMap(){
   const {level="beginner"}=useParams(),navigate=useNavigate(),demo=useDemoAccount(),data=getLanguageLevel(level),progress=getLevelProgress("language",level);
   const beginnerDone=getLevelProgress("language","beginner").completedUnits.length,intermediateDone=getLevelProgress("language","intermediate").completedUnits.length;
-  const levelAllowed=demo||level==="beginner"||(level==="intermediate"&&beginnerDone>=10)||(level==="advanced"&&beginnerDone>=10&&intermediateDone>=10);
+  const beginnerTotal=getLanguageLevel("beginner").units.length,intermediateTotal=getLanguageLevel("intermediate").units.length;
+  const levelAllowed=demo||level==="beginner"||(level==="intermediate"&&beginnerDone>=beginnerTotal)||(level==="advanced"&&beginnerDone>=beginnerTotal&&intermediateDone>=intermediateTotal);
   useEffect(()=>{if(!levelAllowed)navigate("/language",{replace:true})},[levelAllowed,navigate]); if(!levelAllowed)return null;
   return <main className={`language-map-screen language-map-${level}`}>
     <header className="language-map-top"><button onClick={()=>navigate("/language")}><ArrowLeft/> Portales</button><div><span>Biblioteca Viva</span><strong>{data.title}</strong><small>{data.subtitle}</small></div><section><span><Flame/>{getStreak()} días</span><span><Gem/>{progress.xp} XP</span><span><Star fill="currentColor"/>{progress.stars}</span></section></header>
