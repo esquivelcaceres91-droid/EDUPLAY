@@ -1,0 +1,8 @@
+.locked-world-backdrop{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(4,20,58,.66);backdrop-filter:blur(12px)}
+.locked-world-modal{position:relative;width:min(520px,100%);padding:38px;text-align:center;border:2px solid rgba(255,255,255,.85);border-radius:32px;background:linear-gradient(145deg,#fff,#edf7ff);box-shadow:0 30px 80px rgba(0,20,70,.42)}
+.locked-world-close{position:absolute;top:16px;right:16px;width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;color:#173c84;background:#e8f2ff;cursor:pointer}
+.locked-world-icon{width:84px;height:84px;margin:0 auto 14px;display:grid;place-items:center;border-radius:26px;color:#fff;background:linear-gradient(145deg,#8139f4,#4d17bd);box-shadow:0 12px 28px rgba(98,38,210,.35)}
+.locked-world-icon svg{width:44px;height:44px}.locked-world-modal>span{display:inline-flex;align-items:center;gap:7px;color:#6b2fe2;font-size:13px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+.locked-world-modal h2{margin:12px 0;color:#123d8b;font-size:34px}.locked-world-modal p{color:#536584;font-size:17px;line-height:1.6}
+.locked-world-actions{display:grid;gap:11px;margin-top:26px}.locked-world-actions button{min-height:52px;border:0;border-radius:18px;font-size:16px;font-weight:900;cursor:pointer}.locked-world-actions button:first-child{color:#fff;background:linear-gradient(180deg,#7840ee,#501ac2);box-shadow:0 6px 0 #351184}.locked-world-actions button:last-child{color:#17458d;background:#e7f3ff}
+@media(max-width:520px){.locked-world-modal{padding:32px 22px 26px}.locked-world-modal h2{font-size:28px}.locked-world-modal p{font-size:15px}}
