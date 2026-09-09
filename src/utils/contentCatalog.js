@@ -12,9 +12,9 @@ export const names = {
     advanced: ["Ortografía", "Acentuación básica", "Comprensión intermedia", "Tipos de textos", "Párrafos", "Narraciones", "Ortografía avanzada"],
   },
   math: {
-    beginner: ["NÃºmeros y cantidades", "Sumas", "Restas", "Figuras geomÃ©tricas", "Patrones y secuencias", "Comparaciones"],
-    intermediate: ["MultiplicaciÃ³n", "DivisiÃ³n", "Fracciones", "Medidas", "Tiempo y calendario", "Dinero"],
-    advanced: ["NÃºmeros grandes", "Decimales", "Fracciones equivalentes", "Problemas matemÃ¡ticos", "PerÃ­metro y Ã¡rea", "Coordenadas y lÃ³gica"],
+    beginner: ["Números y cantidades", "Sumas", "Restas", "Figuras geométricas", "Patrones y secuencias", "Comparaciones"],
+    intermediate: ["Multiplicación", "División", "Fracciones", "Medidas", "Tiempo y calendario", "Dinero"],
+    advanced: ["Números grandes", "Decimales", "Fracciones equivalentes", "Problemas matemáticos", "Perímetro y área", "Coordenadas y lógica"],
   },
   english: {
     beginner: ["Colors", "Numbers", "Family", "Animals", "School", "Food", "Gran Cofre Final"],
@@ -22,13 +22,13 @@ export const names = {
     advanced: ["Conversations", "Reading & Listening", "Final Challenge"],
   },
   computer: {
-    beginner: ["Â¿QuÃ© es una computadora?", "Partes de la computadora", "Teclado y mouse", "Sistema operativo", "Archivos y carpetas", "Internet", "Seguridad digital", "Creatividad digital", "DesafÃ­o final"],
-    intermediate: ["Herramientas digitales", "Documentos", "Presentaciones", "DesafÃ­o final"],
-    advanced: ["RobÃ³tica", "Inteligencia Artificial", "Redes y Seguridad"],
+    beginner: ["¿Qué es una computadora?", "Partes de la computadora", "Teclado y mouse", "Sistema operativo", "Archivos y carpetas", "Internet", "Seguridad digital", "Creatividad digital", "Desafío final"],
+    intermediate: ["Herramientas digitales", "Documentos", "Presentaciones", "Desafío final"],
+    advanced: ["Robótica", "Inteligencia Artificial", "Redes y Seguridad"],
   },
 };
 
-export const worldLabel = { english: "English World", computer: "Mundo de la ComputaciÃ³n", math: "Mundo de MatemÃ¡ticas", language: "Comunicación y Lenguaje" };
+export const worldLabel = { english: "English World", computer: "Mundo de la Computación", math: "Mundo de Matemáticas", language: "Comunicación y Lenguaje" };
 export const levelLabel = { beginner: "Principiante", intermediate: "Intermedio", advanced: "Avanzado" };
 
 export const unitRoute = (world, level, id, section = "") => {
