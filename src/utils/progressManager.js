@@ -14,11 +14,7 @@ const createDefaultLevelProgress = () => ({
 const createDefaultProgress = () => ({
   streak: 0,
   lastActivityDate: null,
-  lessonCooldown: {
-    startedAt: null,
-    endsAt: null,
-    lastCompleted: null,
-  },
+  lessonCooldowns: {},
 
   worlds: {
     computer: {
@@ -112,26 +108,50 @@ const ensureProgressStructure = (data) => {
     safeData.lastActivityDate = null;
   }
 
-  if (!safeData.lessonCooldown || typeof safeData.lessonCooldown !== "object") {
-    safeData.lessonCooldown = { startedAt: null, endsAt: null, lastCompleted: null };
+  // Cooldown independiente por mundo. Migra automáticamente el formato global anterior.
+  if (!safeData.lessonCooldowns || typeof safeData.lessonCooldowns !== "object") {
+    safeData.lessonCooldowns = {};
   }
 
-  const cooldownStartedAt = Number(safeData.lessonCooldown.startedAt);
-  const cooldownEndsAt = Number(safeData.lessonCooldown.endsAt);
+  if (safeData.lessonCooldown && typeof safeData.lessonCooldown === "object") {
+    const legacyWorld = safeData.lessonCooldown.lastCompleted?.world;
+    const legacyStartedAt = Number(safeData.lessonCooldown.startedAt);
+    const legacyEndsAt = Number(safeData.lessonCooldown.endsAt);
 
-  safeData.lessonCooldown.startedAt = Number.isFinite(cooldownStartedAt)
-    ? cooldownStartedAt
-    : null;
-  safeData.lessonCooldown.endsAt = Number.isFinite(cooldownEndsAt)
-    ? cooldownEndsAt
-    : null;
+    if (
+      legacyWorld &&
+      !safeData.lessonCooldowns[legacyWorld] &&
+      Number.isFinite(legacyEndsAt)
+    ) {
+      safeData.lessonCooldowns[legacyWorld] = {
+        startedAt: Number.isFinite(legacyStartedAt) ? legacyStartedAt : null,
+        endsAt: legacyEndsAt,
+        lastCompleted: safeData.lessonCooldown.lastCompleted || null,
+      };
+    }
 
-  if (
-    safeData.lessonCooldown.lastCompleted !== null &&
-    typeof safeData.lessonCooldown.lastCompleted !== "object"
-  ) {
-    safeData.lessonCooldown.lastCompleted = null;
+    delete safeData.lessonCooldown;
   }
+
+  Object.keys(safeData.lessonCooldowns).forEach((world) => {
+    const cooldown = safeData.lessonCooldowns[world];
+    if (!cooldown || typeof cooldown !== "object") {
+      delete safeData.lessonCooldowns[world];
+      return;
+    }
+
+    const startedAt = Number(cooldown.startedAt);
+    const endsAt = Number(cooldown.endsAt);
+
+    safeData.lessonCooldowns[world] = {
+      startedAt: Number.isFinite(startedAt) ? startedAt : null,
+      endsAt: Number.isFinite(endsAt) ? endsAt : null,
+      lastCompleted:
+        cooldown.lastCompleted && typeof cooldown.lastCompleted === "object"
+          ? cooldown.lastCompleted
+          : null,
+    };
+  });
 
   if (!safeData.worlds || typeof safeData.worlds !== "object") {
     safeData.worlds = {};
@@ -315,7 +335,7 @@ export const completeUnit = (
     updateStreak(progress);
 
     const startedAt = Date.now();
-    progress.lessonCooldown = {
+    progress.lessonCooldowns[world] = {
       startedAt,
       endsAt: startedAt + LESSON_COOLDOWN_MS,
       lastCompleted: {
@@ -477,16 +497,16 @@ export const getGlobalStats = () => {
   };
 };
 
-export const getLessonCooldown = () => {
+export const getLessonCooldown = (world = "computer") => {
   const progress = getProgress();
-  const cooldown = progress.lessonCooldown || {};
+  const cooldown = progress.lessonCooldowns?.[world] || {};
   const startedAt = Number(cooldown.startedAt);
   const endsAt = Number(cooldown.endsAt);
   const now = Date.now();
   const active = Number.isFinite(endsAt) && endsAt > now;
 
   if (!active && (cooldown.startedAt || cooldown.endsAt)) {
-    progress.lessonCooldown = {
+    progress.lessonCooldowns[world] = {
       startedAt: null,
       endsAt: null,
       lastCompleted: cooldown.lastCompleted || null,
@@ -496,6 +516,7 @@ export const getLessonCooldown = () => {
 
   return {
     active,
+    world,
     startedAt: Number.isFinite(startedAt) ? startedAt : null,
     endsAt: active ? endsAt : null,
     remainingMs: active ? Math.max(0, endsAt - now) : 0,
@@ -503,15 +524,29 @@ export const getLessonCooldown = () => {
   };
 };
 
-export const clearLessonCooldown = () => {
+export const clearLessonCooldown = (world = null) => {
   const progress = getProgress();
-  progress.lessonCooldown = {
-    startedAt: null,
-    endsAt: null,
-    lastCompleted: progress.lessonCooldown?.lastCompleted || null,
-  };
+
+  if (world) {
+    const previous = progress.lessonCooldowns?.[world] || {};
+    progress.lessonCooldowns[world] = {
+      startedAt: null,
+      endsAt: null,
+      lastCompleted: previous.lastCompleted || null,
+    };
+  } else {
+    Object.keys(progress.lessonCooldowns || {}).forEach((worldId) => {
+      const previous = progress.lessonCooldowns[worldId] || {};
+      progress.lessonCooldowns[worldId] = {
+        startedAt: null,
+        endsAt: null,
+        lastCompleted: previous.lastCompleted || null,
+      };
+    });
+  }
+
   saveProgress(progress);
-  return progress.lessonCooldown;
+  return world ? progress.lessonCooldowns[world] : progress.lessonCooldowns;
 };
 
 export const resetProgress = () => {
