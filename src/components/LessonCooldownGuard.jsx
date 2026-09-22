@@ -46,7 +46,7 @@ export default function LessonCooldownGuard({ children }) {
     };
   }, [location.pathname]);
 
-  const cooldown = getLessonCooldown();
+  const cooldown = getLessonCooldown(routeInfo?.world);
   const blocked = Boolean(
     !demoAccount &&
     routeInfo &&
@@ -92,8 +92,9 @@ export default function LessonCooldownGuard({ children }) {
 
         <h1>¡Gran trabajo por hoy!</h1>
         <p>
-          Ya completaste la lección disponible. La siguiente se abrirá
-          automáticamente cuando termine el contador.
+          Ya completaste la lección de este mundo por hoy. Puedes seguir
+          aprendiendo en los otros mundos disponibles y volver aquí cuando
+          termine el contador.
         </p>
 
         <div className="lesson-cooldown-timer" aria-label="Tiempo restante">
